@@ -1,56 +1,62 @@
-import { FPS } from "./FPS.js";
-import { PlayableCharacter } from "./PlayableCharacter.js";
-import { KeyboardState } from "./KeyboardState.js";
-import { Coordinates } from "./Coordinates.js";
-
-FPS.start();
-KeyboardState.start();
+import { FPS } from "./Helpers/FPS.js";
+import { PlayableCharacter } from "./CanvasObjects/PlayableCharacter.js";
+import { KeyboardState } from "./Helpers/KeyboardState.js";
+import { Coordinates } from "./CanvasObjects/Coordinates.js";
+import { Projectile } from "./CanvasObjects/Projectile.js";
 
 const mainCanvas = document.getElementById('mainCanvas');
+const mainCtx = mainCanvas.getContext('2d');
 
 const mario = new PlayableCharacter(
     mainCanvas,
     "rgb(248, 40, 8)",
-    new Coordinates(mainCanvas.width / 2 - mainCanvas.width * 0.035, mainCanvas.height * 0.88),
-    {left: 60, right: mainCanvas.width - 60},
+    new Coordinates(mainCanvas.width / 2 - mainCanvas.width * /*0.035*/ 0.070, mainCanvas.height - mainCanvas.height * 0.08),
+    {left: 60, right: mainCanvas.width - 60 - mainCanvas.width * 0.07},
     mainCanvas.width * 0.07,
     mainCanvas.height * 0.08,
-    400
+    400,
+    {
+        type: 'Mario',
+        radius: 10,
+        velocity: 2000,
+        shootingKey: 'q',
+        timeBetweenProjectiles: 400,
+        color: "rgb(248, 40, 8)"
+    }
 )
 
-// const mario = new PlayableCharacter(
-//     mainCanvas,
-//     "rgb(248, 40, 8)",
-//     new Coordinates(null, mainCanvas.height * 0.88),
-//     {left: 60, right: null},
-//     mainCanvas.width * 0.07,
-//     mainCanvas.height * 0.08,
-//     400
-// );
-
-// const luigi = new PlayableCharacter(
-//     mainCanvas,
-//     "rgb(16, 216, 128)",
-//     new Coordinates(null, mario.position.y),
-//     {left: mario.limit.left + mario.width, right: mainCanvas.width - 60},
-//     mario.width,
-//     mario.height,
-//     mario.velocity
-// );
-
-// mario.limit.right = luigi.limit.right - luigi.width;
-// mario.position.x = mainCanvas.width / 2 - mainCanvas.width * 0.035 - luigi.width / 2;
-// luigi.position.x = mario.position.x + mario.width;
+const luigi = new PlayableCharacter(
+    mainCanvas,
+    "rgb(16, 216, 128)",
+    new Coordinates(mainCanvas.width / 2, mainCanvas.height - mainCanvas.height * 0.08),
+    {left: 60 + mainCanvas.width * 0.07, right: mainCanvas.width - 60},
+    mainCanvas.width * 0.07,
+    mainCanvas.height * 0.08,
+    400,
+    {
+        type: 'Luigi',
+        radius: 10,
+        velocity: 2000,
+        shootingKey: 's',
+        timeBetweenProjectiles: 400,
+        color: "rgb(16, 216, 128)"
+    }
+)
 
 function animate() {
-    mario.clear();
-    // luigi.clear();
+    mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
 
     mario.draw();
-    // luigi.draw();
+    luigi.draw();
+    Projectile.everyInstance.forEach(projectile => {
+        projectile.draw();
+    });
 
     mario.update();
-    // luigi.update();
+    luigi.update();
+    Projectile.everyInstance.forEach(projectile => {
+        projectile.update();
+    });
 
 
     requestAnimationFrame(animate);
@@ -62,4 +68,5 @@ requestAnimationFrame(animate);
 window.FPS = FPS;
 window.KeyboardState = KeyboardState;
 window.mario = mario;
-window.luigi = luigi;
+// window.luigi = luigi;
+window.Projectile = Projectile;
