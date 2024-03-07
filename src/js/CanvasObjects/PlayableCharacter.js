@@ -69,12 +69,12 @@ export class PlayableCharacter extends MovingElement {
     }
 
     goLeft() {
-        this.position.x -= this.velocity;
+        this.position.x -= this.dynamicVelocity;
         this.position.x = Math.max(this.position.x, this.limit.left);
     }
 
     goRight() {
-        this.position.x += this.velocity;
+        this.position.x += this.dynamicVelocity;
         this.position.x = Math.min(this.position.x, this.limit.right);
     }
 }

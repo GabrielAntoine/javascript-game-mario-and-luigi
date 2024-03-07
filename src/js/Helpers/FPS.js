@@ -1,3 +1,7 @@
+import { DocumentVisibilityTime } from "./DocumentVisibilityTime.js";
+
+DocumentVisibilityTime.start();
+
 export class FPS {
     static count = null;
     static #animationHandle = null;
@@ -10,7 +14,7 @@ export class FPS {
         FPS.count = 144; // default value not to have null right away
 
         function calculateFPS(lastFrameTime) {
-            const currentTime = performance.now();
+            const currentTime = DocumentVisibilityTime.now;
             const timeBetweenFrames = currentTime - lastFrameTime;
     
             FPS.count = (1 / timeBetweenFrames) * 1000;
@@ -35,11 +39,11 @@ export class FPS {
         return true;
     }
 
-    static PerFrametoPerSecond(perFrameRate) {
+    static perSecondToPerFrame(perSecondRate) {
         if (FPS.count === null) {
             throw new Error('Cannot convert if frame\'s count is unknown');
         }
 
-        return perFrameRate / FPS.count;
+        return perSecondRate / FPS.count;
     }
 }

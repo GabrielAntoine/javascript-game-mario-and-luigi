@@ -49,7 +49,7 @@ export class Projectile extends MovingCircle {
             // Otherwise, this line is necessary
             this.destroy();
         } else {
-            this.position.y -= this.velocity;
+            this.position.y -= this.dynamicVelocity;
         }
     }
 }

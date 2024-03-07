@@ -1,0 +1,38 @@
+import { Coordinates } from "../CanvasObjects/Coordinates.js";
+
+export class MotionsPattern {
+    constructor(motions) {
+        this.motions = [...motions];
+        this.currentMotionIndex = 0;
+        this.initialRelativePosition = new Coordinates(0, 0);
+        this.relativePosition = new Coordinates();
+        this.relativePosition.copy(this.initialRelativePosition);
+    }
+
+    get currentMotion() {
+        return this.motions[this.currentMotionIndex];
+    }
+
+    get hasReachedEnd() {
+        return this.currentMotionIndex >= this.motions.length;
+    }
+
+    move() {
+        if (this.hasReachedEnd) {
+            return;
+        }
+
+        this.currentMotion.move()
+        this.currentMotion.mergePositions(this.initialRelativePosition, this.relativePosition);
+
+        if (this.currentMotion.hasReachedEnd) {
+            this.currentMotionIndex++;
+            this.initialRelativePosition.copy(this.relativePosition);
+        }
+    }
+
+    mergePositions(initialPosition, outPosition) {
+        outPosition.x = initialPosition.x + this.relativePosition.x;
+        outPosition.y = initialPosition.y + this.relativePosition.y;
+    }
+}

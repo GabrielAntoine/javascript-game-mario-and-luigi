@@ -2,6 +2,7 @@ import { NotImplementedError } from "../Exceptions/NotImplementedError.js";
 import { InstantiateAbstractClassError } from "../Exceptions/InstantiateAbstractClassError.js";
 import { BaseElement } from "./BaseElement.js";
 import { FPS } from "../Helpers/FPS.js";
+import { Coordinates } from "./Coordinates.js";
 
 FPS.start();
 
@@ -13,11 +14,12 @@ export class MovingElement extends BaseElement {
         super(canvas);
 
         this.position = position;
+        this.initialPosition = new Coordinates(position.x, position.y);
         this.staticVelocity = velocity;
     }
 
-    get velocity() {
-        return FPS.PerFrametoPerSecond(this.staticVelocity);
+    get dynamicVelocity() {
+        return FPS.perSecondToPerFrame(this.staticVelocity);
     }
 
     update() {
