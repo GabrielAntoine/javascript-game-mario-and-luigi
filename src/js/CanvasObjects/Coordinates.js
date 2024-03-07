@@ -1,4 +1,6 @@
 export class Coordinates {
+    static #origin = new Coordinates(0, 0);
+
     constructor(x = null, y = null) {
         this.x = x;
         this.y = y;
@@ -12,6 +14,10 @@ export class Coordinates {
         return Math.floor(this.y);
     }
 
+    static get origin() {
+        return Coordinates.#origin;
+    }
+
     set(x, y) {
         this.x = x;
         this.y = y;
@@ -20,6 +26,8 @@ export class Coordinates {
     copy(other) {
         this.x = other.x;
         this.y = other.y;
+
+        return this;
     }
 
     distanceTo(other) {
@@ -28,17 +36,30 @@ export class Coordinates {
         );
     }
 
-    getPointOnCircle (radius, angle) {
-        return new Coordinates(
-            this.x +  Math.cos(angle) * radius,
-            this.y + -Math.sin(angle) * radius
-        );
+    directionTo(other) {
+        let angle =  Math.acos(
+            (other.x - this.x) / Math.sqrt((other.x - this.x) ** 2 + (other.y - this.y) ** 2)
+        )
+
+        if (other.y > this.y) {
+            angle = 2 * Math.PI - angle;
+        }
+        
+        return angle;
     }
 
-    getCenterOfCircle (radius, angle) {
+    pointTo (distance, direction, isDirectionTowardsThis) {
+        if (distance === 0) {
+            return new Coordinates().copy(this);
+        }
+
+        if (isDirectionTowardsThis) {
+            direction += Math.PI;
+        }
+
         return new Coordinates(
-            this.x -  Math.cos(angle) * radius,
-            this.y - -Math.sin(angle) * radius
-        )
+            this.x +  Math.cos(direction) * distance,
+            this.y + -Math.sin(direction) * distance
+        );
     }
 }

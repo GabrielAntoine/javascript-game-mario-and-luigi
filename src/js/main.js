@@ -9,6 +9,8 @@ import { CircularMotion } from "./MotionManagement/CircularMotion.js";
 import { WaitMotion } from "./MotionManagement/WaitMotion.js";
 import { MotionsPattern } from "./MotionManagement/MotionsPattern.js";
 import { DocumentVisibilityTime } from "./Helpers/DocumentVisibilityTime.js";
+import { SmoothSinusoidalMotion } from "./MotionManagement/SmoothSinusoidalMotion.js";
+import { SinusSignal } from "./MotionManagement/SinusSignal.js";
 
 const mainCanvas = document.getElementById('mainCanvas');
 const mainCtx = mainCanvas.getContext('2d');
@@ -20,7 +22,6 @@ mainCanvas.height = screen.height * CANVAS_HEIGHT_RATIO_TO_SCREEN;
 mainCanvas.width = mainCanvas.height * CANVAS_ASPECT_RATIO; 
 
 window.addEventListener('resize', () => {
-    console.log('resizing');
     mainCanvas.height = screen.height * CANVAS_HEIGHT_RATIO_TO_SCREEN;
     mainCanvas.width = mainCanvas.height * CANVAS_ASPECT_RATIO;
 })
@@ -71,7 +72,9 @@ const motionsPattern = new MotionsPattern([motionA1, motionB1, motionC1]);
 
 const circle2 = new MovingCircle(mainCanvas, 'teal', new Coordinates(300, 300), 15, 100);
 const circle3 = new MovingCircle(mainCanvas, 'pink', new Coordinates(300, 300), 15, 100);
+let circle3Delay = circle2.radius + circle3.radius + 15;
 const circle4 = new MovingCircle(mainCanvas, 'yellow', new Coordinates(300, 300), 15, 100);
+let circle4Delay = circle3Delay + circle3.radius + circle4.radius + 15;
 
 const motionsPattern2 = new MotionsPattern([
     new LinearMotion(250, circle2.staticVelocity, - Math.PI / 8),
@@ -99,6 +102,24 @@ const motionsPattern4 = new MotionsPattern([
     new CircularMotion(Infinity, circle2.staticVelocity, 30, 0, true)
 ]);
 
+const circle5 = new MovingCircle(mainCanvas, '#DBFC77', new Coordinates(500, mainCanvas.height / 2), 20, 100);
+let circle5Delay = circle5.staticVelocity * 3;
+const motionD = new SmoothSinusoidalMotion(800, circle5.staticVelocity, new SinusSignal(200, 0.0025, 0), - Math.PI / 4);
+// debugger;
+
+const circle6 = new MovingCircle(mainCanvas, '#D65E48', new Coordinates(1000, 100), 15, 50);
+const circle7 = new MovingCircle(mainCanvas, '#4DF27B', new Coordinates(1000, 100), 30, 50);
+let circle6Delay = circle7.radius + circle6.radius;
+const motionE = new LinearMotion(500, circle6.staticVelocity, - Math.PI / 2);
+
+const circle8 = new MovingCircle(mainCanvas, '#F7326A', new Coordinates(mainCanvas.width / 2, 0), 25, 18);
+const sinusConfig = new SinusSignal(mainCanvas.width * 0.40, 1 / (mainCanvas.height / 10), 0);
+const sinusConfig2 = new SinusSignal(mainCanvas.width * 0.40, 1 / (mainCanvas.height / 10), Math.PI);
+const motionsPattern5 = new MotionsPattern([
+    new SmoothSinusoidalMotion(sinusConfig.period * 2, circle8.staticVelocity, sinusConfig, - Math.PI / 2),
+    new SmoothSinusoidalMotion(sinusConfig2.period * 8, circle8.staticVelocity, sinusConfig2, - Math.PI/2)
+]);
+
 function animate() {
     mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
 
@@ -111,6 +132,10 @@ function animate() {
     circle2.draw();
     circle3.draw();
     circle4.draw();
+    circle5.draw();
+    circle7.draw();
+    circle6.draw();
+    circle8.draw();
     mario.update();
     luigi.update();
 
@@ -135,6 +160,22 @@ function animate() {
         motionsPattern4.mergePositions(circle4.initialPosition, circle4.position);
     }
 
+    if (!motionD.hasReachedEnd || circle5Delay !== null) {
+        motionD.move();
+        circle5Delay = motionD.mergePositions(circle5.initialPosition, circle5.position, circle5Delay);
+    }
+
+    if (!motionE.hasReachedEnd || circle6Delay !== null) {
+        motionE.move();
+        motionE.mergePositions(circle7.initialPosition, circle7.position);
+        circle6Delay = motionE.mergePositions(circle6.initialPosition, circle6.position, circle6Delay);
+    }
+    
+    if (!motionsPattern5.hasReachedEnd) {
+        motionsPattern5.move();
+        motionsPattern5.mergePositions(circle8.initialPosition, circle8.position);
+    }
+
     Projectile.everyInstance.forEach(projectile => {
         projectile.update();
     });
@@ -152,3 +193,12 @@ window.mario = mario;
 // window.luigi = luigi;
 window.Projectile = Projectile;
 window.DocumentVisibilityTime = DocumentVisibilityTime;
+window.Coordinates = Coordinates;
+
+window.a = new Coordinates(0, 0);
+window.b = new Coordinates(1, 1);
+
+window.circle5 = circle5
+window.circle6 = circle6;
+window.circle7 = circle7;
+window.circle8 = circle8;

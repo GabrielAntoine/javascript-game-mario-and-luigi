@@ -22,7 +22,7 @@ export class WaitMotion extends Motion {
         return this.startingTime !== null;
     }
     
-    get relativePosition() {
+    getRelativePosition() {
         return this._relativePosition;
     }
 

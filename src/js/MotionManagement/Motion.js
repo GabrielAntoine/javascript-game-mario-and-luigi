@@ -16,6 +16,7 @@ export class Motion {
         this.travelledDistance = 0;
         this._relativePosition = new Coordinates();
         this.staticVelocity = staticVelocity;
+        this.hasChanged = false;
     }
 
     get hasReachedEnd() {
@@ -30,8 +31,8 @@ export class Motion {
         return FPS.perSecondToPerFrame(this.staticVelocity);
     }
 
-    get relativePosition() {
-        throw new NotImplementedError('relativePosition', this.constructor.name);
+    getRelativePosition(_delayedTravelledDistance, _delayObject) {
+        throw new NotImplementedError('getRelativePosition', this.constructor.name);
     }
 
     move() {
@@ -40,10 +41,25 @@ export class Motion {
         if (this.hasReachedEnd) {
             this.travelledDistance = this.distanceToTravel;
         }
+
+        this.hasChanged = true;
     }
 
-    mergePositions(initialPosition, outPosition) {
-        outPosition.x = initialPosition.x + this.relativePosition.x;
-        outPosition.y = initialPosition.y + this.relativePosition.y;
+    mergePositions(initialPosition, outPosition, delay = 0) {
+        const delayedTravelledDistance = Math.max(this.travelledDistance - delay, 0);
+        
+        const relativePosition = this.getRelativePosition(delayedTravelledDistance);
+        outPosition.x = initialPosition.x + relativePosition.x;
+        outPosition.y = initialPosition.y + relativePosition.y;
+        
+        if (delay === null || delay === 0) {
+            return null;
+        }
+
+        if (this.hasReachedEnd) {
+            delay = Math.max(delay - this.dynamicVelocity, 0);
+        }
+
+        return delay;
     }
 }

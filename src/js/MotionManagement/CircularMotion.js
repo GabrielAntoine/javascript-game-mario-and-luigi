@@ -8,13 +8,13 @@ export class CircularMotion extends Motion {
         this.radius = radius;
         this.initialAngle = initialAngle;
         this.direction = isClockwise ? 1 : -1;
-        this.center = new Coordinates(0, 0).getCenterOfCircle(this.radius, this.initialAngle);
+        this.center = Coordinates.origin.pointTo(this.radius, this.initialAngle, true);
     }
 
-    get relativePosition() {
-        const currentAngle = this.initialAngle + this.getAngleVelocity(this.travelledDistance)
+    getRelativePosition(travelledDistance) {
+        const currentAngle = this.initialAngle + this.getAngleVelocity(travelledDistance)
 
-        this._relativePosition = this.center.getPointOnCircle(this.radius, currentAngle);
+        this._relativePosition = this.center.pointTo(this.radius, currentAngle, false);
 
         return this._relativePosition;
     }

@@ -8,10 +8,10 @@ export class LinearMotion extends Motion {
         this.direction = direction;
     }
 
-    get relativePosition() {
+    getRelativePosition(travelledDistance) {
         this._relativePosition.set(
-            this.getVelocityX(this.travelledDistance),
-            this.getVelocityY(this.travelledDistance)
+            this.getVelocityX(travelledDistance),
+            this.getVelocityY(travelledDistance)
         );
 
         return this._relativePosition;
