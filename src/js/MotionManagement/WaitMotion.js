@@ -5,9 +5,10 @@ DocumentVisibilityTime.start();
 
 // This class is used along other 'Motion' classes, that's why it inherits of super-class 'Motion'
 // but it's technically not a motion
+// Some features of WaitMotion might be nonsense, but are actually very useful
 export class WaitMotion extends Motion {
-    constructor(waitingTime) {
-        super(0, 0);
+    constructor(waitingTime, staticVelocity = 0) {
+        super(0, staticVelocity);
 
         this.waitingTime = waitingTime;
         this.startingTime = null;

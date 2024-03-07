@@ -16,7 +16,6 @@ export class Motion {
         this.travelledDistance = 0;
         this._relativePosition = new Coordinates();
         this.staticVelocity = staticVelocity;
-        this.hasChanged = false;
     }
 
     get hasReachedEnd() {
@@ -41,8 +40,6 @@ export class Motion {
         if (this.hasReachedEnd) {
             this.travelledDistance = this.distanceToTravel;
         }
-
-        this.hasChanged = true;
     }
 
     mergePositions(initialPosition, outPosition, delay = 0) {

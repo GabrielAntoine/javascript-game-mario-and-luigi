@@ -120,6 +120,14 @@ const motionsPattern5 = new MotionsPattern([
     new SmoothSinusoidalMotion(sinusConfig2.period * 8, circle8.staticVelocity, sinusConfig2, - Math.PI/2)
 ]);
 
+const circle9 = new MovingCircle(mainCanvas, '#30F0E5', new Coordinates(200, 700), 15, 50);
+let circle9Delay = 300;
+const motionF = new LinearMotion(200, circle9.staticVelocity, 0);
+
+const circle10 = new MovingCircle(mainCanvas, '#EFA94A', new Coordinates(1000, 800), 15, 100);
+let circle10Delay = 800;
+const motionG = new WaitMotion(2000, 100);
+
 function animate() {
     mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
 
@@ -136,6 +144,8 @@ function animate() {
     circle7.draw();
     circle6.draw();
     circle8.draw();
+    circle9.draw();
+    circle10.draw();
     mario.update();
     luigi.update();
 
@@ -174,6 +184,19 @@ function animate() {
     if (!motionsPattern5.hasReachedEnd) {
         motionsPattern5.move();
         motionsPattern5.mergePositions(circle8.initialPosition, circle8.position);
+    }
+
+    if (!motionF.hasReachedEnd || circle9Delay !== null) {
+        motionF.move();
+        circle9Delay = motionF.mergePositions(circle9.initialPosition, circle9.position, circle9Delay);
+    }
+
+    if (!motionG.hasReachedEnd || circle10Delay !== null) {
+        console.log(circle10Delay);
+        motionG.move();
+        circle10Delay = motionG.mergePositions(circle10.initialPosition, circle10.position, circle10Delay);
+    } else {
+        circle10.color = '#9D9101';
     }
 
     Projectile.everyInstance.forEach(projectile => {

@@ -5,8 +5,7 @@ export class MotionsPattern {
         this.motions = [...motions];
         this.currentMotionIndex = 0;
         this.initialRelativePosition = new Coordinates(0, 0);
-        this.relativePosition = new Coordinates();
-        this.relativePosition.copy(this.initialRelativePosition);
+        this.relativePosition = new Coordinates().copy(this.initialRelativePosition);
     }
 
     get currentMotion() {
