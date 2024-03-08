@@ -1,14 +1,13 @@
 import { FPS } from "./Helpers/FPS.js";
 import { PlayableCharacter } from "./CanvasObjects/PlayableCharacter.js";
 import { KeyboardState } from "./Helpers/KeyboardState.js";
-import { Coordinates } from "./CanvasObjects/Coordinates.js";
+import { Coordinates } from "./Coordinates/Coordinates.js";
 import { Projectile } from "./CanvasObjects/Projectile.js";
 import { LinearMotion } from "./MotionManagement/LinearMotion.js";
 import { MovingCircle } from "./CanvasObjects/MovingCircle.js";
 import { CircularMotion } from "./MotionManagement/CircularMotion.js";
-import { WaitMotion } from "./MotionManagement/WaitMotion.js";
+import { StaticMotion } from "./MotionManagement/StaticMotion.js";
 import { MotionsPattern } from "./MotionManagement/MotionsPattern.js";
-import { DocumentVisibilityTime } from "./Helpers/DocumentVisibilityTime.js";
 import { SmoothSinusoidalMotion } from "./MotionManagement/SmoothSinusoidalMotion.js";
 import { SinusSignal } from "./MotionManagement/SinusSignal.js";
 
@@ -24,7 +23,15 @@ mainCanvas.width = mainCanvas.height * CANVAS_ASPECT_RATIO;
 window.addEventListener('resize', () => {
     mainCanvas.height = screen.height * CANVAS_HEIGHT_RATIO_TO_SCREEN;
     mainCanvas.width = mainCanvas.height * CANVAS_ASPECT_RATIO;
-})
+});
+
+// window.addEventListener('visibilitychange', () => {
+//     if (document.hidden) {
+//         FPS.stop();
+//     } else {
+//         FPS.start();
+//     }
+// });
 
 const mario = new PlayableCharacter(
     mainCanvas,
@@ -69,7 +76,7 @@ const luigi = new PlayableCharacter(
 const circle = new MovingCircle(mainCanvas, 'lime', new Coordinates(800, 400), 10, 100);
 
 const motionA1 = new LinearMotion(300, circle.staticVelocity, - Math.PI);
-const motionB1 = new WaitMotion(4000);
+const motionB1 = new StaticMotion(4 * circle.staticVelocity, circle.staticVelocity);
 const motionC1 = new CircularMotion(3 * Math.PI * 50, circle.staticVelocity, 50, motionA1.direction + Math.PI/2, false);
 
 const motionsPattern = new MotionsPattern([motionA1, motionB1, motionC1]);
@@ -84,26 +91,26 @@ const motionsPattern2 = new MotionsPattern([
     new LinearMotion(250, circle2.staticVelocity, - Math.PI / 8),
     new LinearMotion(250, circle2.staticVelocity, 9 * Math.PI / 8),
     new LinearMotion(125, circle2.staticVelocity, - Math.PI / 8),
-    new WaitMotion(1500),
+    new StaticMotion(1.5 * circle2.staticVelocity, circle2.staticVelocity),
     new CircularMotion(Infinity, circle2.staticVelocity, 30, 0, true)
 ]);
 
 const motionsPattern3 = new MotionsPattern([
-    new WaitMotion(40 / circle2.staticVelocity * 1000),
-    new LinearMotion(250, circle2.staticVelocity, - Math.PI / 8),
-    new LinearMotion(250, circle2.staticVelocity, 9 * Math.PI / 8),
-    new LinearMotion(125, circle2.staticVelocity, - Math.PI / 8),
-    new WaitMotion(1500),
-    new CircularMotion(Infinity, circle2.staticVelocity, 30, 0, true)
+    new StaticMotion(40, circle3.staticVelocity),// / circle3.staticVelocity * 1000),
+    new LinearMotion(250, circle3.staticVelocity, - Math.PI / 8),
+    new LinearMotion(250, circle3.staticVelocity, 9 * Math.PI / 8),
+    new LinearMotion(125, circle3.staticVelocity, - Math.PI / 8),
+    new StaticMotion(1.5 * circle3.staticVelocity, circle3.staticVelocity),
+    new CircularMotion(Infinity, circle3.staticVelocity, 30, 0, true)
 ]);
 
 const motionsPattern4 = new MotionsPattern([
-    new WaitMotion(40 / circle2.staticVelocity * 2 * 1000),
-    new LinearMotion(250, circle2.staticVelocity, - Math.PI / 8),
-    new LinearMotion(250, circle2.staticVelocity, 9 * Math.PI / 8),
-    new LinearMotion(125, circle2.staticVelocity, - Math.PI / 8),
-    new WaitMotion(1500),
-    new CircularMotion(Infinity, circle2.staticVelocity, 30, 0, true)
+    new StaticMotion(80, circle4.staticVelocity),
+    new LinearMotion(250, circle4.staticVelocity, - Math.PI / 8),
+    new LinearMotion(250, circle4.staticVelocity, 9 * Math.PI / 8),
+    new LinearMotion(125, circle4.staticVelocity, - Math.PI / 8),
+    new StaticMotion(1.5 * circle4.staticVelocity, circle4.staticVelocity),
+    new CircularMotion(Infinity, circle4.staticVelocity, 30, 0, true)
 ]);
 
 const circle5 = new MovingCircle(mainCanvas, '#DBFC77', new Coordinates(500, mainCanvas.height / 2), 20, 100);
@@ -130,7 +137,7 @@ const motionF = new LinearMotion(200, circle9.staticVelocity, 0);
 
 const circle10 = new MovingCircle(mainCanvas, '#EFA94A', new Coordinates(1000, 800), 15, 100);
 let circle10Delay = 800;
-const motionG = new WaitMotion(2000, 100);
+const motionG = new StaticMotion(2 * circle10.staticVelocity, circle10.staticVelocity);
 
 function animate() {
     mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
@@ -218,7 +225,6 @@ window.KeyboardState = KeyboardState;
 window.mario = mario;
 // window.luigi = luigi;
 window.Projectile = Projectile;
-window.DocumentVisibilityTime = DocumentVisibilityTime;
 window.Coordinates = Coordinates;
 
 window.a = new Coordinates(0, 0);

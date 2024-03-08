@@ -9,9 +9,7 @@ export class KeyboardState {
         KeyboardState.#keyboard = {};
 
         window.addEventListener('keydown', (event) => {
-            // console.log(event.key, event.keyCode, event.code);
             KeyboardState.#keyboard[event.code] = true;
-            console.log(KeyboardState.#keyboard);
         });
         
         window.addEventListener('keyup', (event) => {

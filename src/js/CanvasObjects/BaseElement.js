@@ -1,4 +1,4 @@
-import { Coordinates } from "./Coordinates.js";
+import { Coordinates } from "../Coordinates/Coordinates.js";
 import { NotImplementedError } from "../Exceptions/NotImplementedError.js";
 import { InstantiateAbstractClassError } from "../Exceptions/InstantiateAbstractClassError.js";
 

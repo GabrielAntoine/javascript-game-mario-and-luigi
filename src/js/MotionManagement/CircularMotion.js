@@ -1,4 +1,4 @@
-import { Coordinates } from "../CanvasObjects/Coordinates.js";
+import { Coordinates } from "../Coordinates/Coordinates.js";
 import { Motion } from "./Motion.js";
 
 export class CircularMotion extends Motion {

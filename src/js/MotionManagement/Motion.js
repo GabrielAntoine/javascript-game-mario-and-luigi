@@ -1,4 +1,4 @@
-import { Coordinates } from "../CanvasObjects/Coordinates.js";
+import { Coordinates } from "../Coordinates/Coordinates.js";
 import { InstantiateAbstractClassError } from "../Exceptions/InstantiateAbstractClassError.js";
 import { NotImplementedError } from "../Exceptions/NotImplementedError.js";
 import { FPS } from "../Helpers/FPS.js";
@@ -34,12 +34,21 @@ export class Motion {
         throw new NotImplementedError('getRelativePosition', this.constructor.name);
     }
 
-    move() {
-        this.travelledDistance += this.dynamicVelocity;
+    move(distanceToMove = null) {
+        if (distanceToMove === null) {
+            distanceToMove = this.dynamicVelocity;
+        }
+
+        this.travelledDistance += distanceToMove;
 
         if (this.hasReachedEnd) {
+            const overflowTravelledDistance = this.travelledDistance - this.distanceToTravel;
             this.travelledDistance = this.distanceToTravel;
+            
+            return overflowTravelledDistance;
         }
+
+        return 0;
     }
 
     mergePositions(initialPosition, outPosition, delay = 0) {

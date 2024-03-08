@@ -1,5 +1,5 @@
 import { Motion } from "./Motion.js";
-import { Coordinates } from "../CanvasObjects/Coordinates.js";
+import { Coordinates } from "../Coordinates/Coordinates.js";
 
 export class SmoothSinusoidalMotion extends Motion {
     constructor(distanceToTravel, staticVelocity, sinusSignal, direction) {
@@ -15,11 +15,7 @@ export class SmoothSinusoidalMotion extends Motion {
             -this.sinusSignal.sin(travelledDistance)
         );
             
-        this._relativePosition = Coordinates.origin.pointTo(
-            Coordinates.origin.distanceTo(this._relativePosition),
-            Coordinates.origin.directionTo(this._relativePosition) + this.direction,
-            false
-        );
+        this._relativePosition.rotate(Coordinates.origin, this.direction, false);
 
         return this._relativePosition;
     }

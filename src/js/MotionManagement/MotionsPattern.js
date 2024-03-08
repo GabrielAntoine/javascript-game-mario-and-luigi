@@ -1,4 +1,4 @@
-import { Coordinates } from "../CanvasObjects/Coordinates.js";
+import { Coordinates } from "../Coordinates/Coordinates.js";
 
 export class MotionsPattern {
     constructor(motions) {
@@ -17,17 +17,22 @@ export class MotionsPattern {
     }
 
     move() {
-        if (this.hasReachedEnd) {
-            return;
-        }
+        
+        let overflowTravelledDistance = null;
+        
+        do {
+            if (this.hasReachedEnd) {
+                return;
+            }
 
-        this.currentMotion.move()
-        this.currentMotion.mergePositions(this.initialRelativePosition, this.relativePosition);
-
-        if (this.currentMotion.hasReachedEnd) {
-            this.currentMotionIndex++;
-            this.initialRelativePosition.copy(this.relativePosition);
-        }
+            overflowTravelledDistance = this.currentMotion.move(overflowTravelledDistance);
+            this.currentMotion.mergePositions(this.initialRelativePosition, this.relativePosition);
+    
+            if (this.currentMotion.hasReachedEnd) {
+                this.currentMotionIndex++;
+                this.initialRelativePosition.copy(this.relativePosition);
+            }
+        } while (overflowTravelledDistance > 0);
     }
 
     mergePositions(initialPosition, outPosition) {

@@ -1,10 +1,7 @@
-import { DocumentVisibilityTime } from "./DocumentVisibilityTime.js";
-
-DocumentVisibilityTime.start();
-
 export class FPS {
     static count = null;
     static #animationHandle = null;
+    static #lastFrameTime = null;
 
     static start() {
         if (FPS.#animationHandle !== null) {
@@ -13,16 +10,16 @@ export class FPS {
 
         FPS.count = 144; // default value not to have null right away
 
-        function calculateFPS(lastFrameTime) {
-            const currentTime = DocumentVisibilityTime.now;
-            const timeBetweenFrames = currentTime - lastFrameTime;
-    
-            FPS.count = (1 / timeBetweenFrames) * 1000;
-    
-            FPS.#animationHandle = requestAnimationFrame(() => calculateFPS(currentTime));
+        function calculateFPS(currentFrameTime) {
+            if (FPS.#lastFrameTime !== null) {
+                FPS.count = 1000 / (currentFrameTime - FPS.#lastFrameTime);
+            }
+
+            FPS.#lastFrameTime = currentFrameTime;
+            FPS.#animationHandle = requestAnimationFrame(calculateFPS);
         }
 
-        FPS.#animationHandle = requestAnimationFrame(() => calculateFPS(performance.now()));
+        FPS.#animationHandle = requestAnimationFrame(calculateFPS);
 
         return true;
     }
@@ -35,6 +32,7 @@ export class FPS {
         cancelAnimationFrame(FPS.#animationHandle);
         FPS.#animationHandle = null;
         FPS.count = null;
+        FPS.#lastFrameTime = null;
 
         return true;
     }

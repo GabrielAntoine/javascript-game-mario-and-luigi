@@ -2,7 +2,7 @@ import { NotImplementedError } from "../Exceptions/NotImplementedError.js";
 import { InstantiateAbstractClassError } from "../Exceptions/InstantiateAbstractClassError.js";
 import { BaseElement } from "./BaseElement.js";
 import { FPS } from "../Helpers/FPS.js";
-import { Coordinates } from "./Coordinates.js";
+import { Coordinates } from "../Coordinates/Coordinates.js";
 
 FPS.start();
 

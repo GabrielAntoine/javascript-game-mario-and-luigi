@@ -51,7 +51,7 @@ export class Coordinates {
 
     pointTo (distance, direction, isDirectionTowardsThis) {
         if (distance === 0) {
-            direction = 0; // When distance is 0, direction will most likely be NaN or unknown, which would lead to bad calcul
+            direction = 0; // When distance is 0, direction will most likely be NaN or unknown, which would lead to bad calcul. 0 stands for a placeholder in this very specific case
         } else if (isDirectionTowardsThis) {
             direction += Math.PI;
         }
@@ -60,5 +60,17 @@ export class Coordinates {
             this.x +  Math.cos(direction) * distance,
             this.y + -Math.sin(direction) * distance
         );
+    }
+
+    rotated(center, angle, isClockwise) { 
+        return center.pointTo(
+            center.distanceTo(this),
+            center.directionTo(this) + angle * (isClockwise ? -1 : 1),
+            false
+        );
+    }
+
+    rotate(center, angle, isClockwise) {
+        this.copy(this.rotated(center, angle, isClockwise));
     }
 }
