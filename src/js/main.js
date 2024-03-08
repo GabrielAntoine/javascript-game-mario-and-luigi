@@ -34,11 +34,13 @@ const mario = new PlayableCharacter(
     mainCanvas.width * 0.07,
     mainCanvas.height * 0.08,
     400,
+    ['ArrowLeft'],
+    ['ArrowRight'],
     {
         type: 'Mario',
         radius: 10,
         velocity: 2000,
-        shootingKey: 'q',
+        shootingKeys: ['KeyA'],
         timeBetweenProjectiles: 400,
         color: "rgb(248, 40, 8)"
     }
@@ -52,11 +54,13 @@ const luigi = new PlayableCharacter(
     mainCanvas.width * 0.07,
     mainCanvas.height * 0.08,
     400,
+    ['ArrowLeft'],
+    ['ArrowRight'],
     {
         type: 'Luigi',
         radius: 10,
         velocity: 2000,
-        shootingKey: 's',
+        shootingKeys: ['KeyS'],
         timeBetweenProjectiles: 400,
         color: "rgb(16, 216, 128)"
     }
@@ -192,7 +196,6 @@ function animate() {
     }
 
     if (!motionG.hasReachedEnd || circle10Delay !== null) {
-        console.log(circle10Delay);
         motionG.move();
         circle10Delay = motionG.mergePositions(circle10.initialPosition, circle10.position, circle10Delay);
     } else {

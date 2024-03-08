@@ -36,10 +36,11 @@ export class Coordinates {
         );
     }
 
+    // Returns the trigonometric direction or NaN if 'this' is the same coordinates as 'other'
     directionTo(other) {
         let angle =  Math.acos(
-            (other.x - this.x) / Math.sqrt((other.x - this.x) ** 2 + (other.y - this.y) ** 2)
-        )
+            (other.x - this.x) / this.distanceTo(other)
+        );
 
         if (other.y > this.y) {
             angle = 2 * Math.PI - angle;
@@ -50,10 +51,8 @@ export class Coordinates {
 
     pointTo (distance, direction, isDirectionTowardsThis) {
         if (distance === 0) {
-            return new Coordinates().copy(this);
-        }
-
-        if (isDirectionTowardsThis) {
+            direction = 0; // When distance is 0, direction will most likely be NaN or unknown, which would lead to bad calcul
+        } else if (isDirectionTowardsThis) {
             direction += Math.PI;
         }
 

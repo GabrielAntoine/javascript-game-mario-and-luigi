@@ -6,7 +6,7 @@ import { Projectile } from "./Projectile.js";
 KeyboardState.start();
 
 export class PlayableCharacter extends MovingElement {
-    constructor(canvas, color, position, limit, width, height, velocity, projectileConfig) {
+    constructor(canvas, color, position, limit, width, height, velocity, leftKeys, rightKeys, projectileConfig) {
         super(canvas, position, velocity);
 
         this.width = width;
@@ -14,6 +14,8 @@ export class PlayableCharacter extends MovingElement {
         this.limit = limit;
         this.limit.right -= width;
         this.color = color;
+        this.leftKeys = leftKeys;
+        this.rightKeys = rightKeys;
         this.projectileConfig = projectileConfig;
         this.lastProjectileTime = null;
     }
@@ -49,21 +51,21 @@ export class PlayableCharacter extends MovingElement {
     }
 
     update() {
-        const isArrowLeftPressed = KeyboardState.getKeyState('ArrowLeft');
-        const isArrowRightPressed = KeyboardState.getKeyState('ArrowRight');
-        const isShootingKeyPressed = KeyboardState.getKeyState(this.projectileConfig.shootingKey);
+        const isLeftKeyPressed = KeyboardState.getKeysStateOR(this.leftKeys);
+        const isRightKeyPressed = KeyboardState.getKeysStateOR(this.rightKeys);
+        const isShootingKeyPressed = KeyboardState.getKeysStateOR(this.projectileConfig.shootingKeys);
 
         if (isShootingKeyPressed) {
             this.tryCreateProjectile();
         }
 
-        if (isArrowLeftPressed && isArrowRightPressed) {
+        if (isLeftKeyPressed && isRightKeyPressed) {
             return;
         }
 
-        if (isArrowLeftPressed) {
+        if (isLeftKeyPressed) {
             this.goLeft();
-        } else if (isArrowRightPressed) {
+        } else if (isRightKeyPressed) {
             this.goRight();
         }
     }

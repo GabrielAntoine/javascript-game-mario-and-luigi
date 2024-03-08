@@ -9,11 +9,13 @@ export class KeyboardState {
         KeyboardState.#keyboard = {};
 
         window.addEventListener('keydown', (event) => {
-            KeyboardState.#keyboard[event.key] = true;
+            // console.log(event.key, event.keyCode, event.code);
+            KeyboardState.#keyboard[event.code] = true;
+            console.log(KeyboardState.#keyboard);
         });
         
         window.addEventListener('keyup', (event) => {
-            KeyboardState.#keyboard[event.key] = false;
+            KeyboardState.#keyboard[event.code] = false;
         });
 
         window.addEventListener('blur', () => {
@@ -27,5 +29,25 @@ export class KeyboardState {
 
     static getKeyState(key) {
         return KeyboardState.#keyboard[key] ?? false;
+    }
+
+    static getKeysStateOR(keys) {
+        for (const key of keys) {
+            if (KeyboardState.getKeyState(key)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    static getKeysStateAND(keys) {
+        for (const key of keys) {
+            if (!KeyboardState.getKeyState(key)) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
