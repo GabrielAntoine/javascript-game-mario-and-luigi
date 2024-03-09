@@ -24,4 +24,12 @@ export class LinearMotion extends Motion {
     getVelocityY(velocity) {
         return velocity * -Math.sin(this.direction);
     }
+
+    copy(other) {
+        super.copy(other);
+
+        this.direction = other.direction;
+
+        return this;
+    }
 }

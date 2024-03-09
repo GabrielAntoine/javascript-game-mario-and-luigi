@@ -7,7 +7,7 @@ import { LinearMotion } from "./MotionManagement/LinearMotion.js";
 import { MovingCircle } from "./CanvasObjects/MovingCircle.js";
 import { CircularMotion } from "./MotionManagement/CircularMotion.js";
 import { StaticMotion } from "./MotionManagement/StaticMotion.js";
-import { MotionsPattern } from "./MotionManagement/MotionsPattern.js";
+import { CompoundMotion } from "./MotionManagement/CompoundMotion.js";
 import { SmoothSinusoidalMotion } from "./MotionManagement/SmoothSinusoidalMotion.js";
 import { SinusSignal } from "./MotionManagement/SinusSignal.js";
 
@@ -25,13 +25,15 @@ window.addEventListener('resize', () => {
     mainCanvas.width = mainCanvas.height * CANVAS_ASPECT_RATIO;
 });
 
-// window.addEventListener('visibilitychange', () => {
-//     if (document.hidden) {
-//         FPS.stop();
-//     } else {
-//         FPS.start();
-//     }
-// });
+
+
+window.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+        // FPS.stop();
+    } else {
+        // FPS.start();
+    }
+});
 
 const mario = new PlayableCharacter(
     mainCanvas,
@@ -74,12 +76,13 @@ const luigi = new PlayableCharacter(
 )
 
 const circle = new MovingCircle(mainCanvas, 'lime', new Coordinates(800, 400), 10, 100);
+let circleDelay = 1200;
 
 const motionA1 = new LinearMotion(300, circle.staticVelocity, - Math.PI);
-const motionB1 = new StaticMotion(4 * circle.staticVelocity, circle.staticVelocity);
+const motionB1 = new StaticMotion(4 * circle.staticVelocity, circle.staticVelocity * 9999);
 const motionC1 = new CircularMotion(3 * Math.PI * 50, circle.staticVelocity, 50, motionA1.direction + Math.PI/2, false);
 
-const motionsPattern = new MotionsPattern([motionA1, motionB1, motionC1]);
+const motionsPattern = new CompoundMotion([motionA1, motionB1, motionC1]);
 
 const circle2 = new MovingCircle(mainCanvas, 'teal', new Coordinates(300, 300), 15, 100);
 const circle3 = new MovingCircle(mainCanvas, 'pink', new Coordinates(300, 300), 15, 100);
@@ -87,30 +90,30 @@ let circle3Delay = circle2.radius + circle3.radius + 15;
 const circle4 = new MovingCircle(mainCanvas, 'yellow', new Coordinates(300, 300), 15, 100);
 let circle4Delay = circle3Delay + circle3.radius + circle4.radius + 15;
 
-const motionsPattern2 = new MotionsPattern([
+const motionsPattern2 = new CompoundMotion([
     new LinearMotion(250, circle2.staticVelocity, - Math.PI / 8),
     new LinearMotion(250, circle2.staticVelocity, 9 * Math.PI / 8),
     new LinearMotion(125, circle2.staticVelocity, - Math.PI / 8),
     new StaticMotion(1.5 * circle2.staticVelocity, circle2.staticVelocity),
-    new CircularMotion(Infinity, circle2.staticVelocity, 30, 0, true)
+    new CircularMotion(Infinity, circle2.staticVelocity, 30, 0, false)
 ]);
 
-const motionsPattern3 = new MotionsPattern([
+const motionsPattern3 = new CompoundMotion([
     new StaticMotion(40, circle3.staticVelocity),// / circle3.staticVelocity * 1000),
     new LinearMotion(250, circle3.staticVelocity, - Math.PI / 8),
     new LinearMotion(250, circle3.staticVelocity, 9 * Math.PI / 8),
     new LinearMotion(125, circle3.staticVelocity, - Math.PI / 8),
     new StaticMotion(1.5 * circle3.staticVelocity, circle3.staticVelocity),
-    new CircularMotion(Infinity, circle3.staticVelocity, 30, 0, true)
+    new CircularMotion(Infinity, circle3.staticVelocity, 30, 0, false)
 ]);
 
-const motionsPattern4 = new MotionsPattern([
-    new StaticMotion(80, circle4.staticVelocity),
+const motionsPattern4 = new CompoundMotion([
+    // new StaticMotion(80, circle4.staticVelocity),
     new LinearMotion(250, circle4.staticVelocity, - Math.PI / 8),
     new LinearMotion(250, circle4.staticVelocity, 9 * Math.PI / 8),
     new LinearMotion(125, circle4.staticVelocity, - Math.PI / 8),
     new StaticMotion(1.5 * circle4.staticVelocity, circle4.staticVelocity),
-    new CircularMotion(Infinity, circle4.staticVelocity, 30, 0, true)
+    new CircularMotion(Infinity, circle4.staticVelocity, 30, 0, false)
 ]);
 
 const circle5 = new MovingCircle(mainCanvas, '#DBFC77', new Coordinates(500, mainCanvas.height / 2), 20, 100);
@@ -124,9 +127,10 @@ let circle6Delay = circle7.radius + circle6.radius;
 const motionE = new LinearMotion(500, circle6.staticVelocity, - Math.PI / 2);
 
 const circle8 = new MovingCircle(mainCanvas, '#F7326A', new Coordinates(mainCanvas.width / 2, 0), 25, 18);
+let circle8Delay = 200;
 const sinusConfig = new SinusSignal(mainCanvas.width * 0.40, 1 / (mainCanvas.height / 10), 0);
 const sinusConfig2 = new SinusSignal(mainCanvas.width * 0.40, 1 / (mainCanvas.height / 10), Math.PI);
-const motionsPattern5 = new MotionsPattern([
+const motionsPattern5 = new CompoundMotion([
     new SmoothSinusoidalMotion(sinusConfig.period * 2, circle8.staticVelocity, sinusConfig, - Math.PI / 2),
     new SmoothSinusoidalMotion(sinusConfig2.period * 8, circle8.staticVelocity, sinusConfig2, - Math.PI/2)
 ]);
@@ -138,6 +142,23 @@ const motionF = new LinearMotion(200, circle9.staticVelocity, 0);
 const circle10 = new MovingCircle(mainCanvas, '#EFA94A', new Coordinates(1000, 800), 15, 100);
 let circle10Delay = 800;
 const motionG = new StaticMotion(2 * circle10.staticVelocity, circle10.staticVelocity);
+
+const circlesVelocity = 1000;
+const circle11 = new MovingCircle(mainCanvas, '#FAD201', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
+const circle12 = new MovingCircle(mainCanvas, '#84C3BE', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
+const circle13 = new MovingCircle(mainCanvas, '#DE4C8A', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
+let circle12Delay = circle11.radius + circle12.radius + 10;
+let circle13Delay = circle12Delay + circle11.radius + circle13.radius + 10;
+
+const compoundMotion = new CompoundMotion([
+    new LinearMotion(mainCanvas.height / 2 - circle11.position.y, circlesVelocity, - Math.PI / 2),
+    new CircularMotion(2 * Math.PI * 50, circlesVelocity, 50, 0, true),
+    new LinearMotion(mainCanvas.height / 2, circlesVelocity, - Math.PI / 2),
+]);
+
+compoundMotion.attach(circle11.position, 0);
+compoundMotion.attach(circle12.position, circle12Delay);
+compoundMotion.attach(circle13.position, circle13Delay);
 
 function animate() {
     mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
@@ -157,13 +178,16 @@ function animate() {
     circle8.draw();
     circle9.draw();
     circle10.draw();
+    circle11.draw();
+    circle12.draw();
+    circle13.draw();
     mario.update();
     luigi.update();
 
     // debugger;
-    if (!motionsPattern.hasReachedEnd) {
+    if (!motionsPattern.hasReachedEnd || circleDelay !== null) {
         motionsPattern.move();
-        motionsPattern.mergePositions(circle.initialPosition, circle.position);
+        circleDelay = motionsPattern.mergePositions(circle.initialPosition, circle.position, circleDelay);
     }
 
     if (!motionsPattern2.hasReachedEnd) {
@@ -178,7 +202,7 @@ function animate() {
 
     if (!motionsPattern4.hasReachedEnd) {
         motionsPattern4.move();
-        motionsPattern4.mergePositions(circle4.initialPosition, circle4.position);
+        motionsPattern4.mergePositions(circle4.initialPosition, circle4.position, circle4Delay);
     }
 
     if (!motionD.hasReachedEnd || circle5Delay !== null) {
@@ -192,9 +216,9 @@ function animate() {
         circle6Delay = motionE.mergePositions(circle6.initialPosition, circle6.position, circle6Delay);
     }
     
-    if (!motionsPattern5.hasReachedEnd) {
+    if (!motionsPattern5.hasReachedEnd || circle8Delay !== null) {
         motionsPattern5.move();
-        motionsPattern5.mergePositions(circle8.initialPosition, circle8.position);
+        circle8Delay = motionsPattern5.mergePositions(circle8.initialPosition, circle8.position, circle8Delay);
     }
 
     if (!motionF.hasReachedEnd || circle9Delay !== null) {
@@ -207,6 +231,10 @@ function animate() {
         circle10Delay = motionG.mergePositions(circle10.initialPosition, circle10.position, circle10Delay);
     } else {
         circle10.color = '#9D9101';
+    }
+
+    if (!compoundMotion.hasEverybodyReachedEnd) {
+        compoundMotion.move();
     }
 
     Projectile.everyInstance.forEach(projectile => {
@@ -230,7 +258,15 @@ window.Coordinates = Coordinates;
 window.a = new Coordinates(0, 0);
 window.b = new Coordinates(1, 1);
 
+window.circle = circle;
 window.circle5 = circle5
 window.circle6 = circle6;
 window.circle7 = circle7;
 window.circle8 = circle8;
+window.circle11 = circle11;
+window.circle12 = circle12;
+window.circle13 = circle13;
+window.motionsPattern5 = motionsPattern5;
+window.compoundMotion = compoundMotion;
+window.motionD = motionD;
+window.motionC1 = motionC1;

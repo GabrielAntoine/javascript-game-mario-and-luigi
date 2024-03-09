@@ -30,22 +30,35 @@ export class Motion {
         return FPS.perSecondToPerFrame(this.staticVelocity);
     }
 
+    copy(other) {
+        this.distanceToTravel = other.distanceToTravel;
+        this.travelledDistance = other.travelledDistance;
+        this._relativePosition.copy(other._relativePosition);
+        this.staticVelocity = other.staticVelocity;
+
+        return this;
+    }
+
+    createInitialsStateCopy() {
+        const copy = new this.constructor().copy(this);
+
+        copy.travelledDistance = 0;
+        copy._relativePosition.copy(Coordinates.origin);
+
+        return copy;
+    }
+
     getRelativePosition(_delayedTravelledDistance, _delayObject) {
         throw new NotImplementedError('getRelativePosition', this.constructor.name);
     }
 
-    move(distanceToMove = null) {
-        if (distanceToMove === null) {
-            distanceToMove = this.dynamicVelocity;
-        }
-
-        this.travelledDistance += distanceToMove;
+    move(percentageOfVelocity = 1) {
+        this.travelledDistance += this.dynamicVelocity * percentageOfVelocity;
 
         if (this.hasReachedEnd) {
-            const overflowTravelledDistance = this.travelledDistance - this.distanceToTravel;
+            const percentageOfOverflow = (this.travelledDistance - this.distanceToTravel) / this.dynamicVelocity;
             this.travelledDistance = this.distanceToTravel;
-            
-            return overflowTravelledDistance;
+            return percentageOfOverflow;
         }
 
         return 0;
