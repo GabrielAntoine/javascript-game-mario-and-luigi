@@ -7,12 +7,13 @@ export class Projectile extends GamesBall {
 
     update() {
         if (this.isOutOfCanvas()) {
-            // This line is necessary only if the canvas is not totally cleared every frame
-            //this.allowDestruction();
-            // Otherwise, this line is necessary
-            this.destroy();
+            this.allowDestruction();
         } else {
             this.position.y -= this.dynamicVelocity;
         }
+    }
+
+    hasHitTarget() {
+        this.allowDestruction();
     }
 }

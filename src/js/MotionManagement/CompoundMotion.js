@@ -132,7 +132,6 @@ export class CompoundMotion {
         const relativeTimeObject = {elapsedTime: delayedTimeTravelled, motionIndex: null};
 
         const relativePosition = this.#getRelativePosition(relativeTimeObject);
-        outPosition.set(initialPosition.x + relativePosition.x, initialPosition.y)
         outPosition.x = initialPosition.x + relativePosition.x;
         outPosition.y = initialPosition.y + relativePosition.y;
 

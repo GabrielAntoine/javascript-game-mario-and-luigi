@@ -13,6 +13,7 @@ import { SinusSignal } from "./MotionManagement/SinusSignal.js";
 import { GamesBall } from "./CanvasObjects/GamesBall.js";
 import { InstancesManager } from "./Helpers/InstancesManager.js";
 import { EnergyBall } from "./CanvasObjects/EnergyBall.js";
+import { InteractionProjectilesEnergyBalls } from "./CanvasObjects/InteractionsBetweenElements/InteractionProjectilesEnergyBalls.js";
 
 const mainCanvas = document.getElementById('mainCanvas');
 const mainCtx = mainCanvas.getContext('2d');
@@ -33,9 +34,9 @@ window.addEventListener('resize', () => {
 
 window.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-        // FPS.stop();
+        FPS.stop();
     } else {
-        // FPS.start();
+        FPS.start();
     }
 });
 
@@ -54,7 +55,7 @@ const mario = new PlayableCharacter(
         radius: 20,
         velocity: 2000,
         shootingKeys: ['KeyA'],
-        timeBetweenProjectiles: 400,
+        timeBetweenProjectiles: 200,
         color: "rgb(248, 40, 8)"
     }
 )
@@ -74,7 +75,7 @@ const luigi = new PlayableCharacter(
         radius: 20,
         velocity: 2000,
         shootingKeys: ['KeyD'],
-        timeBetweenProjectiles: 400,
+        timeBetweenProjectiles: 200,
         color: "rgb(16, 216, 128)"
     }
 );
@@ -89,8 +90,11 @@ const luigi = new PlayableCharacter(
     const initialPosition = new Coordinates(mainCanvas.width / 2, -50);
     for (let i = 0; i < 8; i++) {
         const color = Math.floor(Math.random() * 2) ? LUIGI_ENERGYBALL_COLOR : MARIO_ENERGYBALL_COLOR;
-        new EnergyBall(mainCanvas, color, new Coordinates().copy(initialPosition), 40, 2, compoundMotion2, 100 / 300 * i);
+        const type = color === LUIGI_ENERGYBALL_COLOR ? 'Luigi' : 'Mario'; 
+        new EnergyBall(mainCanvas, color, new Coordinates().copy(initialPosition), 40, type, 1, 1, compoundMotion2, 100 / 300 * i);
     }
+
+    window.compoundMotion = compoundMotion2;
 })();
 
 (() => {
@@ -102,7 +106,8 @@ const luigi = new PlayableCharacter(
     
     for (let i = 0; i < 8; i++) {
         const color = Math.floor(Math.random() * 2) ? LUIGI_ENERGYBALL_COLOR : MARIO_ENERGYBALL_COLOR;
-        new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width * 0.075 + (i * 2 + 1) * mainCanvas.width * 0.85 / 16, -50), 40, 2, compoundMotion2, 2500 / 300);
+        const type = color === LUIGI_ENERGYBALL_COLOR ? 'Luigi' : 'Mario'; 
+        new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width * 0.075 + (i * 2 + 1) * mainCanvas.width * 0.85 / 16, -50), 40, type, 1, 1, compoundMotion2, 2500 / 300);
     }
 
     window.compoundMotion2 = compoundMotion2;
@@ -116,14 +121,18 @@ const luigi = new PlayableCharacter(
     ]);
     
     const color = BOTH_ENERGYBALL_COLOR;
-    new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width / 2, -50), 40, 2, compoundMotion2, 14);
+    new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width / 2, -50), 40, 'All', 15, 5, compoundMotion2, 14);
 
     window.compoundMotion3 = compoundMotion2;
 })();
 
-
 function animate() {
     // mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
+    Projectile.everyInstance.forEach(projectile => projectile.update());
+    EnergyBall.everyInstance.forEach(energyBall => energyBall.update());
+    mario.update();
+    luigi.update();
+
     mainCtx.fillStyle = '#481058';
     mainCtx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
 
@@ -132,10 +141,8 @@ function animate() {
     luigi.draw();
     EnergyBall.everyInstance.forEach(energyBall => energyBall.draw());
 
-    Projectile.everyInstance.forEach(projectile => projectile.update());
-    EnergyBall.everyInstance.forEach(energyBall => energyBall.update());
-    mario.update();
-    luigi.update();
+
+    InteractionProjectilesEnergyBalls.update();
 
 
     requestAnimationFrame(animate);
@@ -161,6 +168,7 @@ window.mainCtx = mainCtx;
 window.EnergyBall = EnergyBall;
 window.CompoundMotion = CompoundMotion;
 window.LinearMotion = LinearMotion;
+window.InteractionProjectilesEnergyBalls = InteractionProjectilesEnergyBalls;
 
 // EnergyBall.everyInstance[2].compoundMotion = new CompoundMotion([
 //     new LinearMotion(mainCanvas.height, 900, -Math.PI / 2)

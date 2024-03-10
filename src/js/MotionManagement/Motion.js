@@ -57,6 +57,10 @@ export class Motion {
     }
 
     move(percentageOfVelocity = 1) {
+        if (this.hasReachedEnd) {
+            return 0;
+        }
+
         this.travelledDistance += this.dynamicVelocity * percentageOfVelocity;
 
         if (this.hasReachedEnd) {

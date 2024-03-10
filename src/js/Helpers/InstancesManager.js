@@ -1,15 +1,20 @@
 export class InstancesManager {
     static #classes = new Map();
 
-    static push(classObject, instance) {
-        if (!this.#classes.has(classObject)) {
-          this.#classes.set(classObject, []);
+    static push(instance) {
+        if (!this.#classes.has(instance.constructor)) {
+          this.#classes.set(instance.constructor, []);
         }
-        this.#classes.get(classObject).push(instance);
+
+        const classesArray = this.#classes.get(instance.constructor);
+
+        if (!classesArray.includes(instance)) {
+            classesArray.push(instance);
+        }
       }
 
-    static delete(classObject, instance) {
-        const classesArray = this.#classes.get(classObject);
+    static delete(instance) {
+        const classesArray = this.#classes.get(instance.constructor);
 
         if (classesArray === undefined) {
             return false;
