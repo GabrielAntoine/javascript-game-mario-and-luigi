@@ -7,6 +7,7 @@ export class CompoundMotion {
         this.motions = [...motions];
         this.currentMotionIndex = 0;
         this.#attachedObjects = [];
+        this.lastFrameTime = null;
     }
 
     get attachedObjects() {
@@ -80,7 +81,13 @@ export class CompoundMotion {
         return relativePosition;
     }
 
+    // move method can only be executed once by frame.
     move() {
+        if (this.lastFrameTime === document.timeline.currentTime) {
+            return false;
+        }
+        this.lastFrameTime = document.timeline.currentTime;
+
         let percentageOfVelocity = 1;
 
         while (!this.hasReachedEnd && percentageOfVelocity > 0) {
@@ -94,7 +101,19 @@ export class CompoundMotion {
         this.#attachedObjects.forEach(attachedObject => {
             attachedObject.delay = this.mergePositions(attachedObject.initialPosition, attachedObject.position, attachedObject.delay);
         });
+
+        return true;
     }
+
+    moveTogether(initialPosition, outPosition, delay) {
+        this.move();
+        delay = this.mergePositions(initialPosition,outPosition, delay);
+
+        return delay;
+    }
+
+    // ! Delay should be a time variable instead of a distance to take into account several velocities
+    // Currently it doesn't work fine
 
     mergePositions(initialPosition, outPosition, delay = 0) {
         delay ??= 0;

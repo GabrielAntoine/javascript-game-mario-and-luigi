@@ -34,4 +34,11 @@ export class MovingCircle extends MovingElement {
     isOverlapping(other) {
         return this.position.distanceTo(other.position) <= this.radius + other.radius;
     }
+
+    isOutOfCanvas() {
+        return this.position.x + this.radius < 0
+            || this.position.x - this.radius > this.canvas.width
+            || this.position.y + this.radius < 0
+            || this.position.y - this.radius > this.canvas.height;
+    }
 }

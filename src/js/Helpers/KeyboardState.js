@@ -2,23 +2,23 @@ export class KeyboardState {
     static #keyboard = null;
     
     static start() {
-        if (KeyboardState.#keyboard !== null) {
+        if (this.#keyboard !== null) {
             return false;
         }
 
-        KeyboardState.#keyboard = {};
+        this.#keyboard = {};
 
         window.addEventListener('keydown', (event) => {
-            KeyboardState.#keyboard[event.code] = true;
+            this.#keyboard[event.code] = true;
         });
         
         window.addEventListener('keyup', (event) => {
-            KeyboardState.#keyboard[event.code] = false;
+            this.#keyboard[event.code] = false;
         });
 
         window.addEventListener('blur', () => {
-            for (const key in KeyboardState.#keyboard) {
-                KeyboardState.#keyboard[key] = false;
+            for (const key in this.#keyboard) {
+                this.#keyboard[key] = false;
             }
         });
 
@@ -26,12 +26,12 @@ export class KeyboardState {
     }
 
     static getKeyState(key) {
-        return KeyboardState.#keyboard[key] ?? false;
+        return this.#keyboard[key] ?? false;
     }
 
     static getKeysStateOR(keys) {
         for (const key of keys) {
-            if (KeyboardState.getKeyState(key)) {
+            if (this.getKeyState(key)) {
                 return true;
             }
         }
@@ -41,7 +41,7 @@ export class KeyboardState {
 
     static getKeysStateAND(keys) {
         for (const key of keys) {
-            if (!KeyboardState.getKeyState(key)) {
+            if (!this.getKeyState(key)) {
                 return false;
             }
         }
