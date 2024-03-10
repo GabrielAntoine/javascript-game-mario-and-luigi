@@ -1,4 +1,7 @@
 import { Coordinates } from "../Coordinates/Coordinates.js";
+import { FPS } from "../Helpers/FPS.js";
+
+FPS.start();
 
 export class CompoundMotion {
     #attachedObjects;
@@ -39,6 +42,15 @@ export class CompoundMotion {
         return distance;
     }
 
+    get elapsedTime() {
+        let time = 0;
+        for (let i = 0; i <= this.currentMotionIndex; i++) {
+            time += this.motions[i].elapsedTime;
+        }
+
+        return time;
+    }
+
     createInitialsStateCopy() {
         const motionsCopy = [];
 
@@ -49,33 +61,34 @@ export class CompoundMotion {
         return new this.constructor(motionsCopy);
     }
 
-    #getInitialRelativePosition(relativeDistanceObject) {
+    #getInitialRelativePosition(relativeTimeObject) {
         const initialRelativePosition = new Coordinates().copy(Coordinates.origin);
 
         for (let i = 0; i < this.currentMotionIndex; i++) {
-            if (relativeDistanceObject.travelledDistance < this.motions[i].travelledDistance) {
-                relativeDistanceObject.motionIndex = i;
+            if (relativeTimeObject.elapsedTime < this.motions[i].elapsedTime) {
+                relativeTimeObject.motionIndex = i;
                 return initialRelativePosition;
             } else {
-                relativeDistanceObject.travelledDistance -= this.motions[i].travelledDistance;
+                relativeTimeObject.elapsedTime -= this.motions[i].elapsedTime;
             }
 
             this.motions[i].mergePositions(initialRelativePosition, initialRelativePosition);
         }
 
-        relativeDistanceObject.motionIndex = this.currentMotionIndex;
+        relativeTimeObject.motionIndex = this.currentMotionIndex;
 
         return initialRelativePosition;
     }
 
-    #getRelativePosition(relativeDistanceObject) {
-        const initialRelativePosition = this.#getInitialRelativePosition(relativeDistanceObject);
+    #getRelativePosition(relativeTimeObject) {
+        const initialRelativePosition = this.#getInitialRelativePosition(relativeTimeObject);
         const relativePosition = new Coordinates();
+        const currentMotion = this.motions[relativeTimeObject.motionIndex];
 
-        this.motions[relativeDistanceObject.motionIndex].mergePositions(
+        currentMotion.mergePositions(
             initialRelativePosition,
             relativePosition,
-            this.motions[relativeDistanceObject.motionIndex].travelledDistance - relativeDistanceObject.travelledDistance
+            (currentMotion.elapsedTime - relativeTimeObject.elapsedTime) * currentMotion.staticVelocity
         );
 
         return relativePosition;
@@ -112,57 +125,26 @@ export class CompoundMotion {
         return delay;
     }
 
-    // ! Delay should be a time variable instead of a distance to take into account several velocities
-    // Currently it doesn't work fine
-
     mergePositions(initialPosition, outPosition, delay = 0) {
         delay ??= 0;
 
-        const delayedTravelledDistance = Math.max(this.travelledDistance - delay, 0);
-        const relativeDistanceObject = {travelledDistance: delayedTravelledDistance, motionIndex: null};
+        const delayedTimeTravelled = Math.max(this.elapsedTime - delay, 0);
+        const relativeTimeObject = {elapsedTime: delayedTimeTravelled, motionIndex: null};
 
-        const relativePosition = this.#getRelativePosition(relativeDistanceObject);
+        const relativePosition = this.#getRelativePosition(relativeTimeObject);
         outPosition.set(initialPosition.x + relativePosition.x, initialPosition.y)
         outPosition.x = initialPosition.x + relativePosition.x;
         outPosition.y = initialPosition.y + relativePosition.y;
 
-        return this.#getNewDelay(delay, relativeDistanceObject.travelledDistance, relativeDistanceObject.motionIndex);
-    }
-
-    // This method should only be called if this.hasReachedEnd
-    // Otherwise, behavior is unknown
-    #getNewDelay(delay, travelledDistance, motionIndex) {
         if (delay === null || delay === 0) {
             return null;
         }
 
         if (!this.hasReachedEnd) {
-            return delay
+            return delay;
         }
 
-        let percentageOfVelocity = 1;
-        
-        while (percentageOfVelocity > 0 && motionIndex < this.motions.length) {
-            const remainingDistance = this.motions[motionIndex].travelledDistance - travelledDistance;
-            const velocity = this.motions[motionIndex].dynamicVelocity * percentageOfVelocity; 
-
-            if (remainingDistance < velocity) {
-                delay -= remainingDistance;
-                percentageOfVelocity -= remainingDistance / velocity;
-                motionIndex++;
-                travelledDistance = 0;                
-            } else {
-                delay -= velocity;
-                percentageOfVelocity = 0;
-            }
-        }
-
-        // No more delay
-        if (motionIndex === this.motions.length) {
-            return 0;
-        }
-
-        return delay;
+        return Math.max(delay - FPS.frameInterval, 0);
     }
 
     attach(positionReference, initialDelay) {

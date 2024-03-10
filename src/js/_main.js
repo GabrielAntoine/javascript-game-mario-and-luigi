@@ -79,43 +79,41 @@ const luigi = new PlayableCharacter(
 )
 
 const circle = new MovingCircle(mainCanvas, 'lime', new Coordinates(800, 400), 10, 100);
-let circleDelay = 1200;
+let circleDelay = 4;
 
 const motionA1 = new LinearMotion(300, circle.staticVelocity, - Math.PI);
-const motionB1 = new StaticMotion(4);
+const motionB1 = new StaticMotion(4 * circle.staticVelocity, circle.staticVelocity);
 const motionC1 = new CircularMotion(3 * Math.PI * 50, circle.staticVelocity, 50, motionA1.direction + Math.PI/2, false);
 
 const motionsPattern = new CompoundMotion([motionA1, motionB1, motionC1]);
 
 const circle2 = new MovingCircle(mainCanvas, 'teal', new Coordinates(300, 300), 15, 100);
 const circle3 = new MovingCircle(mainCanvas, 'pink', new Coordinates(300, 300), 15, 100);
-let circle3Delay = circle2.radius + circle3.radius + 15;
 const circle4 = new MovingCircle(mainCanvas, 'yellow', new Coordinates(300, 300), 15, 100);
-let circle4Delay = circle3Delay + circle3.radius + circle4.radius + 15;
 
 const motionsPattern2 = new CompoundMotion([
     new LinearMotion(250, circle2.staticVelocity, - Math.PI / 8),
     new LinearMotion(250, circle2.staticVelocity, 9 * Math.PI / 8),
     new LinearMotion(125, circle2.staticVelocity, - Math.PI / 8),
-    new StaticMotion(1.5,),
+    new StaticMotion(1.5 * circle2.staticVelocity, circle2.staticVelocity),
     new CircularMotion(Infinity, circle2.staticVelocity, 30, 0, false)
 ]);
 
 const motionsPattern3 = new CompoundMotion([
-    new StaticMotion(40 / circle3.staticVelocity,),// / circle3.staticVelocity * 1000),
+    new StaticMotion(40, circle3.staticVelocity),// / circle3.staticVelocity * 1000),
     new LinearMotion(250, circle3.staticVelocity, - Math.PI / 8),
     new LinearMotion(250, circle3.staticVelocity, 9 * Math.PI / 8),
     new LinearMotion(125, circle3.staticVelocity, - Math.PI / 8),
-    new StaticMotion(1.5),
+    new StaticMotion(1.5 * circle3.staticVelocity, circle3.staticVelocity),
     new CircularMotion(Infinity, circle3.staticVelocity, 30, 0, false)
 ]);
 
 const motionsPattern4 = new CompoundMotion([
-    new StaticMotion(80 / circle4.staticVelocity),
+    new StaticMotion(80, circle4.staticVelocity),
     new LinearMotion(250, circle4.staticVelocity, - Math.PI / 8),
     new LinearMotion(250, circle4.staticVelocity, 9 * Math.PI / 8),
     new LinearMotion(125, circle4.staticVelocity, - Math.PI / 8),
-    new StaticMotion(1.5),
+    new StaticMotion(1.5 * circle4.staticVelocity, circle4.staticVelocity),
     new CircularMotion(Infinity, circle4.staticVelocity, 30, 0, false)
 ]);
 
@@ -130,7 +128,7 @@ let circle6Delay = circle7.radius + circle6.radius;
 const motionE = new LinearMotion(500, circle6.staticVelocity, - Math.PI / 2);
 
 const circle8 = new MovingCircle(mainCanvas, '#F7326A', new Coordinates(mainCanvas.width / 2, 0), 25, 18);
-let circle8Delay = 200;
+let circle8Delay = 200 / 18;
 const sinusConfig = new SinusSignal(mainCanvas.width * 0.40, 1 / (mainCanvas.height / 10), 0);
 const sinusConfig2 = new SinusSignal(mainCanvas.width * 0.40, 1 / (mainCanvas.height / 10), Math.PI);
 const motionsPattern5 = new CompoundMotion([
@@ -139,19 +137,19 @@ const motionsPattern5 = new CompoundMotion([
 ]);
 
 const circle9 = new MovingCircle(mainCanvas, '#30F0E5', new Coordinates(200, 700), 15, 50);
-let circle9Delay = 300;
+let circle9Delay = 60;
 const motionF = new LinearMotion(200, circle9.staticVelocity, 0);
 
 const circle10 = new MovingCircle(mainCanvas, '#EFA94A', new Coordinates(1000, 800), 15, 100);
 let circle10Delay = 800;
-const motionG = new StaticMotion(2);
+const motionG = new StaticMotion(2 * 100, 100);
 
 const circlesVelocity = 1000;
 const circle11 = new MovingCircle(mainCanvas, '#FAD201', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
 const circle12 = new MovingCircle(mainCanvas, '#84C3BE', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
 const circle13 = new MovingCircle(mainCanvas, '#DE4C8A', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
-let circle12Delay = circle11.radius + circle12.radius + 10;
-let circle13Delay = circle12Delay + circle11.radius + circle13.radius + 10;
+let circle12Delay = (circle11.radius + circle12.radius + 10) / circlesVelocity;
+let circle13Delay = circle12Delay + (circle11.radius + circle13.radius + 10) / circlesVelocity;
 
 const compoundMotion = new CompoundMotion([
     new LinearMotion(mainCanvas.height / 2 - circle11.position.y, circlesVelocity, - Math.PI / 2),
@@ -172,8 +170,8 @@ setInterval(() => {
     
     const initialPosition = new Coordinates(3 * mainCanvas.width / 4, -50);
     new EnergyBall(mainCanvas, 'rgb(248, 40, 8)', new Coordinates().copy(initialPosition), 15, 2, compoundMotion2, 0);
-    new EnergyBall(mainCanvas, 'rgb(16, 216, 128)', new Coordinates().copy(initialPosition), 15, 2, compoundMotion2, 40);
-    new EnergyBall(mainCanvas, 'rgb(248, 40, 8)', new Coordinates().copy(initialPosition), 15, 2, compoundMotion2, 80);
+    new EnergyBall(mainCanvas, 'rgb(16, 216, 128)', new Coordinates().copy(initialPosition), 15, 2, compoundMotion2, 40 / 100);
+    new EnergyBall(mainCanvas, 'rgb(248, 40, 8)', new Coordinates().copy(initialPosition), 15, 2, compoundMotion2, 80 / 100);
 }, 8000);
 
 function animate() {

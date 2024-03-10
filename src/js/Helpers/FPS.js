@@ -3,6 +3,14 @@ export class FPS {
     static #animationHandle = null;
     static #lastFrameTime = null;
 
+    static get frameInterval() {
+        if (FPS.count == null) {
+            throw new Error('Cannot get frameInterval since frame count is unknown. Did you execute FPS.start() ?');
+        }
+
+        return 1 / FPS.count;
+    }
+
     static start() {
         if (this.#animationHandle !== null) {
             return false;

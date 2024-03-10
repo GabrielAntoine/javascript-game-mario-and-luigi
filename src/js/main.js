@@ -89,21 +89,23 @@ const luigi = new PlayableCharacter(
     const initialPosition = new Coordinates(mainCanvas.width / 2, -50);
     for (let i = 0; i < 8; i++) {
         const color = Math.floor(Math.random() * 2) ? LUIGI_ENERGYBALL_COLOR : MARIO_ENERGYBALL_COLOR;
-        new EnergyBall(mainCanvas, color, new Coordinates().copy(initialPosition), 40, 2, compoundMotion2, 100 * i);
+        new EnergyBall(mainCanvas, color, new Coordinates().copy(initialPosition), 40, 2, compoundMotion2, 100 / 300 * i);
     }
 })();
 
 (() => {
     const compoundMotion2 = new CompoundMotion([
         new LinearMotion(mainCanvas.height / 2 - -50, 300, - Math.PI / 2),
-        new StaticMotion(1),
+        new StaticMotion(1 * 300, 300),
         new LinearMotion(mainCanvas.height / 2 + 50, 300, - Math.PI / 2)
     ]);
     
     for (let i = 0; i < 8; i++) {
         const color = Math.floor(Math.random() * 2) ? LUIGI_ENERGYBALL_COLOR : MARIO_ENERGYBALL_COLOR;
-        new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width * 0.075 + (i * 2 + 1) * mainCanvas.width * 0.85 / 16, -50), 40, 2, compoundMotion2, 2500);
+        new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width * 0.075 + (i * 2 + 1) * mainCanvas.width * 0.85 / 16, -50), 40, 2, compoundMotion2, 2500 / 300);
     }
+
+    window.compoundMotion2 = compoundMotion2;
 })();
 
 (() => {
@@ -113,11 +115,10 @@ const luigi = new PlayableCharacter(
         new SmoothSinusoidalMotion(mainCanvas.height / 2 + 50, 60, new SinusSignal(mainCanvas.width * 0.85 / 2, 1 / (7 * mainCanvas.height / 16 / 3), Math.PI), -Math.PI / 2)
     ]);
     
-    for (let i = 0; i < 8; i++) {
-        const color = BOTH_ENERGYBALL_COLOR;
-        new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width / 2, -50), 40, 2, compoundMotion2, 950);
-        // new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width / 2, -50), 40, 2, compoundMotion2, 800); bug à corriger
-    }
+    const color = BOTH_ENERGYBALL_COLOR;
+    new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width / 2, -50), 40, 2, compoundMotion2, 14);
+
+    window.compoundMotion3 = compoundMotion2;
 })();
 
 

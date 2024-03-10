@@ -30,6 +30,10 @@ export class Motion {
         return FPS.perSecondToPerFrame(this.staticVelocity);
     }
 
+    get elapsedTime() {
+        return this.travelledDistance / this.staticVelocity;
+    }
+
     copy(other) {
         this.distanceToTravel = other.distanceToTravel;
         this.travelledDistance = other.travelledDistance;
