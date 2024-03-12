@@ -1,5 +1,5 @@
-import { KeyboardState } from "../Helpers/KeyboardState.js";
-import { Coordinates } from "../Coordinates/Coordinates.js";
+import { KeyboardState } from "../../Helpers/KeyboardState.js";
+import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { MovingElement } from "./MovingElement.js";
 import { Projectile } from "./Projectile.js";
 

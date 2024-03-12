@@ -1,4 +1,4 @@
-import { InstancesManager } from "../Helpers/InstancesManager.js";
+import { InstancesManager } from "../../Helpers/InstancesManager.js";
 import { MovingCircle } from "./MovingCircle.js";
 
 export class GamesBall extends MovingCircle {

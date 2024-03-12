@@ -1,5 +1,5 @@
-import { EnergyBall } from "../EnergyBall.js";
-import { Projectile } from "../Projectile.js";
+import { EnergyBall } from "../ElementsOnCanvas/EnergyBall.js";
+import { Projectile } from "../ElementsOnCanvas/Projectile.js";
 
 export class InteractionProjectilesEnergyBalls {
     static score = 0;

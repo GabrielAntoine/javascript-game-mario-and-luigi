@@ -1,28 +1,30 @@
 import { FPS } from "./Helpers/FPS.js";
-import { PlayableCharacter } from "./CanvasObjects/PlayableCharacter.js";
+import { PlayableCharacter } from "./CanvasObjects/ElementsOnCanvas/PlayableCharacter.js";
 import { KeyboardState } from "./Helpers/KeyboardState.js";
 import { Coordinates } from "./Coordinates/Coordinates.js";
-import { Projectile } from "./CanvasObjects/Projectile.js";
+import { Projectile } from "./CanvasObjects/ElementsOnCanvas/Projectile.js";
 import { LinearMotion } from "./MotionManagement/LinearMotion.js";
-import { MovingCircle } from "./CanvasObjects/MovingCircle.js";
+import { MovingCircle } from "./CanvasObjects/ElementsOnCanvas/MovingCircle.js";
 import { CircularMotion } from "./MotionManagement/CircularMotion.js";
 import { StaticMotion } from "./MotionManagement/StaticMotion.js";
 import { CompoundMotion } from "./MotionManagement/CompoundMotion.js";
 import { SmoothSinusoidalMotion } from "./MotionManagement/SmoothSinusoidalMotion.js";
 import { SinusSignal } from "./MotionManagement/SinusSignal.js";
-import { GamesBall } from "./CanvasObjects/GamesBall.js";
+import { GamesBall } from "./CanvasObjects/ElementsOnCanvas/GamesBall.js";
 import { InstancesManager } from "./Helpers/InstancesManager.js";
-import { EnergyBall } from "./CanvasObjects/EnergyBall.js";
+import { EnergyBall } from "./CanvasObjects/ElementsOnCanvas/EnergyBall.js";
 import { InteractionProjectilesEnergyBalls } from "./CanvasObjects/InteractionsBetweenElements/InteractionProjectilesEnergyBalls.js";
+import { MouseState } from "./Helpers/MouseState.js";
+import { Random } from "./Helpers/Random.js";
+import { EnergyBallsPatterns } from "./CanvasObjects/GameDataEvents/EnergyBallsPatterns.js";
+import { EnergyBallsGenerator } from "./CanvasObjects/GameDataEvents/EnergyBallsGenerator.js";
 
 const mainCanvas = document.getElementById('mainCanvas');
 const mainCtx = mainCanvas.getContext('2d');
 
 const CANVAS_HEIGHT_RATIO_TO_SCREEN = 0.80;
 const CANVAS_ASPECT_RATIO = 4 / 3;
-const LUIGI_ENERGYBALL_COLOR = '#52D701'; 
-const MARIO_ENERGYBALL_COLOR = '#F80008'; 
-const BOTH_ENERGYBALL_COLOR = '#117ADF';
+
 
 mainCanvas.height = screen.height * CANVAS_HEIGHT_RATIO_TO_SCREEN;
 mainCanvas.width = mainCanvas.height * CANVAS_ASPECT_RATIO; 
@@ -80,51 +82,7 @@ const luigi = new PlayableCharacter(
     }
 );
 
-(() => {
-    const compoundMotion2 = new CompoundMotion([
-        new LinearMotion(mainCanvas.height / 2 - -50, 300, - Math.PI / 2),
-        new CircularMotion(2 * Math.PI * 133, 300, 133, 0, true),
-        new LinearMotion(mainCanvas.height / 2 + 50, 300, - Math.PI / 2)
-    ]);
-    
-    const initialPosition = new Coordinates(mainCanvas.width / 2, -50);
-    for (let i = 0; i < 8; i++) {
-        const color = Math.floor(Math.random() * 2) ? LUIGI_ENERGYBALL_COLOR : MARIO_ENERGYBALL_COLOR;
-        const type = color === LUIGI_ENERGYBALL_COLOR ? 'Luigi' : 'Mario'; 
-        new EnergyBall(mainCanvas, color, new Coordinates().copy(initialPosition), 40, type, 1, 1, compoundMotion2, 100 / 300 * i);
-    }
-
-    window.compoundMotion = compoundMotion2;
-})();
-
-(() => {
-    const compoundMotion2 = new CompoundMotion([
-        new LinearMotion(mainCanvas.height / 2 - -50, 300, - Math.PI / 2),
-        new StaticMotion(1 * 300, 300),
-        new LinearMotion(mainCanvas.height / 2 + 50, 300, - Math.PI / 2)
-    ]);
-    
-    for (let i = 0; i < 8; i++) {
-        const color = Math.floor(Math.random() * 2) ? LUIGI_ENERGYBALL_COLOR : MARIO_ENERGYBALL_COLOR;
-        const type = color === LUIGI_ENERGYBALL_COLOR ? 'Luigi' : 'Mario'; 
-        new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width * 0.075 + (i * 2 + 1) * mainCanvas.width * 0.85 / 16, -50), 40, type, 1, 1, compoundMotion2, 2500 / 300);
-    }
-
-    window.compoundMotion2 = compoundMotion2;
-})();
-
-(() => {
-    const compoundMotion2 = new CompoundMotion([
-        new LinearMotion(mainCanvas.height / 16 - -50, 600, -Math.PI / 2),
-        new SmoothSinusoidalMotion(7 * mainCanvas.height / 16, 60, new SinusSignal(mainCanvas.width * 0.85 / 2, 1 / (7 * mainCanvas.height / 16 / 3), 0), -Math.PI / 2),
-        new SmoothSinusoidalMotion(mainCanvas.height / 2 + 50, 60, new SinusSignal(mainCanvas.width * 0.85 / 2, 1 / (7 * mainCanvas.height / 16 / 3), Math.PI), -Math.PI / 2)
-    ]);
-    
-    const color = BOTH_ENERGYBALL_COLOR;
-    new EnergyBall(mainCanvas, color, new Coordinates(mainCanvas.width / 2, -50), 40, 'All', 15, 5, compoundMotion2, 14);
-
-    window.compoundMotion3 = compoundMotion2;
-})();
+const energyBallsGenerator = new EnergyBallsGenerator(mainCanvas);
 
 function animate() {
     // mainCtx.clearRect(0, 0, mainCanvas.width, mainCanvas.height);
@@ -141,8 +99,9 @@ function animate() {
     luigi.draw();
     EnergyBall.everyInstance.forEach(energyBall => energyBall.draw());
 
-
     InteractionProjectilesEnergyBalls.update();
+    
+    energyBallsGenerator.update();
 
 
     requestAnimationFrame(animate);
@@ -169,6 +128,9 @@ window.EnergyBall = EnergyBall;
 window.CompoundMotion = CompoundMotion;
 window.LinearMotion = LinearMotion;
 window.InteractionProjectilesEnergyBalls = InteractionProjectilesEnergyBalls;
+window.MouseState = MouseState;
+window.Random = Random;
+window.EnergyBallsPatterns = EnergyBallsPatterns;
 
 // EnergyBall.everyInstance[2].compoundMotion = new CompoundMotion([
 //     new LinearMotion(mainCanvas.height, 900, -Math.PI / 2)
