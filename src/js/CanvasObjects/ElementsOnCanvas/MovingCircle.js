@@ -1,4 +1,6 @@
+import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { MovingElement } from "./MovingElement.js";
+import { MovingRectangle } from "./MovingRectangle.js";
 
 export class MovingCircle extends MovingElement {
     constructor(canvas, color, position, radius, velocity) {
@@ -32,13 +34,29 @@ export class MovingCircle extends MovingElement {
     }
 
     isOverlapping(other) {
-        return this.position.distanceTo(other.position) <= this.radius + other.radius;
+        if (other instanceof MovingCircle) {
+            return this.position.distanceTo(other.position) <= this.radius + other.radius;
+
+        } else if (other instanceof MovingRectangle) {
+            const nearestPoint = new Coordinates().copy(this.position);
+            nearestPoint.clampX(other.position.x, other.position.x + other.width);
+            nearestPoint.clampY(other.position.y, other.position.y + other.height);
+
+            return this.position.distanceTo(nearestPoint) <= this.radius;
+
+        } else if (other instanceof HTMLCanvasElement) {
+            const nearestPoint = new Coordinates().copy(this.position);
+            nearestPoint.clampX(0, other.width);
+            nearestPoint.clampY(0, other.height);
+
+            return this.position.distanceTo(nearestPoint) <= this.radius;
+        
+        } else {
+            throw new Error(`isOverlapping is not defined when 'other' is instance of class ${other.constructor.name}`);
+        }
     }
 
     isOutOfCanvas() {
-        return this.position.x + this.radius < 0
-            || this.position.x - this.radius > this.canvas.width
-            || this.position.y + this.radius < 0
-            || this.position.y - this.radius > this.canvas.height;
+        return !this.isOverlapping(this.canvas);
     }
 }

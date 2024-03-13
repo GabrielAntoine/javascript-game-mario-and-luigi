@@ -30,6 +30,14 @@ export class Coordinates {
         return this;
     }
 
+    clampX(min, max) {
+        this.x = Math.max(min, Math.min(max, this.x));
+    }
+
+    clampY(min, max) {
+        this.y = Math.max(min, Math.min(max, this.y));
+    }
+
     distanceTo(other) {
         return Math.sqrt(
             (this.x - other.x) ** 2 + (this.y - other.y) ** 2

@@ -11,11 +11,7 @@ export class Random {
         return Math.random() < 0.5;
     }
 
-    static choose(values, probabilities) {
-        if (probabilities === undefined) {
-            probabilities = new Array(values.length).fill(1);
-        }
-
+    static choose(values, probabilities = new Array(values.length).fill(1)) {
         const sumOfProbabilities = probabilities.reduce((accumulator, currentValue) => accumulator + currentValue);
         const randomPercentage = Math.random();
 

@@ -9,11 +9,15 @@ export class KeyboardState {
         this.#keyboard = {};
 
         window.addEventListener('keydown', (event) => {
-            this.#keyboard[event.code] = true;
+            if (!event.repeat) {
+                this.#keyboard[event.code] = true;
+            }
         });
         
         window.addEventListener('keyup', (event) => {
-            this.#keyboard[event.code] = false;
+            if (!event.repeat) {
+                this.#keyboard[event.code] = false;
+            }
         });
 
         window.addEventListener('blur', () => {

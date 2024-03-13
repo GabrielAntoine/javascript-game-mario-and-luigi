@@ -19,6 +19,7 @@ import { Random } from "./Helpers/Random.js";
 import { EnergyBallsPatterns } from "./CanvasObjects/GameDataEvents/EnergyBallsPatterns.js";
 import { EnergyBallsGenerator } from "./CanvasObjects/GameDataEvents/EnergyBallsGenerator.js";
 import { config } from "./config.js";
+import { InteractionPlayableCharacterEnergyBalls } from "./CanvasObjects/InteractionsBetweenElements/InteractionPlayableCharacterEnergyBalls.js";
 
 const mainCanvas = document.getElementById('mainCanvas');
 const mainCtx = mainCanvas.getContext('2d');
@@ -101,6 +102,7 @@ function animate() {
     EnergyBall.everyInstance.forEach(energyBall => energyBall.draw());
 
     InteractionProjectilesEnergyBalls.update();
+    InteractionPlayableCharacterEnergyBalls.update();
     
     energyBallsGenerator.update();
 
@@ -133,6 +135,7 @@ window.MouseState = MouseState;
 window.Random = Random;
 window.EnergyBallsPatterns = EnergyBallsPatterns;
 window.PlayableCharacter = PlayableCharacter;
+window.InteractionPlayableCharacterEnergyBalls = InteractionPlayableCharacterEnergyBalls;
 
 // EnergyBall.everyInstance[2].compoundMotion = new CompoundMotion([
 //     new LinearMotion(mainCanvas.height, 900, -Math.PI / 2)

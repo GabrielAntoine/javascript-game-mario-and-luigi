@@ -53,7 +53,7 @@ export class EnergyBallsPatterns {
             new LinearMotion(canvas.height / 2 - config.energyBall.initialY, config.energyBall.globalVelocity, - Math.PI / 2)
         ]);
 
-        this.#createEnergyBalls(canvas, 8, this.#randomType, () => canvas.width / 2, compoundMotion, i => 1 / 3 * i);
+        this.#createEnergyBalls(canvas, 8, this.#randomType, () => canvas.width / 2, compoundMotion, i => 100 / config.energyBall.globalVelocity * i);
     }
 
     static inlinewaitPattern(canvas) {

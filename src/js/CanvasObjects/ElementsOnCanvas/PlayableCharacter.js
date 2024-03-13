@@ -3,18 +3,16 @@ import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { MovingElement } from "./MovingElement.js";
 import { Projectile } from "./Projectile.js";
 import { InstancesManager } from "../../Helpers/InstancesManager.js";
+import { MovingRectangle } from "./MovingRectangle.js";
 
 KeyboardState.start();
 
-export class PlayableCharacter extends MovingElement {
+export class PlayableCharacter extends MovingRectangle {
     constructor(canvas, color, position, limit, width, height, velocity, leftKeys, rightKeys, projectileConfig) {
-        super(canvas, position, velocity);
+        super(canvas, color, position, width, height, velocity);
 
-        this.width = width;
-        this.height = height;
         this.limit = limit;
         this.limit.right -= width;
-        this.color = color;
         this.leftKeys = leftKeys;
         this.rightKeys = rightKeys;
         this.projectileConfig = projectileConfig;
@@ -42,20 +40,6 @@ export class PlayableCharacter extends MovingElement {
 
             this.lastProjectileTime = currentTime;
         }
-    }
-
-    clear() {
-        if (this.isCurrentlyDrawn()) {
-            this.ctx.clearRect(this.canvasPosition.onFrameX, this.canvasPosition.onFrameY, this.width, this.height);
-            this.removeCanvasPosition();
-        }
-    }
-
-    draw() {
-        this.ctx.fillStyle = this.color;
-        this.ctx.fillRect(this.position.onFrameX, this.position.onFrameY, this.width, this.height);
-
-        this.refreshCanvasPosition();
     }
 
     update() {
@@ -86,5 +70,10 @@ export class PlayableCharacter extends MovingElement {
     goRight() {
         this.position.x += this.dynamicVelocity;
         this.position.x = Math.min(this.position.x, this.limit.right);
+    }
+
+    hasGetHit() {
+        // set isInvincible to true to every instance of PlayableCharacter during
+        // a certain amount of time defined in config.js
     }
 }
