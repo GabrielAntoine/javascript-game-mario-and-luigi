@@ -1,3 +1,7 @@
+import { Coordinates } from "../../Coordinates/Coordinates.js";
+import { CompoundMotion } from "../../MotionManagement/CompoundMotion.js";
+import { LinearMotion } from "../../MotionManagement/LinearMotion.js";
+import { config } from "../../config.js";
 import { GamesBall } from "./GamesBall.js";
 
 export class EnergyBall extends GamesBall {
@@ -14,24 +18,11 @@ export class EnergyBall extends GamesBall {
         this.scoreEarned = scoreEarned;
     }
 
-    get health() {
-        return this.#health;
-    }
-
-    set health(value) {
-        this.#health = value;
-
-        if (this.#health <= 0) {
-            this.allowDestruction();
-        }
-    }
-
     decreaseHealth() {
         this.#health -= 1;
 
         if (this.#health <= 0) {
-            this.allowDestruction();
-
+            this.startDestruction();
             return true;
         }
 
@@ -54,7 +45,21 @@ export class EnergyBall extends GamesBall {
         this.hasBecomeAggresive = true;
 
         this.setCompoundMotion(new CompoundMotion([
-            new LinearMotion(this.canvas.height - this.position.y + 1, 1600, - Math.PI / 2)
+            new LinearMotion(this.canvas.height - this.position.y + 1, config.energyBall.aggressiveVelocity, - Math.PI / 2)
+        ]));
+    }
+
+    startDestruction() {
+        if (this.shouldBeDestroyed) {
+            return;
+        }
+
+        this.shouldBeDestroyed = true;
+
+        const finalPosition = new Coordinates(this.canvas.width / 2, config.energyBall.initialY);
+
+        this.setCompoundMotion(new CompoundMotion([
+            new LinearMotion(this.position.distanceTo(finalPosition), config.energyBall.deadVelocity, this.position.directionTo(finalPosition))
         ]));
     }
 

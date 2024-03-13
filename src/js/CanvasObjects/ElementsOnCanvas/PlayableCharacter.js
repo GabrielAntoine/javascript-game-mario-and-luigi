@@ -2,6 +2,7 @@ import { KeyboardState } from "../../Helpers/KeyboardState.js";
 import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { MovingElement } from "./MovingElement.js";
 import { Projectile } from "./Projectile.js";
+import { InstancesManager } from "../../Helpers/InstancesManager.js";
 
 KeyboardState.start();
 
@@ -18,6 +19,13 @@ export class PlayableCharacter extends MovingElement {
         this.rightKeys = rightKeys;
         this.projectileConfig = projectileConfig;
         this.lastProjectileTime = null;
+        this.isInvicible = false;
+
+        InstancesManager.push(this);
+    }
+
+    static get everyInstance() {
+        return InstancesManager.getInstances(this);
     }
 
     tryCreateProjectile() {

@@ -14,6 +14,12 @@ export class Projectile extends GamesBall {
     }
 
     hasHitTarget() {
+        this.ctx.beginPath();
+        this.ctx.fillStyle = 'white';
+        this.ctx.arc(this.position.onFrameX, this.position.onFrameY, this.radius * 3, 0, 2 * Math.PI);
+        this.ctx.fill();
+        this.ctx.closePath();
+
         this.allowDestruction();
     }
 }

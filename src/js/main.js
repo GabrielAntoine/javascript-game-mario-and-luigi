@@ -18,6 +18,7 @@ import { MouseState } from "./Helpers/MouseState.js";
 import { Random } from "./Helpers/Random.js";
 import { EnergyBallsPatterns } from "./CanvasObjects/GameDataEvents/EnergyBallsPatterns.js";
 import { EnergyBallsGenerator } from "./CanvasObjects/GameDataEvents/EnergyBallsGenerator.js";
+import { config } from "./config.js";
 
 const mainCanvas = document.getElementById('mainCanvas');
 const mainCtx = mainCanvas.getContext('2d');
@@ -49,36 +50,36 @@ const mario = new PlayableCharacter(
     {left: 60, right: mainCanvas.width - 60 - mainCanvas.width * 0.08},
     mainCanvas.width * 0.08,
     mainCanvas.height * 0.08,
-    1200,
+    config.character.velocity,
     ['ArrowLeft'],
     ['ArrowRight'],
     {
-        type: 'Mario',
-        radius: 20,
-        velocity: 2000,
-        shootingKeys: ['KeyA'],
-        timeBetweenProjectiles: 200,
-        color: "rgb(248, 40, 8)"
+        type: config.projectile.mario.type,
+        radius: config.projectile.mario.radius,
+        velocity: config.projectile.mario.velocity,
+        shootingKeys: config.projectile.mario.shootingKeys,
+        timeBetweenProjectiles: config.projectile.mario.timeBetweenProjectiles,
+        color: config.projectile.mario.color
     }
 )
 
 const luigi = new PlayableCharacter(
     mainCanvas,
     "rgb(16, 216, 128)",
-    new Coordinates(mainCanvas.width / 2, mainCanvas.height - mainCanvas.height * 0.08),
+    new Coordinates(mario.position.x + mario.width - 1, mario.position.y),
     {left: 60 + mainCanvas.width * 0.08, right: mainCanvas.width - 60},
     mainCanvas.width * 0.08,
     mainCanvas.height * 0.08,
-    1200,
+    config.character.velocity,
     ['ArrowLeft'],
     ['ArrowRight'],
     {
-        type: 'Luigi',
-        radius: 20,
-        velocity: 2000,
-        shootingKeys: ['KeyD'],
-        timeBetweenProjectiles: 200,
-        color: "rgb(16, 216, 128)"
+        type: config.projectile.luigi.type,
+        radius: config.projectile.luigi.radius,
+        velocity: config.projectile.luigi.velocity,
+        shootingKeys: config.projectile.luigi.shootingKeys,
+        timeBetweenProjectiles: config.projectile.luigi.timeBetweenProjectiles,
+        color: config.projectile.luigi.color
     }
 );
 
@@ -113,7 +114,7 @@ requestAnimationFrame(animate);
 window.FPS = FPS;
 window.KeyboardState = KeyboardState;
 window.mario = mario;
-// window.luigi = luigi;
+window.luigi = luigi;
 window.Projectile = Projectile;
 window.Coordinates = Coordinates;
 
@@ -131,6 +132,7 @@ window.InteractionProjectilesEnergyBalls = InteractionProjectilesEnergyBalls;
 window.MouseState = MouseState;
 window.Random = Random;
 window.EnergyBallsPatterns = EnergyBallsPatterns;
+window.PlayableCharacter = PlayableCharacter;
 
 // EnergyBall.everyInstance[2].compoundMotion = new CompoundMotion([
 //     new LinearMotion(mainCanvas.height, 900, -Math.PI / 2)

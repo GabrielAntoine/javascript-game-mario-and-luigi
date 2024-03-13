@@ -1,3 +1,4 @@
+import { config } from "../../config.js";
 import { EnergyBall } from "../ElementsOnCanvas/EnergyBall.js";
 import { Projectile } from "../ElementsOnCanvas/Projectile.js";
 
@@ -27,7 +28,7 @@ export class InteractionProjectilesEnergyBalls {
     }
 
     static makeInteract(projectile, energyBall) {
-        if (projectile.type === energyBall.type || energyBall.type === 'All') {
+        if (projectile.type === energyBall.type || energyBall.type === config.energyBall.all.type) {
             energyBall.decreaseHealth();
             if (energyBall.shouldBeDestroyed) {
                 this.score += energyBall.scoreEarned;
