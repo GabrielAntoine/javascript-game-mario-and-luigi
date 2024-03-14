@@ -1,14 +1,17 @@
 import { KeyboardState } from "../../Helpers/KeyboardState.js";
 import { Coordinates } from "../../Coordinates/Coordinates.js";
-import { MovingElement } from "./MovingElement.js";
 import { Projectile } from "./Projectile.js";
 import { InstancesManager } from "../../Helpers/InstancesManager.js";
 import { MovingRectangle } from "./MovingRectangle.js";
+import { config } from "../../config.js";
 
 KeyboardState.start();
 
 export class PlayableCharacter extends MovingRectangle {
-    constructor(canvas, color, position, limit, width, height, velocity, leftKeys, rightKeys, projectileConfig) {
+    static lastTimeHit = null;
+    static invicibilityTime = config.character.invincibilityTimeWhenHit;
+
+    constructor(canvas, color, position, limit, width, height, velocity, leftKeys, rightKeys, projectileConfig, invicibilityTime) {
         super(canvas, color, position, width, height, velocity);
 
         this.limit = limit;
@@ -17,13 +20,16 @@ export class PlayableCharacter extends MovingRectangle {
         this.rightKeys = rightKeys;
         this.projectileConfig = projectileConfig;
         this.lastProjectileTime = null;
-        this.isInvicible = false;
 
         InstancesManager.push(this);
     }
 
     static get everyInstance() {
         return InstancesManager.getInstances(this);
+    }
+
+    static get areInvicible() {
+        return this.lastTimeHit !== null && document.timeline.currentTime / 1000 - this.lastTimeHit < this.invicibilityTime;
     }
 
     tryCreateProjectile() {
@@ -73,7 +79,6 @@ export class PlayableCharacter extends MovingRectangle {
     }
 
     hasGetHit() {
-        // set isInvincible to true to every instance of PlayableCharacter during
-        // a certain amount of time defined in config.js
+        this.constructor.lastTimeHit = document.timeline.currentTime / 1000;
     }
 }

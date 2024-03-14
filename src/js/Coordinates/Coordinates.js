@@ -57,7 +57,7 @@ export class Coordinates {
         return angle;
     }
 
-    translated(distance, direction, isDirectionTowardsThis) {
+    translated(distance, direction, isDirectionTowardsThis = false) {
         if (distance === 0) {
             direction = 0; // When distance is 0, direction will most likely be NaN or unknown, which would lead to bad calcul. 0 stands for a placeholder in this very specific case
         } else if (isDirectionTowardsThis) {
@@ -85,8 +85,7 @@ export class Coordinates {
     rotated(center, angle, isClockwise) { 
         return center.translated(
             center.distanceTo(this),
-            center.directionTo(this) + angle * (isClockwise ? -1 : 1),
-            false
+            center.directionTo(this) + angle * (isClockwise ? -1 : 1)
         );
     }
 

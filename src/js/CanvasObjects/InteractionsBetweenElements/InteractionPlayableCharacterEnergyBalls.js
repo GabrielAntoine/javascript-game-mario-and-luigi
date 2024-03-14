@@ -1,32 +1,20 @@
 import { EnergyBall } from "../ElementsOnCanvas/EnergyBall.js";
 import { PlayableCharacter } from "../ElementsOnCanvas/PlayableCharacter.js";
+import { InteractionBetweenTwoObjects } from "./InteractionBetweenTwoObjects.js";
 
-export class InteractionPlayableCharacterEnergyBalls {
+export class InteractionPlayableCharacterEnergyBalls extends InteractionBetweenTwoObjects{
     static fails = 0;
 
-    static update() {
-        for (const playableCharacter of PlayableCharacter.everyInstance) {
-            if (playableCharacter.isInvincible) {
-                continue;
-            }
-
-            for (const energyBall of EnergyBall.everyInstance) {
-                if (energyBall.shouldBeDestroyed) {
-                    continue;
-                }
-
-                if (this.haveToInteract(playableCharacter, energyBall)) {
-                    this.makeInteract(playableCharacter, energyBall);
-                }
-            }
-        }
+    static {
+        this.Class1 = PlayableCharacter;
+        this.Class2 = EnergyBall;
     }
 
     static haveToInteract(playableCharacter, energyBall) {
-        return energyBall.isOverlapping(playableCharacter) && !energyBall.isOutOfCanvas();
+        return !PlayableCharacter.areInvicible && !energyBall.shouldBeDestroyed && energyBall.isOverlapping(playableCharacter) && !energyBall.isOutOfCanvas();
     }
 
-    static makeInteract(playableCharacter, energyBall) {
+    static makeInteract(playableCharacter) {
         this.fails++;
 
         playableCharacter.hasGetHit();

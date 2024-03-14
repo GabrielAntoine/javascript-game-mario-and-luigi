@@ -49,6 +49,7 @@ export const config = {
         luigi: {
             // TO DO
         },
-        velocity: 1200
+        velocity: 1200,
+        invincibilityTimeWhenHit: 2
     }
 };
