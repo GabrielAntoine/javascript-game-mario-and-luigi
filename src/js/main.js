@@ -18,23 +18,14 @@ import { MouseState } from "./Helpers/MouseState.js";
 import { Random } from "./Helpers/Random.js";
 import { EnergyBallsPatterns } from "./CanvasObjects/GameDataEvents/EnergyBallsPatterns.js";
 import { EnergyBallsGenerator } from "./CanvasObjects/GameDataEvents/EnergyBallsGenerator.js";
-import { config } from "./config.js";
+import { settings } from "./settings.js";
 import { InteractionPlayableCharacterEnergyBalls } from "./CanvasObjects/InteractionsBetweenElements/InteractionPlayableCharacterEnergyBalls.js";
 
-const mainCanvas = document.getElementById('mainCanvas');
-const mainCtx = mainCanvas.getContext('2d');
+const mainCanvas = settings.canvas.HTMLElement;
+const mainCtx = settings.canvas.ctx;
 
-const CANVAS_HEIGHT_RATIO_TO_SCREEN = 0.80;
-const CANVAS_ASPECT_RATIO = 4 / 3;
-
-
-mainCanvas.height = screen.height * CANVAS_HEIGHT_RATIO_TO_SCREEN;
-mainCanvas.width = mainCanvas.height * CANVAS_ASPECT_RATIO; 
-
-window.addEventListener('resize', () => {
-    mainCanvas.height = screen.height * CANVAS_HEIGHT_RATIO_TO_SCREEN;
-    mainCanvas.width = mainCanvas.height * CANVAS_ASPECT_RATIO;
-});
+mainCanvas.height = settings.canvas.height
+mainCanvas.width = settings.canvas.width;
 
 window.addEventListener('visibilitychange', () => {
     if (document.hidden) {
@@ -45,42 +36,42 @@ window.addEventListener('visibilitychange', () => {
 });
 
 const mario = new PlayableCharacter(
-    mainCanvas,
-    "rgb(248, 40, 8)",
-    new Coordinates(mainCanvas.width / 2 - mainCanvas.width * /*0.035*/ 0.080, mainCanvas.height - mainCanvas.height * 0.08),
-    {left: 60, right: mainCanvas.width - 60 - mainCanvas.width * 0.08},
-    mainCanvas.width * 0.08,
-    mainCanvas.height * 0.08,
-    config.character.velocity,
-    ['ArrowLeft', 'Numpad4', 'KeyK'],
-    ['ArrowRight', 'Numpad6', 'KeyL'],
+    settings.canvas.HTMLElement,
+    settings.character.mario.color,
+    new Coordinates(settings.character.mario.x, settings.character.mario.y),
+    {left: settings.character.mario.limit.left, right: settings.character.mario.limit.right},
+    settings.character.mario.width,
+    settings.character.mario.height,
+    settings.character.mario.velocity,
+    settings.character.keys.left,
+    settings.character.keys.right,
     {
-        type: config.projectile.mario.type,
-        radius: config.projectile.mario.radius,
-        velocity: config.projectile.mario.velocity,
-        shootingKeys: config.projectile.mario.shootingKeys,
-        timeBetweenProjectiles: config.projectile.mario.timeBetweenProjectiles,
-        color: config.projectile.mario.color
+        type: settings.projectile.mario.type,
+        radius: settings.projectile.mario.radius,
+        velocity: settings.projectile.mario.velocity,
+        shootingKeys: settings.projectile.mario.shootingKeys,
+        timeBetweenProjectiles: settings.projectile.mario.timeBetweenProjectiles,
+        color: settings.projectile.mario.color
     }
-)
+);
 
 const luigi = new PlayableCharacter(
-    mainCanvas,
-    "rgb(16, 216, 128)",
-    new Coordinates(mario.position.x + mario.width - 1, mario.position.y),
-    {left: 60 + mainCanvas.width * 0.08, right: mainCanvas.width - 60},
-    mainCanvas.width * 0.08,
-    mainCanvas.height * 0.08    ,
-    config.character.velocity,
-    ['ArrowLeft', 'Numpad4', 'KeyK'],
-    ['ArrowRight', 'Numpad6', 'KeyL'],
+    settings.canvas.HTMLElement,
+    settings.character.luigi.color,
+    new Coordinates(settings.character.luigi.x, settings.character.luigi.y),
+    {left: settings.character.luigi.limit.left, right: settings.character.luigi.limit.right},
+    settings.character.luigi.width,
+    settings.character.luigi.height,
+    settings.character.luigi.velocity,
+    settings.character.keys.left,
+    settings.character.keys.right,
     {
-        type: config.projectile.luigi.type,
-        radius: config.projectile.luigi.radius,
-        velocity: config.projectile.luigi.velocity,
-        shootingKeys: config.projectile.luigi.shootingKeys,
-        timeBetweenProjectiles: config.projectile.luigi.timeBetweenProjectiles,
-        color: config.projectile.luigi.color
+        type: settings.projectile.luigi.type,
+        radius: settings.projectile.luigi.radius,
+        velocity: settings.projectile.luigi.velocity,
+        shootingKeys: settings.projectile.luigi.shootingKeys,
+        timeBetweenProjectiles: settings.projectile.luigi.timeBetweenProjectiles,
+        color: settings.projectile.luigi.color
     }
 );
 
@@ -136,6 +127,7 @@ window.Random = Random;
 window.EnergyBallsPatterns = EnergyBallsPatterns;
 window.PlayableCharacter = PlayableCharacter;
 window.InteractionPlayableCharacterEnergyBalls = InteractionPlayableCharacterEnergyBalls;
+window.settings = settings;
 
 // EnergyBall.everyInstance[2].compoundMotion = new CompoundMotion([
 //     new LinearMotion(mainCanvas.height, 900, -Math.PI / 2)

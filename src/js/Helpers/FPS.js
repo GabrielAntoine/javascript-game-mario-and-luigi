@@ -1,13 +1,9 @@
 export class FPS {
-    static count = null;
+    static count = 144;
     static #animationHandle = null;
     static #lastFrameTime = null;
 
     static get frameInterval() {
-        if (FPS.count == null) {
-            throw new Error('Cannot get frameInterval since frame count is unknown. Did you execute FPS.start() ?');
-        }
-
         return 1 / FPS.count;
     }
 
@@ -15,8 +11,6 @@ export class FPS {
         if (this.#animationHandle !== null) {
             return false;
         }
-
-        this.count = 144; // default value not to have null right away
 
         const calculateFPS = currentFrameTime => {
             if (this.#lastFrameTime !== null) {
@@ -46,10 +40,6 @@ export class FPS {
     }
 
     static perSecondToPerFrame(perSecondRate) {
-        if (this.count === null) {
-            throw new Error('Cannot convert if frame\'s count is unknown');
-        }
-
         return perSecondRate / this.count;
     }
 }

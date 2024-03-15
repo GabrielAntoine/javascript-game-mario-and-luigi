@@ -7,7 +7,7 @@ import { StaticMotion } from "../../MotionManagement/StaticMotion.js";
 import { CompoundMotion } from "../../MotionManagement/CompoundMotion.js";
 import { EnergyBall } from "../ElementsOnCanvas/EnergyBall.js";
 import { Random } from "../../Helpers/Random.js";
-import { config } from "../../config.js";
+import { settings } from "../../settings.js";
 
 export class EnergyBallsPatterns {
     static #patternsProbabilities = {
@@ -25,7 +25,7 @@ export class EnergyBallsPatterns {
     }
 
     static #randomType() {
-        return Random.randomBoolean() ? config.energyBall.mario.type : config.energyBall.luigi.type;
+        return Random.randomBoolean() ? settings.energyBall.mario.type : settings.energyBall.luigi.type;
     }
 
     static #createEnergyBalls(canvas, numberOfBalls, getType, getInitialX, compoundMotion, getInitialDelay) {
@@ -34,12 +34,12 @@ export class EnergyBallsPatterns {
 
             new EnergyBall(
                 canvas,
-                config.energyBall[type].color,
-                new Coordinates(getInitialX(i), config.energyBall.initialY),
-                config.energyBall.radius,
-                config.energyBall[type].type,
-                config.energyBall[type].health,
-                config.energyBall[type].scoreEarned,
+                settings.energyBall[type].color,
+                new Coordinates(getInitialX(i), settings.energyBall.initialY),
+                settings.energyBall.radius,
+                settings.energyBall[type].type,
+                settings.energyBall[type].health,
+                settings.energyBall[type].scoreEarned,
                 compoundMotion,
                 getInitialDelay(i)
             );
@@ -48,19 +48,19 @@ export class EnergyBallsPatterns {
 
     static nodePattern(canvas) {
         const compoundMotion = new CompoundMotion([
-            new LinearMotion(canvas.height / 2 - config.energyBall.initialY, config.energyBall.globalVelocity, - Math.PI / 2),
-            new CircularMotion(2 * Math.PI * 133, config.energyBall.globalVelocity, 133, 0, true),
-            new LinearMotion(canvas.height / 2 - config.energyBall.initialY, config.energyBall.globalVelocity, - Math.PI / 2)
+            new LinearMotion(canvas.height / 2 - settings.energyBall.initialY, settings.energyBall.globalVelocity, - Math.PI / 2),
+            new CircularMotion(2 * Math.PI * 133, settings.energyBall.globalVelocity, 133, 0, true),
+            new LinearMotion(canvas.height / 2 - settings.energyBall.initialY, settings.energyBall.globalVelocity, - Math.PI / 2)
         ]);
 
-        this.#createEnergyBalls(canvas, 8, this.#randomType, () => canvas.width / 2, compoundMotion, i => 100 / config.energyBall.globalVelocity * i);
+        this.#createEnergyBalls(canvas, 8, this.#randomType, () => canvas.width / 2, compoundMotion, i => 100 / settings.energyBall.globalVelocity * i);
     }
 
     static inlinewaitPattern(canvas) {
         const compoundMotion = new CompoundMotion([
-            new LinearMotion(canvas.height / 2 - config.energyBall.initialY, config.energyBall.globalVelocity, - Math.PI / 2),
-            new StaticMotion(1 * config.energyBall.globalVelocity, config.energyBall.globalVelocity),
-            new LinearMotion(canvas.height / 2 - config.energyBall.initialY, config.energyBall.globalVelocity, - Math.PI / 2)
+            new LinearMotion(canvas.height / 2 - settings.energyBall.initialY, settings.energyBall.globalVelocity, - Math.PI / 2),
+            new StaticMotion(1 * settings.energyBall.globalVelocity, settings.energyBall.globalVelocity),
+            new LinearMotion(canvas.height / 2 - settings.energyBall.initialY, settings.energyBall.globalVelocity, - Math.PI / 2)
         ]);
 
         this.#createEnergyBalls(canvas, 8, this.#randomType, i => canvas.width * 0.075 + (i * 2 + 1) * canvas.width * 0.85 / 16, compoundMotion, () => 0);
@@ -68,11 +68,11 @@ export class EnergyBallsPatterns {
 
     static strongEnergyBallPattern(canvas) {
         const compoundMotion = new CompoundMotion([
-            new LinearMotion(canvas.height / 16 - config.energyBall.initialY, config.energyBall.globalVelocity * 2, -Math.PI / 2),
-            new SmoothSinusoidalMotion(7 * canvas.height / 16, config.energyBall.globalVelocity / 5, new SinusSignal(canvas.width * 0.85 / 2, 1 / (7 * canvas.height / 16 / 3), 0), -Math.PI / 2),
-            new SmoothSinusoidalMotion(canvas.height / 2 - config.energyBall.initialY, 60, new SinusSignal(canvas.width * 0.85 / 2, 1 / (7 * canvas.height / 16 / 3), Math.PI), -Math.PI / 2)
+            new LinearMotion(canvas.height / 16 - settings.energyBall.initialY, settings.energyBall.globalVelocity * 2, -Math.PI / 2),
+            new SmoothSinusoidalMotion(7 * canvas.height / 16, settings.energyBall.globalVelocity / 5, new SinusSignal(canvas.width * 0.85 / 2, 1 / (7 * canvas.height / 16 / 3), 0), -Math.PI / 2),
+            new SmoothSinusoidalMotion(canvas.height / 2 - settings.energyBall.initialY, 60, new SinusSignal(canvas.width * 0.85 / 2, 1 / (7 * canvas.height / 16 / 3), Math.PI), -Math.PI / 2)
         ]);
 
-        this.#createEnergyBalls(canvas, 1, () => config.energyBall.all.type, () => canvas.width / 2, compoundMotion, () => 0);
+        this.#createEnergyBalls(canvas, 1, () => settings.energyBall.all.type, () => canvas.width / 2, compoundMotion, () => 0);
     }
 }

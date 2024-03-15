@@ -1,7 +1,7 @@
 import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { CompoundMotion } from "../../MotionManagement/CompoundMotion.js";
 import { LinearMotion } from "../../MotionManagement/LinearMotion.js";
-import { config } from "../../config.js";
+import { settings } from "../../settings.js";
 import { GamesBall } from "./GamesBall.js";
 
 export class EnergyBall extends GamesBall {
@@ -45,7 +45,7 @@ export class EnergyBall extends GamesBall {
         this.hasBecomeAggresive = true;
 
         this.setCompoundMotion(new CompoundMotion([
-            new LinearMotion(this.canvas.height - this.position.y + 1, config.energyBall.aggressiveVelocity, - Math.PI / 2)
+            new LinearMotion(this.canvas.height - this.position.y + 1, settings.energyBall.aggressiveVelocity, - Math.PI / 2)
         ]));
     }
 
@@ -56,10 +56,10 @@ export class EnergyBall extends GamesBall {
 
         this.shouldBeDestroyed = true;
 
-        const finalPosition = new Coordinates(this.canvas.width / 2, config.energyBall.initialY);
+        const finalPosition = new Coordinates(this.canvas.width / 2, settings.energyBall.initialY);
 
         this.setCompoundMotion(new CompoundMotion([
-            new LinearMotion(this.position.distanceTo(finalPosition), config.energyBall.deadVelocity, this.position.directionTo(finalPosition))
+            new LinearMotion(this.position.distanceTo(finalPosition), settings.energyBall.deadVelocity, this.position.directionTo(finalPosition))
         ]));
     }
 

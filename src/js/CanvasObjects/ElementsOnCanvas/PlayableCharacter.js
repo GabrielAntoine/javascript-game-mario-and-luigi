@@ -3,15 +3,15 @@ import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { Projectile } from "./Projectile.js";
 import { InstancesManager } from "../../Helpers/InstancesManager.js";
 import { MovingRectangle } from "./MovingRectangle.js";
-import { config } from "../../config.js";
+import { settings } from "../../settings.js";
 
 KeyboardState.start();
 
 export class PlayableCharacter extends MovingRectangle {
     static lastTimeHit = null;
-    static invicibilityTime = config.character.invincibilityTimeWhenHit;
+    static invicibilityTime = settings.character.invincibilityTimeWhenHit;
 
-    constructor(canvas, color, position, limit, width, height, velocity, leftKeys, rightKeys, projectileConfig, invicibilityTime) {
+    constructor(canvas, color, position, limit, width, height, velocity, leftKeys, rightKeys, projectileConfig) {
         super(canvas, color, position, width, height, velocity);
 
         this.limit = limit;
