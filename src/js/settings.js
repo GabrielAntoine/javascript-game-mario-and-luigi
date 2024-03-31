@@ -93,5 +93,22 @@ export const settings = {
             get right() { return [...settings.character.keys._right]; }
         },
         invincibilityTimeWhenHit: 2,
+    },
+    maxFails: 3,
+
+    HTMLElements: {
+        gameOverOverlay: document.getElementById('game-over-overlay'),
+        gameOverMessage: document.getElementById('game-over-message'),
+        playOverlay: document.getElementById('play-overlay'),
+        playButton: document.getElementById('play-button'),
+    },
+
+    interface: {
+        getGameOverSentence(score) {
+            return `Votre score est de ${score}`;
+        }
     }
 };
+
+settings.canvas.HTMLElement.height = settings.canvas.height
+settings.canvas.HTMLElement.width = settings.canvas.width;

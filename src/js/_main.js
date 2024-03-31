@@ -1,18 +1,18 @@
 import { FPS } from "./Helpers/FPS.js";
-import { PlayableCharacter } from "./CanvasObjects/PlayableCharacter.js";
+import { PlayableCharacter } from "./Canvas/PlayableCharacter.js";
 import { KeyboardState } from "./Helpers/KeyboardState.js";
 import { Coordinates } from "./Coordinates/Coordinates.js";
-import { Projectile } from "./CanvasObjects/Projectile.js";
-import { LinearMotion } from "./MotionManagement/LinearMotion.js";
-import { MovingCircle } from "./CanvasObjects/MovingCircle.js";
-import { CircularMotion } from "./MotionManagement/CircularMotion.js";
-import { StaticMotion } from "./MotionManagement/StaticMotion.js";
-import { CompoundMotion } from "./MotionManagement/CompoundMotion.js";
-import { SmoothSinusoidalMotion } from "./MotionManagement/SmoothSinusoidalMotion.js";
-import { SinusSignal } from "./MotionManagement/SinusSignal.js";
-import { GamesBall } from "./CanvasObjects/GamesBall.js";
+import { Projectile } from "./Canvas/Projectile.js";
+import { LinearMotion } from "./Motions/LinearMotion.js";
+import { Circle } from "./Canvas/Circle.js";
+import { CircularMotion } from "./Motions/CircularMotion.js";
+import { StaticMotion } from "./Motions/StaticMotion.js";
+import { CompoundMotion } from "./Motions/CompoundMotion.js";
+import { SmoothSinusoidalMotion } from "./Motions/SmoothSinusoidalMotion.js";
+import { SinusSignal } from "./Motions/SinusSignal.js";
+import { GamesBall } from "./Canvas/GamesBall.js";
 import { InstancesManager } from "./Helpers/InstancesManager.js";
-import { EnergyBall } from "./CanvasObjects/EnergyBall.js";
+import { EnergyBall } from "./Canvas/EnergyBall.js";
 
 const mainCanvas = document.getElementById('mainCanvas');
 const mainCtx = mainCanvas.getContext('2d');
@@ -78,7 +78,7 @@ const luigi = new PlayableCharacter(
     }
 )
 
-const circle = new MovingCircle(mainCanvas, 'lime', new Coordinates(800, 400), 10, 100);
+const circle = new Circle(mainCanvas, 'lime', new Coordinates(800, 400), 10, 100);
 let circleDelay = 4;
 
 const motionA1 = new LinearMotion(300, circle.staticVelocity, - Math.PI);
@@ -87,9 +87,9 @@ const motionC1 = new CircularMotion(3 * Math.PI * 50, circle.staticVelocity, 50,
 
 const motionsPattern = new CompoundMotion([motionA1, motionB1, motionC1]);
 
-const circle2 = new MovingCircle(mainCanvas, 'teal', new Coordinates(300, 300), 15, 100);
-const circle3 = new MovingCircle(mainCanvas, 'pink', new Coordinates(300, 300), 15, 100);
-const circle4 = new MovingCircle(mainCanvas, 'yellow', new Coordinates(300, 300), 15, 100);
+const circle2 = new Circle(mainCanvas, 'teal', new Coordinates(300, 300), 15, 100);
+const circle3 = new Circle(mainCanvas, 'pink', new Coordinates(300, 300), 15, 100);
+const circle4 = new Circle(mainCanvas, 'yellow', new Coordinates(300, 300), 15, 100);
 
 const motionsPattern2 = new CompoundMotion([
     new LinearMotion(250, circle2.staticVelocity, - Math.PI / 8),
@@ -117,17 +117,17 @@ const motionsPattern4 = new CompoundMotion([
     new CircularMotion(Infinity, circle4.staticVelocity, 30, 0, false)
 ]);
 
-const circle5 = new MovingCircle(mainCanvas, '#DBFC77', new Coordinates(500, mainCanvas.height / 2), 20, 100);
+const circle5 = new Circle(mainCanvas, '#DBFC77', new Coordinates(500, mainCanvas.height / 2), 20, 100);
 let circle5Delay = circle5.staticVelocity * 3;
 const motionD = new SmoothSinusoidalMotion(800, circle5.staticVelocity, new SinusSignal(200, 0.0025, 0), - Math.PI / 4);
 // debugger;
 
-const circle6 = new MovingCircle(mainCanvas, '#D65E48', new Coordinates(1000, 100), 15, 50);
-const circle7 = new MovingCircle(mainCanvas, '#4DF27B', new Coordinates(1000, 100), 30, 50);
+const circle6 = new Circle(mainCanvas, '#D65E48', new Coordinates(1000, 100), 15, 50);
+const circle7 = new Circle(mainCanvas, '#4DF27B', new Coordinates(1000, 100), 30, 50);
 let circle6Delay = circle7.radius + circle6.radius;
 const motionE = new LinearMotion(500, circle6.staticVelocity, - Math.PI / 2);
 
-const circle8 = new MovingCircle(mainCanvas, '#F7326A', new Coordinates(mainCanvas.width / 2, 0), 25, 18);
+const circle8 = new Circle(mainCanvas, '#F7326A', new Coordinates(mainCanvas.width / 2, 0), 25, 18);
 let circle8Delay = 200 / 18;
 const sinusConfig = new SinusSignal(mainCanvas.width * 0.40, 1 / (mainCanvas.height / 10), 0);
 const sinusConfig2 = new SinusSignal(mainCanvas.width * 0.40, 1 / (mainCanvas.height / 10), Math.PI);
@@ -136,18 +136,18 @@ const motionsPattern5 = new CompoundMotion([
     new SmoothSinusoidalMotion(sinusConfig2.period * 8, circle8.staticVelocity, sinusConfig2, - Math.PI/2)
 ]);
 
-const circle9 = new MovingCircle(mainCanvas, '#30F0E5', new Coordinates(200, 700), 15, 50);
+const circle9 = new Circle(mainCanvas, '#30F0E5', new Coordinates(200, 700), 15, 50);
 let circle9Delay = 60;
 const motionF = new LinearMotion(200, circle9.staticVelocity, 0);
 
-const circle10 = new MovingCircle(mainCanvas, '#EFA94A', new Coordinates(1000, 800), 15, 100);
+const circle10 = new Circle(mainCanvas, '#EFA94A', new Coordinates(1000, 800), 15, 100);
 let circle10Delay = 800;
 const motionG = new StaticMotion(2 * 100, 100);
 
 const circlesVelocity = 1000;
-const circle11 = new MovingCircle(mainCanvas, '#FAD201', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
-const circle12 = new MovingCircle(mainCanvas, '#84C3BE', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
-const circle13 = new MovingCircle(mainCanvas, '#DE4C8A', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
+const circle11 = new Circle(mainCanvas, '#FAD201', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
+const circle12 = new Circle(mainCanvas, '#84C3BE', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
+const circle13 = new Circle(mainCanvas, '#DE4C8A', new Coordinates(mainCanvas.width / 4, -50), 15, circlesVelocity);
 let circle12Delay = (circle11.radius + circle12.radius + 10) / circlesVelocity;
 let circle13Delay = circle12Delay + (circle11.radius + circle13.radius + 10) / circlesVelocity;
 
@@ -180,8 +180,8 @@ function animate() {
     mainCtx.fillRect(0, 0, mainCanvas.width, mainCanvas.height);
 
 
-    Projectile.everyInstance.forEach(projectile => projectile.draw());
-    EnergyBall.everyInstance.forEach(energyBall => energyBall.draw());
+    Projectile.instances.forEach(projectile => projectile.draw());
+    EnergyBall.instances.forEach(energyBall => energyBall.draw());
 
     mario.draw();
     luigi.draw();
@@ -256,11 +256,11 @@ function animate() {
         compoundMotion.move();
     }
 
-    Projectile.everyInstance.forEach(projectile => {
+    Projectile.instances.forEach(projectile => {
         projectile.update();
     });
 
-    EnergyBall.everyInstance.forEach(energyBall => {
+    EnergyBall.instances.forEach(energyBall => {
         energyBall.update();
     });
 

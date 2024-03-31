@@ -8,4 +8,49 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+canvas {
+  height: 85vh;
+}
+
+#canvas-container {
+  position: relative;
+  height: 85vh;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.537254902);
+}
+
+#game-over-message {
+  color: white;
+  font-family: Bahnschrift;
+  font-size: 6vh;
+}
+
+#play-overlay {
+  display: flex;
+}
+
+#play-button {
+  height: 12%;
+  width: 12%;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+#play-button svg {
+  fill: rgb(255, 255, 255);
+}
+#play-button:active svg {
+  fill: rgb(193, 193, 193);
 }/*# sourceMappingURL=style.css.map */

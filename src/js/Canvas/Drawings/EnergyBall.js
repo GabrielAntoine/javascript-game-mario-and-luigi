@@ -1,8 +1,10 @@
 import { Coordinates } from "../../Coordinates/Coordinates.js";
-import { CompoundMotion } from "../../MotionManagement/CompoundMotion.js";
-import { LinearMotion } from "../../MotionManagement/LinearMotion.js";
+import { GameStatus } from "../../Game/GameStatus.js";
+import { CompoundMotion } from "../../Motions/CompoundMotion.js";
+import { LinearMotion } from "../../Motions/LinearMotion.js";
 import { settings } from "../../settings.js";
 import { GamesBall } from "./GamesBall.js";
+import { PlayableCharacter } from "./PlayableCharacter.js";
 
 export class EnergyBall extends GamesBall {
     #compoundMotion;
@@ -23,17 +25,15 @@ export class EnergyBall extends GamesBall {
 
         if (this.#health <= 0) {
             this.startDestruction();
-            return true;
         }
-
-        return false;
     }
 
     update() {
-        this.delay = this.#compoundMotion.moveTogether(this.initialPosition, this.position, this.delay);
-
         if (this.#compoundMotion.hasReachedEnd && this.delay === null) {
-            this.allowDestruction();
+            this.destroy();
+        } else {
+            this.checkAllCollisions();
+            this.delay = this.#compoundMotion.moveTogether(this.initialPosition, this.position, this.delay);
         }
     }
 
@@ -45,7 +45,7 @@ export class EnergyBall extends GamesBall {
         this.hasBecomeAggresive = true;
 
         this.setCompoundMotion(new CompoundMotion([
-            new LinearMotion(this.canvas.height - this.position.y + 1, settings.energyBall.aggressiveVelocity, - Math.PI / 2)
+            new LinearMotion(settings.gameArea.height - this.position.y + 1, settings.energyBall.aggressiveVelocity, - Math.PI / 2)
         ]));
     }
 
@@ -56,7 +56,7 @@ export class EnergyBall extends GamesBall {
 
         this.shouldBeDestroyed = true;
 
-        const finalPosition = new Coordinates(this.canvas.width / 2, settings.energyBall.initialY);
+        const finalPosition = new Coordinates(settings.gameArea.width / 2, settings.energyBall.initialY);
 
         this.setCompoundMotion(new CompoundMotion([
             new LinearMotion(this.position.distanceTo(finalPosition), settings.energyBall.deadVelocity, this.position.directionTo(finalPosition))
@@ -68,5 +68,22 @@ export class EnergyBall extends GamesBall {
 
         this.#compoundMotion = compoundMotion;
         this.delay = delay;
+    }
+
+    isCollidingCharacter(playableCharacter) {
+        return !PlayableCharacter.areInvicible && !this.shouldBeDestroyed && !this.isOutOfCanvas() && this.isOverlapping(playableCharacter);
+    }
+    
+    hitCharacter(playableCharacter) {
+        GameStatus.addFail();
+        playableCharacter.hasGetHit();
+    }
+    
+    checkAllCollisions() {
+        PlayableCharacter.instances.forEach(playableCharacter => {
+            if (this.isCollidingCharacter(playableCharacter)) {
+                this.hitCharacter(playableCharacter);
+            }
+        });
     }
 }

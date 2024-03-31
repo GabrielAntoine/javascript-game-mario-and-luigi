@@ -2,19 +2,41 @@ export class InstancesManager {
     static #classes = new Map();
 
     static push(instance) {
-        if (!this.#classes.has(instance.constructor)) {
-          this.#classes.set(instance.constructor, []);
+        let baseClass = Object.getPrototypeOf(instance);
+
+        while (baseClass !== null) {
+            this.#pushForOneClassOnly(instance, baseClass.constructor);
+            baseClass = Object.getPrototypeOf(baseClass);
         }
+    }
 
-        const classesArray = this.#classes.get(instance.constructor);
-
+    static #pushForOneClassOnly(instance, classObject) {
+        if (!this.#classes.has(classObject)) {
+            this.#classes.set(classObject, []);
+        }
+  
+        const classesArray = this.#classes.get(classObject);
+  
         if (!classesArray.includes(instance)) {
             classesArray.push(instance);
         }
-      }
+    }
 
     static delete(instance) {
-        const classesArray = this.#classes.get(instance.constructor);
+        let baseClass = Object.getPrototypeOf(instance);
+
+        while (baseClass !== null) {
+            if (this.#deleteForOneClassOnly(instance, baseClass.constructor) === false) {
+                return false;
+            }
+            baseClass = Object.getPrototypeOf(baseClass);
+        }
+
+        return true;
+    }
+
+    static #deleteForOneClassOnly(instance, classObject) {
+        const classesArray = this.#classes.get(classObject);
 
         if (classesArray === undefined) {
             return false;

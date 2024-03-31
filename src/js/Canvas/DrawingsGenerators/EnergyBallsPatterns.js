@@ -1,11 +1,11 @@
 import { Coordinates } from "../../Coordinates/Coordinates.js";
-import { LinearMotion } from "../../MotionManagement/LinearMotion.js";
-import { CircularMotion } from "../../MotionManagement/CircularMotion.js";
-import { SinusSignal } from "../../MotionManagement/SinusSignal.js";
-import { SmoothSinusoidalMotion } from "../../MotionManagement/SmoothSinusoidalMotion.js";
-import { StaticMotion } from "../../MotionManagement/StaticMotion.js";
-import { CompoundMotion } from "../../MotionManagement/CompoundMotion.js";
-import { EnergyBall } from "../ElementsOnCanvas/EnergyBall.js";
+import { LinearMotion } from "../../Motions/LinearMotion.js";
+import { CircularMotion } from "../../Motions/CircularMotion.js";
+import { SinusSignal } from "../../Motions/SinusSignal.js";
+import { SmoothSinusoidalMotion } from "../../Motions/SmoothSinusoidalMotion.js";
+import { StaticMotion } from "../../Motions/StaticMotion.js";
+import { CompoundMotion } from "../../Motions/CompoundMotion.js";
+import { EnergyBall } from "../Drawings/EnergyBall.js";
 import { Random } from "../../Helpers/Random.js";
 import { settings } from "../../settings.js";
 

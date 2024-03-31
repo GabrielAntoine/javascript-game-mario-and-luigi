@@ -33,7 +33,7 @@ export class FPS {
     
         cancelAnimationFrame(this.#animationHandle);
         this.#animationHandle = null;
-        this.count = null;
+        this.count = 144;
         this.#lastFrameTime = null;
 
         return true;

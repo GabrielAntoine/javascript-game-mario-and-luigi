@@ -1,7 +1,7 @@
 import { InstancesManager } from "../../Helpers/InstancesManager.js";
-import { MovingCircle } from "./MovingCircle.js";
+import { Circle } from "./Circle.js";
 
-export class GamesBall extends MovingCircle {
+export class GamesBall extends Circle {
     constructor(canvas, color, position, radius, velocity, type) {
         super(canvas, color, position, radius, velocity);
 
@@ -11,17 +11,13 @@ export class GamesBall extends MovingCircle {
         InstancesManager.push(this);
     }
 
-    static get everyInstance() {
+    static get instances() {
         return InstancesManager.getInstances(this);
     }
 
-    allowDestruction() {
+    destroy() {
         this.shouldBeDestroyed = true;
 
-        this.destroy();
-    }
-
-    destroy() {
         InstancesManager.delete(this);
     }
 

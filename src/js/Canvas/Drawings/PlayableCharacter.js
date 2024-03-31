@@ -24,7 +24,7 @@ export class PlayableCharacter extends MovingRectangle {
         InstancesManager.push(this);
     }
 
-    static get everyInstance() {
+    static get instances() {
         return InstancesManager.getInstances(this);
     }
 
@@ -79,6 +79,6 @@ export class PlayableCharacter extends MovingRectangle {
     }
 
     hasGetHit() {
-        this.constructor.lastTimeHit = document.timeline.currentTime / 1000;
+        PlayableCharacter.lastTimeHit = document.timeline.currentTime / 1000;
     }
 }

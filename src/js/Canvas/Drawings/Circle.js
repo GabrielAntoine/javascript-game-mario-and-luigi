@@ -2,7 +2,7 @@ import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { MovingElement } from "./MovingElement.js";
 import { MovingRectangle } from "./MovingRectangle.js";
 
-export class MovingCircle extends MovingElement {
+export class Circle extends MovingElement {
     constructor(canvas, color, position, radius, velocity) {
         super(canvas, position, velocity);
 
@@ -34,7 +34,7 @@ export class MovingCircle extends MovingElement {
     }
 
     isOverlapping(other) {
-        if (other instanceof MovingCircle) {
+        if (other instanceof Circle) {
             return this.position.distanceTo(other.position) <= this.radius + other.radius;
 
         } else if (other instanceof MovingRectangle) {
