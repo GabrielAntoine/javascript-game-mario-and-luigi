@@ -1,6 +1,8 @@
+@charset "UTF-8";
 * {
   padding: 0;
   margin: 0;
+  font-family: Bahnschrift;
 }
 
 body {
@@ -11,12 +13,12 @@ body {
 }
 
 canvas {
-  height: 85vh;
+  height: 850px;
 }
 
 #canvas-container {
   position: relative;
-  height: 85vh;
+  height: 850px;
 }
 
 .overlay {
@@ -28,10 +30,30 @@ canvas {
   background-color: rgba(0, 0, 0, 0.537254902);
 }
 
-#game-over-message {
+#game-over-overlay {
+  display: none;
+  flex-direction: column;
+  gap: 30px;
+}
+#game-over-overlay #game-over-message {
   color: white;
-  font-family: Bahnschrift;
   font-size: 6vh;
+  text-transform: uppercase;
+}
+#game-over-overlay #play-again-button {
+  font-size: 2vh;
+  padding: 10px 50px;
+  border: solid white 1px;
+  outline: none;
+  color: white;
+  background-color: transparent;
+  cursor: pointer;
+}
+#game-over-overlay #play-again-button:hover {
+  border: solid rgb(144, 141, 141) 1px;
+}
+#game-over-overlay #play-again-button:active {
+  border: solid rgb(74, 74, 74) 1px;
 }
 
 #play-overlay {
@@ -53,4 +75,30 @@ canvas {
 }
 #play-button:active svg {
   fill: rgb(193, 193, 193);
+}
+
+#game-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 7px;
+}
+#game-menu #lifes-left-displayer {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  gap: 10px;
+}
+#game-menu #lifes-left-displayer #lifes-images {
+  display: flex;
+  gap: 7px;
+  height: 2em;
+}
+#game-menu #lifes-left-displayer #lifes-images .life-symbol {
+  background: url("../../img/heart.png");
+  background-size: cover;
+  /* Optionnel : spécifiez le positionnement de l'image de fond */
+  background-position: center;
+  height: 100%;
+  width: 2em;
 }/*# sourceMappingURL=style.css.map */

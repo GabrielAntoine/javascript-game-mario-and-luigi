@@ -1,32 +1,44 @@
 import { DrawableObjects } from "../Canvas/Containers/DrawableObjects.js";
 import { UpdatableObjects } from "../Canvas/Containers/UpdatableObjects.js";
+import { EnergyBall } from "../Canvas/Drawings/EnergyBall.js";
 import { Luigi } from "../Canvas/Drawings/Luigi.js";
 import { Mario } from "../Canvas/Drawings/Mario.js";
-import { EnergyBallsGenerator } from "../Canvas/DrawingsGenerators/EnergyBallsGenerator.js";
+import { Projectile } from "../Canvas/Drawings/Projectile.js";
+import { EnergyBallsGenerator } from "../Canvas/EnergyBallsPatterns/EnergyBallsGenerator.js";
 import { FPS } from "../Helpers/FPS.js";
+import { InstancesManager } from "../Helpers/InstancesManager.js";
 import { settings } from "../settings.js";
 import { GameStatus } from "./GameStatus.js";
+import { Interface } from "./Interface.js";
 
 export class Game {
-    static mario;
-    static luigi;
-    static energyBallsGenerator;
-
     static {
         this.animate = this.animate.bind(this);
+        Interface.Game = this;
     }
 
     static start() {
         this.createEventListeners();
         this.createResources();
         this.drawBackground();
+
+        Interface.notifyScoreChanged();
+        Interface.notifyLivesChanged();
     }
 
     static over() {
         this.pause();
 
-        settings.HTMLElements.gameOverOverlay.style.display = 'flex';
-        settings.HTMLElements.gameOverMessage.textContent = settings.interface.getGameOverSentence(GameStatus.score);
+        Interface.notifyGameHasEnded();
+    }
+
+    static restart() {
+        this.clearResources();
+        this.createResources();
+
+        GameStatus.reset();
+
+        this.animate();
     }
 
     static pause() {
@@ -63,6 +75,11 @@ export class Game {
         new EnergyBallsGenerator(mainCanvas);
     }
 
+    static clearResources() {
+        DrawableObjects.clearObjects();
+        UpdatableObjects.clearObjects();
+    }
+
     static createEventListeners() {
         window.addEventListener('visibilitychange', () => {
             if (document.hidden) {
@@ -70,11 +87,6 @@ export class Game {
             } else {
                 FPS.start();
             }
-        });
-
-        settings.HTMLElements.playButton.addEventListener('click', () => {
-            settings.HTMLElements.playOverlay.style.display = 'none';
-            this.animate();
         });
     }
 }

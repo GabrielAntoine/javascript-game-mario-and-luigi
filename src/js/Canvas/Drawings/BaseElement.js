@@ -13,14 +13,6 @@ export class BaseElement {
         this.canvasPosition = new Coordinates();
     }
 
-    get mouseX() {
-        return MouseState.x === null ? null : MouseState.x - this.canvas.getBoundingClientRect().x;
-    }
-
-    get mouseY() {
-        return MouseState.y === null ? null : MouseState.y - this.canvas.getBoundingClientRect().y;
-    }
-
     draw() {
         throw new NotImplementedError('draw', this.constructor.name);
     }

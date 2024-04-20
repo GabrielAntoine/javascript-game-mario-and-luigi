@@ -1,4 +1,6 @@
+import { InstancesManager } from "../../Helpers/InstancesManager.js";
 import { EnergyBall } from "../Drawings/EnergyBall.js";
+import { Impact } from "../Drawings/Impact.js";
 import { PlayableCharacter } from "../Drawings/PlayableCharacter.js";
 import { Projectile } from "../Drawings/Projectile.js";
 
@@ -6,7 +8,8 @@ export class DrawableObjects {
     static #layers = [
         Projectile,
         PlayableCharacter,
-        EnergyBall
+        EnergyBall,
+        Impact
     ];
 
     static draw() {
@@ -15,5 +18,9 @@ export class DrawableObjects {
                 instance.draw();
             });
         });
+    }
+
+    static clearObjects() {
+        this.#layers.forEach(layer => InstancesManager.clear(layer));
     }
 }

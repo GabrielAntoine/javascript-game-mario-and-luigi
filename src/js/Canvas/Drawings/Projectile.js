@@ -2,6 +2,7 @@ import { GameStatus } from "../../Game/GameStatus.js";
 import { settings } from "../../settings.js";
 import { EnergyBall } from "./EnergyBall.js";
 import { GamesBall } from "./GamesBall.js";
+import { Impact } from "./Impact.js";
 
 export class Projectile extends GamesBall {
     constructor(canvas, color, position, radius, velocity, type) {
@@ -46,10 +47,6 @@ export class Projectile extends GamesBall {
     }
 
     createImpact() { 
-        this.ctx.beginPath();
-        this.ctx.fillStyle = 'white';
-        this.ctx.arc(this.position.onFrameX, this.position.onFrameY, this.radius * 3, 0, 2 * Math.PI);
-        this.ctx.fill();
-        this.ctx.closePath();
+        new Impact(this.canvas, this.position);
     }
 }

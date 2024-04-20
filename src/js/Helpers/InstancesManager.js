@@ -53,6 +53,12 @@ export class InstancesManager {
         return true;
     }
 
+    static clear(classObject) {
+        this.getInstances(classObject).forEach(instance => {
+            this.delete(instance);
+        })
+    }
+
     static getInstances(classObject) {
         return [...this.#classes.get(classObject) ?? []];
     }

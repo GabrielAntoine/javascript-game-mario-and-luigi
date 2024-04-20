@@ -1,10 +1,13 @@
+import { InstancesManager } from "../../Helpers/InstancesManager.js";
 import { EnergyBall } from "../Drawings/EnergyBall.js";
+import { Impact } from "../Drawings/Impact.js";
 import { PlayableCharacter } from "../Drawings/PlayableCharacter.js";
 import { Projectile } from "../Drawings/Projectile.js";
-import { EnergyBallsGenerator } from "../DrawingsGenerators/EnergyBallsGenerator.js";
+import { EnergyBallsGenerator } from "../EnergyBallsPatterns/EnergyBallsGenerator.js";
 
 export class UpdatableObjects {
     static #layers = [
+        Impact,
         Projectile,
         EnergyBall,
         PlayableCharacter,
@@ -17,5 +20,9 @@ export class UpdatableObjects {
                 instance.update();
             });
         });
+    }
+
+    static clearObjects() {
+        this.#layers.forEach(layer => InstancesManager.clear(layer));
     }
 }

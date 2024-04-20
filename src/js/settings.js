@@ -93,14 +93,32 @@ export const settings = {
             get right() { return [...settings.character.keys._right]; }
         },
         invincibilityTimeWhenHit: 2,
+        invincibilityColor: 'white'
     },
+
+    impact: {
+        duration: 0.01,
+        color: 'white',
+        radius: 60
+    },
+
     maxFails: 3,
 
     HTMLElements: {
         gameOverOverlay: document.getElementById('game-over-overlay'),
         gameOverMessage: document.getElementById('game-over-message'),
+        playAgainButton: document.getElementById('play-again-button'),
         playOverlay: document.getElementById('play-overlay'),
         playButton: document.getElementById('play-button'),
+        score: document.getElementById('score-number'),
+        lifesContainer: document.getElementById('lifes-images'),
+
+        createLife() {
+            const life = document.createElement('div');
+            life.classList.add('life-symbol');
+            
+            return life;
+        }
     },
 
     interface: {

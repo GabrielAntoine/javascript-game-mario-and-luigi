@@ -20,6 +20,7 @@ export class PlayableCharacter extends MovingRectangle {
         this.rightKeys = rightKeys;
         this.projectileConfig = projectileConfig;
         this.lastProjectileTime = null;
+        this.usedColor = color;
 
         InstancesManager.push(this);
     }
@@ -66,6 +67,16 @@ export class PlayableCharacter extends MovingRectangle {
         } else if (isRightKeyPressed) {
             this.goRight();
         }
+    }
+
+    draw() {
+        if (this.constructor.areInvicible) {
+            this.color = settings.character.invincibilityColor;
+        } else {
+            this.color = this.usedColor;
+        }
+
+        super.draw();
     }
 
     goLeft() {

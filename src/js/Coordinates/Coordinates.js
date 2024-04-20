@@ -7,11 +7,11 @@ export class Coordinates {
     }
 
     get onFrameX() {
-        return Math.floor(this.x);
+        return Math.round(this.x);
     }
 
     get onFrameY() {
-        return Math.floor(this.y);
+        return Math.round(this.y);
     }
 
     static get origin() {

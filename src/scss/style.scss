@@ -1,9 +1,10 @@
 $canvasBackgroundColor: #481058;
-$canvasHeight: 85vh;
+$canvasHeight: 850px;
 
 * {
     padding: 0;
     margin: 0;
+    font-family: Bahnschrift;
 }
 
 body {
@@ -34,13 +35,35 @@ canvas {
 
 #game-over-overlay {
     //background-color: #00000089;
+    display: none;
+    flex-direction: column;
+    gap: 30px;
+
+    #game-over-message {
+        color: white;
+        font-size: 6vh;
+        text-transform: uppercase;
+    }
+
+    #play-again-button {
+        font-size: 2vh;
+        padding: 10px 50px;
+        border: solid white 1px;
+        outline: none;
+        color: white;
+        background-color: transparent;
+        cursor: pointer;
+
+        &:hover {
+            border: solid rgb(144, 141, 141) 1px;
+        }
+
+        &:active {
+            border: solid rgb(74, 74, 74) 1px;
+        }
+    }
 }
 
-#game-over-message {
-    color: white;
-    font-family: Bahnschrift;
-    font-size: 6vh;
-}
 
 #play-overlay {
     display: flex;
@@ -65,6 +88,37 @@ canvas {
     &:active {
         svg {
             fill: rgb(193, 193, 193);
+        }
+    }
+}
+
+#game-menu {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    padding: 7px;
+
+    #lifes-left-displayer {
+        display: flex;
+        align-items: center;
+        font-size: 16px;
+        gap: 10px;
+    
+        #lifes-images {
+            display: flex;
+            gap: 7px;
+            height: 2em;
+    
+            .life-symbol {
+                background: url('../../img/heart.png');
+                background-size: cover;
+            
+                /* Optionnel : spécifiez le positionnement de l'image de fond */
+                background-position: center;
+                height: 100%;
+                width: 2em;
+            }
+            
         }
     }
 }

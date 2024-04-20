@@ -1,4 +1,5 @@
 import { settings } from "../settings.js";
+import { Interface } from "./Interface.js";
 
 export class GameStatus {
     static score = 0;
@@ -7,10 +8,22 @@ export class GameStatus {
 
     static increaseScore(points) {
         this.score += points;
+
+        Interface.notifyScoreChanged();
     }
 
     static addFail() {
         this.fails++;
+
+        Interface.notifyLivesChanged();
+    }
+
+    static reset() {
+        this.score = 0;
+        this.fails = 0;
+
+        Interface.notifyScoreChanged();
+        Interface.notifyLivesChanged();
     }
 
     static get hasEnded() {
