@@ -2,7 +2,7 @@ import { Motion } from "./Motion.js";
 import { Coordinates } from "../Coordinates/Coordinates.js";
 import { SinusSignal } from "./SinusSignal.js";
 
-export class SmoothSinusoidalMotion extends Motion {
+export class SinusoidalMotion extends Motion {
     constructor(distanceToTravel, staticVelocity, sinusSignal, direction) {
         super(distanceToTravel, staticVelocity);
 

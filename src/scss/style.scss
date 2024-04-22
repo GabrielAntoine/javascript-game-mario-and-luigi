@@ -1,5 +1,6 @@
 $canvasBackgroundColor: #481058;
-$canvasHeight: 850px;
+$canvasHeight: 80vh;
+$canvasWidth: calc($canvasHeight * 4 / 3);
 
 * {
     padding: 0;
@@ -14,14 +15,75 @@ body {
     align-items: center;
 }
 
-canvas {
-    //background-color: $canvasBackgroundColor;
-    height: $canvasHeight;
-}
-
 #canvas-container {
     position: relative;
     height: $canvasHeight;
+    width: $canvasWidth;
+
+    canvas {
+        //background-color: $canvasBackgroundColor;
+        height: $canvasHeight;
+        width: $canvasWidth;
+    }
+
+    #game-over-overlay {
+        //background-color: #00000089;
+        display: none;
+        flex-direction: column;
+        gap: 30px;
+    
+        #game-over-message {
+            color: white;
+            font-size: 72px;
+            text-transform: uppercase;
+        }
+    
+        #play-again-button {
+            font-size: 24px;
+            padding: 10px 50px;
+            border: solid white 1px;
+            outline: none;
+            color: white;
+            background-color: transparent;
+            cursor: pointer;
+    
+            &:hover {
+                border: solid rgb(144, 141, 141) 1px;
+            }
+    
+            &:active {
+                border: solid rgb(74, 74, 74) 1px;
+            }
+        }
+    }
+    
+    #play-overlay {
+        display: flex;
+
+        
+        #play-button {
+            $play-button-height: 12%;
+            height: $play-button-height;
+            width: $play-button-height;
+            display: flex;
+            align-items: center;
+            background-color: transparent;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            
+            svg {
+                fill: rgb(255, 255, 255);
+            }
+
+
+            &:active {
+                svg {
+                    fill: rgb(193, 193, 193);
+                }
+            }
+        }
+    }
 }
 
 .overlay {
@@ -31,65 +93,6 @@ canvas {
     justify-content: center;
     align-items: center;
     background-color: #00000089;
-}
-
-#game-over-overlay {
-    //background-color: #00000089;
-    display: none;
-    flex-direction: column;
-    gap: 30px;
-
-    #game-over-message {
-        color: white;
-        font-size: 6vh;
-        text-transform: uppercase;
-    }
-
-    #play-again-button {
-        font-size: 2vh;
-        padding: 10px 50px;
-        border: solid white 1px;
-        outline: none;
-        color: white;
-        background-color: transparent;
-        cursor: pointer;
-
-        &:hover {
-            border: solid rgb(144, 141, 141) 1px;
-        }
-
-        &:active {
-            border: solid rgb(74, 74, 74) 1px;
-        }
-    }
-}
-
-
-#play-overlay {
-    display: flex;
-}
-
-#play-button {
-    $play-button-height: 12%;
-    height: $play-button-height;
-    width: $play-button-height;
-    display: flex;
-    align-items: center;
-    background-color: transparent;
-    border: none;
-    outline: none;
-    cursor: pointer;
-    
-    svg {
-        fill: rgb(255, 255, 255);
-    }
-
-
-    &:active {
-        svg {
-            fill: rgb(193, 193, 193);
-        }
-    }
 }
 
 #game-menu {
@@ -112,8 +115,6 @@ canvas {
             .life-symbol {
                 background: url('../../img/heart.png');
                 background-size: cover;
-            
-                /* Optionnel : spécifiez le positionnement de l'image de fond */
                 background-position: center;
                 height: 100%;
                 width: 2em;

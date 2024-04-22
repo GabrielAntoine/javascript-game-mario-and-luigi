@@ -1,12 +1,9 @@
 import { DrawableObjects } from "../Canvas/Containers/DrawableObjects.js";
 import { UpdatableObjects } from "../Canvas/Containers/UpdatableObjects.js";
-import { EnergyBall } from "../Canvas/Drawings/EnergyBall.js";
 import { Luigi } from "../Canvas/Drawings/Luigi.js";
 import { Mario } from "../Canvas/Drawings/Mario.js";
-import { Projectile } from "../Canvas/Drawings/Projectile.js";
 import { EnergyBallsGenerator } from "../Canvas/EnergyBallsPatterns/EnergyBallsGenerator.js";
 import { FPS } from "../Helpers/FPS.js";
-import { InstancesManager } from "../Helpers/InstancesManager.js";
 import { settings } from "../settings.js";
 import { GameStatus } from "./GameStatus.js";
 import { Interface } from "./Interface.js";

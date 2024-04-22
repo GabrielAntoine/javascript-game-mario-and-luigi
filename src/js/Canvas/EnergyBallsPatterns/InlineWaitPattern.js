@@ -9,11 +9,21 @@ export class InlineWaitPattern extends EnergyBallsPattern {
     constructor() {
         super(
             settings.canvas.HTMLElement,
-            8, 
+            settings.inlineWaitPattern.numberOfBalls, 
             new CompoundMotion([
-                new LinearMotion(settings.canvas.HTMLElement.height / 2 - settings.energyBall.initialY, settings.energyBall.globalVelocity, - Math.PI / 2),
-                new StaticMotion(1 * settings.energyBall.globalVelocity, settings.energyBall.globalVelocity),
-                new LinearMotion(settings.canvas.HTMLElement.height / 2 - settings.energyBall.initialY, settings.energyBall.globalVelocity, - Math.PI / 2)
+                new LinearMotion(
+                    settings.inlineWaitPattern.motion1Linear.distanceToTravel,
+                    settings.energyBall.globalVelocity,
+                    settings.inlineWaitPattern.motion1Linear.direction
+                ),
+                new StaticMotion(
+                    settings.inlineWaitPattern.motion2Static.duration * settings.energyBall.globalVelocity,
+                    settings.energyBall.globalVelocity),
+                new LinearMotion(
+                    settings.inlineWaitPattern.motion3Linear.distanceToTravel,
+                    settings.energyBall.globalVelocity,
+                    settings.inlineWaitPattern.motion3Linear.direction
+                )
             ])
         );
     }
@@ -23,7 +33,11 @@ export class InlineWaitPattern extends EnergyBallsPattern {
     }
 
     getInitialX(i) {
-        return settings.canvas.HTMLElement.width * 0.075 + (i * 2 + 1) * settings.canvas.HTMLElement.width * 0.85 / 16;
+        const patternWidth = settings.inlineWaitPattern.gap * (settings.inlineWaitPattern.numberOfBalls - 1);
+        const firstX = (settings.canvas.width - patternWidth) / 2;
+        const iX = firstX + i * settings.inlineWaitPattern.gap;
+
+        return iX;
     }
 
     getInitialDelay() {

@@ -9,15 +9,29 @@ export class NodePattern extends EnergyBallsPattern {
     constructor() {
         super(
             settings.canvas.HTMLElement,
-            8, 
+            settings.nodePattern.numberOfBalls, 
             new CompoundMotion([
-                new LinearMotion(settings.canvas.HTMLElement.height / 2 - settings.energyBall.initialY, settings.energyBall.globalVelocity, - Math.PI / 2),
-                new CircularMotion(2 * Math.PI * 133, settings.energyBall.globalVelocity, 133, 0, true),
-                new LinearMotion(settings.canvas.HTMLElement.height / 2 - settings.energyBall.initialY, settings.energyBall.globalVelocity, - Math.PI / 2)
+                new LinearMotion(
+                    settings.nodePattern.motion1Linear.distanceToTravel,
+                    settings.energyBall.globalVelocity,
+                    settings.nodePattern.motion1Linear.direction
+                ),
+                new CircularMotion(
+                    settings.nodePattern.motion2Circle.distanceToTravel,
+                    settings.energyBall.globalVelocity,
+                    settings.nodePattern.motion2Circle.radius,
+                    settings.nodePattern.motion2Circle.initialAngle,
+                    settings.nodePattern.motion2Circle.isClockWise
+                ),
+                new LinearMotion(
+                    settings.nodePattern.motion3Linear.distanceToTravel,
+                    settings.energyBall.globalVelocity,
+                    settings.nodePattern.motion3Linear.direction
+                )
             ])
         );
 
-        this.initialX = Random.randomFloat(settings.canvas.HTMLElement.width * 0.2, settings.canvas.HTMLElement.width * 0.8);
+        this.initialX = Random.randomFloat(settings.nodePattern.minInitialX, settings.nodePattern.maxInitialX);
     }
 
     getType() {
@@ -29,6 +43,6 @@ export class NodePattern extends EnergyBallsPattern {
     }
 
     getInitialDelay(i) {
-        return 100 / settings.energyBall.globalVelocity * i;
+        return settings.nodePattern.gap / settings.energyBall.globalVelocity * i;
     }
 }

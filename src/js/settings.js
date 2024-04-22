@@ -121,10 +121,54 @@ export const settings = {
         }
     },
 
-    interface: {
-        getGameOverSentence(score) {
-            return `Votre score est de ${score}`;
+    probabilities: {
+        nodePattern: 2,
+        inlineWaitPattern: 2,
+        strongEnergyBallPattern: 19999
+    },
+
+    nodePattern: {
+        numberOfBalls: 8,
+        gap: 100,
+        get minInitialX() { return 0.2 * settings.canvas.width; },
+        get maxInitialX() { return 0.8 * settings.canvas.height; },
+        motion1Linear: {
+            direction: -Math.PI / 2,
+            get distanceToTravel() { return settings.canvas.height / 2 - settings.energyBall.initialY; },
+        },
+        motion2Circle: {
+            radius: 133,
+            initialAngle: 0,
+            isClockWise: true,
+            get distanceToTravel() { return 2 * Math.PI * settings.nodePattern.motion2Circle.radius; }
+        },
+        motion3Linear: {
+            direction: -Math.PI / 2,
+            get distanceToTravel() { return settings.canvas.height / 2 - settings.energyBall.initialY; },
         }
+
+    },
+
+    inlineWaitPattern : {
+        numberOfBalls: 8,
+        gap: 140,
+        motion1Linear: {
+            direction: -Math.PI / 2,
+            get distanceToTravel() { return settings.canvas.height / 2 - settings.energyBall.initialY; },
+        },
+        motion2Static: {
+            duration: 1
+        },
+        motion3Linear: {
+            direction: -Math.PI / 2,
+            get distanceToTravel() { return settings.canvas.height / 2 - settings.energyBall.initialY; },
+        }
+    },
+
+    strongEnergyBallPattern: {
+        numberOfBalls: 1,
+        get initialX() { return settings.canvas.width / 2; } 
+        // TO DO
     }
 };
 
