@@ -13,7 +13,7 @@ export class SinusoidalMotion extends Motion {
     getRelativePosition(travelledDistance) {
         this._relativePosition.set(
             travelledDistance,
-            -this.sinusSignal.sin(travelledDistance)
+            -this.sinusSignal.sin(travelledDistance) - -this.sinusSignal.sin(0)
         );
             
         this._relativePosition.rotate(Coordinates.origin, this.direction, false);

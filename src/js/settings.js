@@ -167,8 +167,22 @@ export const settings = {
 
     strongEnergyBallPattern: {
         numberOfBalls: 1,
-        get initialX() { return settings.canvas.width / 2; } 
-        // TO DO
+        minDirectionsChanges: 0,
+        maxDirectionsChanges: 5,
+        get initialX() { return settings.canvas.width / 2; }, 
+        arrivalMotion: {
+            direction: -Math.PI / 2,
+            get velocity() { return settings.energyBall.globalVelocity * 2; },
+            get distanceToTravel() { return settings.canvas.height / 16 - settings.energyBall.initialY; },
+        },
+        sinusoidalMotions: {
+            direction: -Math.PI / 2,
+            phaseShift: 0,
+            get amplitude() { return settings.canvas.width * 0.85 / 2; },
+            get frequency() { return 1 / (7 * settings.canvas.height / 16 / 3); }, 
+            get velocity() { return settings.energyBall.globalVelocity / 5; },
+            get distanceToTravel() { return 15 * settings.canvas.height / 16 - settings.energyBall.initialY; }
+        }
     }
 };
 
