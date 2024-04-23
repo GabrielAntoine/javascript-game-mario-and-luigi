@@ -34,10 +34,11 @@ export const settings = {
             scoreEarned: 5
         },
         radius: 40,
-        initialY: -50,
         globalVelocity: 300,
         aggressiveVelocity: 1600,
-        deadVelocity: 2000
+        deadVelocity: 2000,
+        get initialY() { return 0 - settings.energyBall.radius - 10; },
+        get lastY() { return settings.canvas.height + settings.energyBall.radius + 10; }
     },
 
     projectile: {
@@ -122,16 +123,18 @@ export const settings = {
     },
 
     probabilities: {
-        nodePattern: 2,
+        nodePattern: 3,
         inlineWaitPattern: 2,
-        strongEnergyBallPattern: 19999
+        strongEnergyBallPattern: 1,
+        stairsPattern: 2,
+        rainPattern: 3
     },
 
     nodePattern: {
         numberOfBalls: 8,
         gap: 100,
         get minInitialX() { return 0.2 * settings.canvas.width; },
-        get maxInitialX() { return 0.8 * settings.canvas.height; },
+        get maxInitialX() { return 0.8 * settings.canvas.width; },
         motion1Linear: {
             direction: -Math.PI / 2,
             get distanceToTravel() { return settings.canvas.height / 2 - settings.energyBall.initialY; },
@@ -149,7 +152,16 @@ export const settings = {
 
     },
 
-    inlineWaitPattern : {
+    stairsPattern: {
+        numberOfBalls: 8,
+        gap: 130,
+        direction: -Math.PI / 4,
+        width: 400,
+        get minInitialX() { return 0.4 * settings.canvas.width; },
+        get maxInitialX() { return 0.6 * settings.canvas.width; },
+    },
+
+    inlineWaitPattern: {
         numberOfBalls: 8,
         gap: 140,
         motion1Linear: {
@@ -163,6 +175,16 @@ export const settings = {
             direction: -Math.PI / 2,
             get distanceToTravel() { return settings.canvas.height / 2 - settings.energyBall.initialY; },
         }
+    },
+
+    rainPattern: {
+        numberOfBalls: 12,
+        direction: -Math.PI / 2,
+        whenToWait: 0.5,
+        waintingDuration: 1,
+        timeBetweenEachBall: 0.4,
+        get minInitialX() { return 0.1 * settings.canvas.width; },
+        get maxInitialX() { return 0.9 * settings.canvas.width; }
     },
 
     strongEnergyBallPattern: {

@@ -1,4 +1,3 @@
-import { Random } from "../../Helpers/Random.js";
 import { CompoundMotion } from "../../Motions/CompoundMotion.js";
 import { LinearMotion } from "../../Motions/LinearMotion.js";
 import { StaticMotion } from "../../Motions/StaticMotion.js";
@@ -28,19 +27,11 @@ export class InlineWaitPattern extends EnergyBallsPattern {
         );
     }
 
-    getType() {
-        return Random.randomBoolean() ? settings.energyBall.mario.type : settings.energyBall.luigi.type;
-    }
-
     getInitialX(i) {
         const patternWidth = settings.inlineWaitPattern.gap * (settings.inlineWaitPattern.numberOfBalls - 1);
         const firstX = (settings.canvas.width - patternWidth) / 2;
         const iX = firstX + i * settings.inlineWaitPattern.gap;
 
         return iX;
-    }
-
-    getInitialDelay() {
-        return 0;
     }
 }

@@ -15,7 +15,8 @@ export class StrongEnergyBallPattern extends EnergyBallsPattern {
                 new LinearMotion(
                     settings.strongEnergyBallPattern.arrivalMotion.distanceToTravel,
                     settings.strongEnergyBallPattern.arrivalMotion.velocity,
-                    settings.strongEnergyBallPattern.arrivalMotion.direction),
+                    settings.strongEnergyBallPattern.arrivalMotion.direction
+                ),
                 ...StrongEnergyBallPattern.sinusoidalMotions
             ])
         );
@@ -27,10 +28,6 @@ export class StrongEnergyBallPattern extends EnergyBallsPattern {
 
     getInitialX() {
         return settings.strongEnergyBallPattern.initialX;
-    }
-
-    getInitialDelay() {
-        return 0;
     }
 
     static get sinusoidalMotions() {

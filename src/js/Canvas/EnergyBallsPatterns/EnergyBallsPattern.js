@@ -1,5 +1,6 @@
 import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { NotImplementedError } from "../../Exceptions/NotImplementedError.js";
+import { Random } from "../../Helpers/Random.js";
 import { settings } from "../../settings.js";
 import { EnergyBall } from "../Drawings/EnergyBall.js";
 
@@ -34,15 +35,15 @@ export class EnergyBallsPattern {
         }
     }
 
-    getType(i) {
-        throw new NotImplementedError('getType', this.constructor.name);
+    getType(_i) {
+        return Random.randomBoolean() ? settings.energyBall.mario.type : settings.energyBall.luigi.type;
     }
 
-    getInitialX(i) {
+    getInitialX(_i) {
         throw new NotImplementedError('getInitialX', this.constructor.name);
     }
 
-    getInitialDelay(i) {
-        throw new NotImplementedError('getInitialDelay', this.constructor.name);
+    getInitialDelay(_i) {
+        return 0;
     }
 }

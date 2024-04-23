@@ -4,13 +4,17 @@ import { settings } from "../../settings.js";
 import { EnergyBall } from "../Drawings/EnergyBall.js";
 import { InlineWaitPattern } from "./InlineWaitPattern.js";
 import { NodePattern } from "./NodePattern.js";
+import { RainPattern } from "./RainPattern.js";
+import { StairsPattern } from "./StairsPatttern.js";
 import { StrongEnergyBallPattern } from "./StrongEnergyBallPattern.js";
 
 export class EnergyBallsGenerator {
     static patterns = new Map([
         [NodePattern, settings.probabilities.nodePattern],
         [InlineWaitPattern, settings.probabilities.inlineWaitPattern],
-        [StrongEnergyBallPattern, settings.probabilities.strongEnergyBallPattern]
+        [StrongEnergyBallPattern, settings.probabilities.strongEnergyBallPattern],
+        [StairsPattern, settings.probabilities.stairsPattern],
+        [RainPattern, settings.probabilities.rainPattern]
     ]);
 
     constructor(canvas) {
