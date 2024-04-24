@@ -45,7 +45,7 @@ export class EnergyBall extends GamesBall {
         this.hasBecomeAggresive = true;
 
         this.setCompoundMotion(new CompoundMotion([
-            new LinearMotion(settings.gameArea.height - this.position.y + 1, settings.energyBall.aggressiveVelocity, - Math.PI / 2)
+            new LinearMotion(settings.canvas.height - this.position.y + 1, settings.energyBall.aggressiveVelocity, - Math.PI / 2)
         ]));
     }
 
@@ -56,7 +56,7 @@ export class EnergyBall extends GamesBall {
 
         this.shouldBeDestroyed = true;
 
-        const finalPosition = new Coordinates(settings.gameArea.width / 2, settings.energyBall.initialY);
+        const finalPosition = new Coordinates(settings.canvas.width / 2, settings.energyBall.initialY);
 
         this.setCompoundMotion(new CompoundMotion([
             new LinearMotion(this.position.distanceTo(finalPosition), settings.energyBall.deadVelocity, this.position.directionTo(finalPosition))

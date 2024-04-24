@@ -7,13 +7,6 @@ export const settings = {
         get ctx() { return settings.canvas.HTMLElement.getContext('2d'); }
     },
 
-    gameArea: {
-        x: 0,
-        y: 0,
-        get width() { return settings.canvas.width; },
-        get height() { return settings.canvas.height; }
-    },
-
     energyBall: {
         mario: {
             type: 'mario',
@@ -65,27 +58,27 @@ export const settings = {
     character: {
         mario: {
             limit: {
-                get left() { return settings.gameArea.x + 60; },
-                get right() { return settings.gameArea.x + settings.gameArea.width - 60 - settings.character.luigi.width; }
+                left: 30,
+                get right() { return settings.canvas.width - 30 - settings.character.luigi.width; }
             },
             color: '#f82808',
             velocity: 1200,
-            get x() { return settings.gameArea.x + settings.gameArea.width * 0.42; },
-            get y() { return settings.gameArea.y + settings.gameArea.height * 0.92; },
-            get width() { return settings.gameArea.width * 0.08; },
-            get height() { return settings.gameArea.height * 0.08; }
+            get x() { return settings.canvas.width / 2 - settings.character.mario.width; },
+            get y() { return settings.canvas.height - settings.character.mario.height; },
+            width: 121.5,
+            height: 180
         },
         luigi: {
             limit: {
                 get left() { return settings.character.mario.limit.left + settings.character.mario.width; },
-                get right() { return settings.character.mario.limit.right + settings.character.mario.width; }
+                get right() { return settings.character.mario.limit.right + settings.character.luigi.width; }
             },
             color: '#10d880',
             get velocity() { return settings.character.mario.velocity; },
             get x() { return settings.character.mario.x + settings.character.mario.width; },
             get y() { return settings.character.mario.y; },
-            get width() { return settings.character.mario.width; },
-            get height() { return settings.character.mario.height; }
+            width: 131.25,
+            height: 180
         },
         keys: {
             _left: ['ArrowLeft', 'Numpad4', 'KeyK'],
@@ -204,6 +197,68 @@ export const settings = {
             get frequency() { return 1 / (7 * settings.canvas.height / 16 / 3); }, 
             get velocity() { return settings.energyBall.globalVelocity / 5; },
             get distanceToTravel() { return 15 * settings.canvas.height / 16 - settings.energyBall.initialY; }
+        }
+    },
+
+    sprites: {
+        mario: {
+            img: 'img/sprites-mario.png',
+            durationInterval: 0.05,
+            width: 27,
+            height: 40,
+            source: [
+                {x: 17, y: 63},
+                {x: 59, y: 63},
+                {x: 101, y: 63},
+                {x: 143, y: 63},
+                {x: 185, y: 63},
+                {x: 227, y: 63},
+                {x: 269, y: 63},
+                {x: 311, y: 63},
+            ]
+        },
+
+        luigi: {
+            img: 'img/sprites-luigi.png',
+            durationInterval: 0.045,
+            width: 35,
+            height: 47,
+            source: [
+                {x: 2, y: 54},
+                {x: 37, y: 54},
+                {x: 72, y: 54},
+                {x: 107, y: 54},
+                {x: 142, y: 54},
+                {x: 177, y: 54},
+                {x: 212, y: 54},
+                {x: 247, y: 54},
+            ]
+        },
+
+        marioHit: {
+            img: 'img/sprites-mario.png',
+            durationInterval: 0.08,
+            width: 38,
+            height: 45,
+            source: [
+                {x: 10, y: 3191},
+                {x: 48, y: 3191},
+                {x: 86, y: 3191},
+                {x: 124, y: 3191},
+            ]
+        },
+
+        luigiHit: {
+            img: 'img/sprites-luigi.png',
+            durationInterval: 0.08,
+            width: 32,
+            height: 52,
+            source: [
+                {x: 2, y: 5684},
+                {x: 34, y: 5684},
+                {x: 66, y: 5684},
+                {x: 98, y: 5684},
+            ]
         }
     }
 };

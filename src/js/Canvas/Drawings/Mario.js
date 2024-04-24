@@ -1,5 +1,7 @@
 import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { settings } from "../../settings.js";
+import { SpriteMario } from "../Sprites/SpriteMario.js";
+import { SpriteMarioHit } from "../Sprites/SpriteMarioHit.js";
 import { PlayableCharacter } from "./PlayableCharacter.js";
 
 export class Mario extends PlayableCharacter {
@@ -23,5 +25,16 @@ export class Mario extends PlayableCharacter {
                 color: settings.projectile.mario.color
             }
         );
+
+        this.sprite = new SpriteMario(this.canvas, 'height', settings.character.mario.width, settings.character.mario.height, this.position);
+        this.spriteWhenInvincible = new SpriteMarioHit(this.canvas, 'height', settings.character.mario.width, settings.character.mario.height, this.position);
+    }
+
+    draw() {
+        if (PlayableCharacter.areInvicible) {
+            this.spriteWhenInvincible.draw();
+        } else {
+            this.sprite.draw();
+        }
     }
 }

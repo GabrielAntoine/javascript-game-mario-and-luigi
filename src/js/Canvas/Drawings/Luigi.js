@@ -1,5 +1,7 @@
 import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { settings } from "../../settings.js";
+import { SpriteLuigi } from "../Sprites/SpriteLuigi.js";
+import { SpriteLuigiHit } from "../Sprites/SpriteLuigiHit.js";
 import { PlayableCharacter } from "./PlayableCharacter.js";
 
 export class Luigi extends PlayableCharacter {
@@ -23,5 +25,16 @@ export class Luigi extends PlayableCharacter {
                 color: settings.projectile.luigi.color
             }
         );
+
+        this.sprite = new SpriteLuigi(this.canvas, 'height', settings.character.luigi.width, settings.character.luigi.height, this.position);
+        this.spriteWhenInvincible = new SpriteLuigiHit(this.canvas, 'height', settings.character.luigi.width, settings.character.luigi.height, this.position);
+    }
+
+    draw() {
+        if (PlayableCharacter.areInvicible) {
+            this.spriteWhenInvincible.draw();
+        } else {
+            this.sprite.draw();
+        }
     }
 }
