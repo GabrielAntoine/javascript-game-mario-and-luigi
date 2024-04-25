@@ -10,6 +10,10 @@ export class Circle extends MovingElement {
         this.radius = radius;
     }
 
+    get diameter() {
+        return this.radius * 2;
+    }
+
     draw() {
         this.ctx.beginPath();
         this.ctx.fillStyle = this.color;

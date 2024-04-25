@@ -34,10 +34,6 @@ export class NodePattern extends EnergyBallsPattern {
         this.initialX = Random.randomFloat(settings.nodePattern.minInitialX, settings.nodePattern.maxInitialX);
     }
 
-    getType() {
-        return Random.randomBoolean() ? settings.energyBall.mario.type : settings.energyBall.luigi.type;
-    }
-
     getInitialX() {
         return this.initialX;
     }

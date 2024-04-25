@@ -3,6 +3,9 @@ import { GameStatus } from "../../Game/GameStatus.js";
 import { CompoundMotion } from "../../Motions/CompoundMotion.js";
 import { LinearMotion } from "../../Motions/LinearMotion.js";
 import { settings } from "../../settings.js";
+import { SpriteEnergyBallAll } from "../Sprites/SpriteEnergyBallAll.js";
+import { SpriteEnergyBallLuigi } from "../Sprites/SpriteEnergyBallLuigi.js";
+import { SpriteEnergyBallMario } from "../Sprites/SpriteEnergyBallMario.js";
 import { GamesBall } from "./GamesBall.js";
 import { PlayableCharacter } from "./PlayableCharacter.js";
 
@@ -18,6 +21,17 @@ export class EnergyBall extends GamesBall {
         this.#health = health;
         this.hasBecomeAggresive = false;
         this.scoreEarned = scoreEarned;
+
+        switch (type) {
+            case settings.energyBall.all.type:
+                this.sprite = new SpriteEnergyBallAll(canvas, {height: this.diameter}, this.position, {type: 'circle-centered'});
+                break;
+            case settings.energyBall.mario.type:
+                this.sprite = new SpriteEnergyBallMario(canvas, {height: this.diameter}, this.position, {type: 'circle-centered'});
+                break;
+            case settings.energyBall.luigi.type:
+                this.sprite = new SpriteEnergyBallLuigi(canvas, {height: this.diameter}, this.position, {type: 'circle-centered'});
+        }
     }
 
     decreaseHealth() {
@@ -85,5 +99,21 @@ export class EnergyBall extends GamesBall {
                 this.hitCharacter(playableCharacter);
             }
         });
+    }
+
+    draw() {
+        if (this.sprite === undefined) {
+            super.draw();
+        } else {
+            this.sprite.draw();
+        }
+
+        if (settings.hitBox.show) {
+            this.ctx.strokeStyle = settings.hitBox.color;
+            this.ctx.beginPath();
+            this.ctx.arc(this.position.onFrameX, this.position.onFrameY, this.radius, 0, 2 * Math.PI);
+            this.ctx.stroke();
+            this.ctx.closePath();
+        }
     }
 }

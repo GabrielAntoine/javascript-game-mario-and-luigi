@@ -26,11 +26,21 @@ export class Luigi extends PlayableCharacter {
             }
         );
 
-        this.sprite = new SpriteLuigi(this.canvas, 'height', settings.character.luigi.width, settings.character.luigi.height, this.position);
-        this.spriteWhenInvincible = new SpriteLuigiHit(this.canvas, 'height', settings.character.luigi.width, settings.character.luigi.height, this.position);
+        this.sprite = new SpriteLuigi(this.canvas, {height: this.height}, this.position);
+        this.spriteWhenInvincible = new SpriteLuigiHit(
+            this.canvas,
+            {height: this.height},
+            this.position,
+            {type: 'centered', width: this.width}
+        );
     }
 
     draw() {
+        if (settings.hitBox.show) {
+            this.ctx.strokeStyle = settings.hitBox.color;
+            this.ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
+        }
+
         if (PlayableCharacter.areInvicible) {
             this.spriteWhenInvincible.draw();
         } else {

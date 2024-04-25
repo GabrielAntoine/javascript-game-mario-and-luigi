@@ -7,6 +7,11 @@ export const settings = {
         get ctx() { return settings.canvas.HTMLElement.getContext('2d'); }
     },
 
+    hitBox: {
+        show: false,
+        color: 'red',
+    },
+    
     energyBall: {
         mario: {
             type: 'mario',
@@ -65,7 +70,7 @@ export const settings = {
             velocity: 1200,
             get x() { return settings.canvas.width / 2 - settings.character.mario.width; },
             get y() { return settings.canvas.height - settings.character.mario.height; },
-            width: 121.5,
+            get width() { return settings.character.mario.height / settings.sprites.mario.height * settings.sprites.mario.width; },
             height: 180
         },
         luigi: {
@@ -77,8 +82,8 @@ export const settings = {
             get velocity() { return settings.character.mario.velocity; },
             get x() { return settings.character.mario.x + settings.character.mario.width; },
             get y() { return settings.character.mario.y; },
-            width: 131.25,
-            height: 180
+            get width() { return settings.character.luigi.height / settings.sprites.luigi.height * settings.sprites.luigi.width; },
+            get height() { return settings.character.mario.height; }
         },
         keys: {
             _left: ['ArrowLeft', 'Numpad4', 'KeyK'],
@@ -202,63 +207,126 @@ export const settings = {
 
     sprites: {
         mario: {
-            img: 'img/sprites-mario.png',
+            img: 'img/sprites-mario1.png',
             durationInterval: 0.05,
-            width: 27,
-            height: 40,
+            width: 40,
+            height: 54,
             source: [
-                {x: 17, y: 63},
-                {x: 59, y: 63},
-                {x: 101, y: 63},
-                {x: 143, y: 63},
-                {x: 185, y: 63},
-                {x: 227, y: 63},
-                {x: 269, y: 63},
-                {x: 311, y: 63},
+                {x: 12, y: 8218},
+                {x: 12, y: 8282},
+                {x: 12, y: 8346},
+                {x: 12, y: 8410},
+                {x: 12, y: 8474},
+                {x: 12, y: 8538},
+                {x: 12, y: 8602},
+                {x: 12, y: 8666}
             ]
         },
 
         luigi: {
-            img: 'img/sprites-luigi.png',
+            img: 'img/sprites-luigi1.png',
             durationInterval: 0.045,
-            width: 35,
-            height: 47,
+            width: 42,
+            height: 56,
             source: [
-                {x: 2, y: 54},
-                {x: 37, y: 54},
-                {x: 72, y: 54},
-                {x: 107, y: 54},
-                {x: 142, y: 54},
-                {x: 177, y: 54},
-                {x: 212, y: 54},
-                {x: 247, y: 54},
+                {x: 11, y: 8216},
+                {x: 11, y: 8280},
+                {x: 11, y: 8344},
+                {x: 11, y: 8408},
+                {x: 11, y: 8472},
+                {x: 11, y: 8536},
+                {x: 11, y: 8600},
+                {x: 11, y: 8664}
             ]
         },
 
         marioHit: {
-            img: 'img/sprites-mario.png',
-            durationInterval: 0.08,
-            width: 38,
-            height: 45,
+            img: 'img/sprites-mario4.png',
+            durationInterval: 0.04,
+            width: 42,
+            height: 48,
             source: [
-                {x: 10, y: 3191},
-                {x: 48, y: 3191},
-                {x: 86, y: 3191},
-                {x: 124, y: 3191},
+                {x: 10, y: 2942},
+                {x: 74, y: 2942},
+                {x: 138, y: 2942},
+                {x: 202, y: 2942},
+                {x: 266, y: 2942},
+                {x: 330, y: 2942},
+                {x: 394, y: 2942},
+                {x: 458, y: 2942},
             ]
         },
 
         luigiHit: {
-            img: 'img/sprites-luigi.png',
-            durationInterval: 0.08,
-            width: 32,
-            height: 52,
+            img: 'img/sprites-luigi3.png',
+            durationInterval: 0.038,
+            width: 36,
+            height: 50,
             source: [
-                {x: 2, y: 5684},
-                {x: 34, y: 5684},
-                {x: 66, y: 5684},
-                {x: 98, y: 5684},
+                {x: 14, y: 6250},
+                {x: 78, y: 6250},
+                {x: 142, y: 6250},
+                {x: 206, y: 6250},
+                {x: 270, y: 6250},
+                {x: 334, y: 6250},
+                {x: 398, y: 6250},
+                {x: 462, y: 6250},
             ]
+        },
+
+        energyBall: {
+            all: {
+                img: 'img/sprites-antasma.png',
+                durationInterval: 0.07,
+                width: 61,
+                height: 34,
+                source: [
+                    {x: 0 + 11, y: 239},
+                    {x: 82 + 11, y: 239},
+                    {x: 164 + 11, y: 239},
+                    {x: 246 + 11, y: 239},
+                    {x: 328 + 11, y: 239},
+                    {x: 410 + 11, y: 239},
+                    {x: 492 + 11, y: 239},
+                    {x: 574 + 11, y: 239},
+                    {x: 656 + 11, y: 239},
+                    {x: 738 + 11, y: 239}
+                ]
+            },
+
+            mario: {
+                img: 'img/sprites-3dshell.png',
+                durationInterval: 0.07,
+                width: 31,
+                height: 25,
+                source: [
+                    {x: 388 + 5, y: 3054},
+                    {x: 388 + 48+ 5, y: 3054},
+                    {x: 388 + 48 * 2 + 5, y: 3054},
+                    {x: 388 + 48 * 3+ 5, y: 3054},
+                    {x: 388 + 48 * 4+ 5, y: 3054},
+                    {x: 388 + 48 * 5+ 5, y: 3054},
+                    {x: 388 + 48 * 6+ 5, y: 3054},
+                    {x: 388 + 48 * 7+ 5, y: 3054},
+                ]
+            },
+
+            luigi: {
+                img: 'img/sprites-3dshell.png',
+                durationInterval: 0.07,
+                width: 31,
+                height: 25,
+                source: [
+                    {x: 4 + 5, y: 3054},
+                    {x: 4 + 48+ 5, y: 3054},
+                    {x: 4 + 48 * 2 + 5, y: 3054},
+                    {x: 4 + 48 * 3+ 5, y: 3054},
+                    {x: 4 + 48 * 4+ 5, y: 3054},
+                    {x: 4 + 48 * 5+ 5, y: 3054},
+                    {x: 4 + 48 * 6+ 5, y: 3054},
+                    {x: 4 + 48 * 7+ 5, y: 3054},
+                ]
+            }
         }
     }
 };

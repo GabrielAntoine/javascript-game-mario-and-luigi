@@ -1,3 +1,5 @@
+import { Coordinates } from "../../Coordinates/Coordinates.js";
+
 export class Sprite {
     // Abstract static variables
     static image;
@@ -6,21 +8,33 @@ export class Sprite {
     static height;
     static width;
 
-    constructor(canvas, importantDimension, width, height, position) {
+    constructor(canvas, dimensions, position, shift = new Coordinates(0, 0)) {
         this.lastTime = document.timeline.currentTime;
         this.currentFrame = 0;
         this.canvas = canvas;
         this.ctx = canvas.getContext('2d');
         this.position = position;
-        this.expectedWidth = width;
-        this.expectedHeight = height;
 
-        if (importantDimension === 'width') {
-            this.width = width;
-            this.height = this.width * (this.constructor.height / this.constructor.width);
+        if (dimensions.width !== undefined) {
+            this.width = dimensions.width;
+            this.height = this.constructor.getHeight(this.width);
         } else {
-            this.height = height;
-            this.width = this.height * (this.constructor.width / this.constructor.height);
+            this.height = dimensions.height;
+            this.width = this.constructor.getWidth(this.height);
+        }
+
+        if (shift instanceof Coordinates) {
+            this.shift = shift;
+        } else if (shift.type === 'centered') {
+            this.shift = new Coordinates(
+                shift.width === undefined ? 0 : (shift.width - this.width) / 2,
+                shift.height === undefined ? 0 : (shift.height - this.height) / 2
+            );
+        } else if (shift.type === 'circle-centered') {
+            this.shift = new Coordinates(
+                - this.width / 2,
+                - this.height / 2
+            );
         }
     }
 
@@ -37,11 +51,19 @@ export class Sprite {
                 this.constructor.sourceCoordinatesList[this.currentFrame].onFrameY,
                 this.constructor.width,
                 this.constructor.height,
-                this.position.onFrameX + (this.expectedWidth - this.width) / 2,
-                this.position.onFrameY + (this.expectedHeight - this.height) / 2,
+                this.position.onFrameX + this.shift.onFrameX,
+                this.position.onFrameY + this.shift.onFrameY,
                 this.width,
                 this.height
             );  
         }
+    }
+
+    static getWidth(height) {
+        return height * this.width / this.height;
+    }
+
+    static getHeight(width) {
+        return width * this.height / this.width;
     }
 }

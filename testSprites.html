@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprites</title>
+</head>
+<style>
+    canvas {
+        border: solid black 1px;
+    }
+</style>
+<body>
+    <canvas height="600", width="800" id="mainCanvas"></canvas>
+</body>
+<script type="module">
+    import { SpriteMario } from './src/js/Canvas/Sprites/SpriteMario.js';
+    import { SpriteMarioHit } from './src/js/Canvas/Sprites/SpriteMarioHit.js';
+    import { SpriteLuigiHit } from './src/js/Canvas/Sprites/SpriteLuigiHit.js';
+    import { SpriteLuigi } from './src/js/Canvas/Sprites/SpriteLuigi.js';
+    import { SpriteEnergyBallAll } from './src/js/Canvas/Sprites/SpriteEnergyBallAll.js';
+    import { SpriteEnergyBallMario } from './src/js/Canvas/Sprites/SpriteEnergyBallMario.js';
+    import { SpriteEnergyBallLuigi } from './src/js/Canvas/Sprites/SpriteEnergyBallLuigi.js';
+    import { Coordinates } from './src/js/Coordinates/Coordinates.js';
+    const img = new Image();
+    img.src = 'img/sprites-antasma.png';
+    const canvas = document.querySelector('canvas');
+    const ctx = canvas.getContext('2d');
+
+    const sx = 0
+    const sy = 168 + 60
+    const swidth = 820
+    const sheight = 180
+    const dx = 100;
+    const dy = 0;
+
+    const swidthInd = 82
+    const sheightInd = 60
+    const duration = 0.05;
+    let lastTime = document.timeline.currentTime;
+
+    img.addEventListener('load', () => {
+        ctx.drawImage(
+            img,
+            sx,
+            sy,
+            swidth,
+            sheight,
+            0,
+            0,
+            swidth,
+            sheight
+        );
+        ctx.strokeRect(0, 0, swidth, sheight);
+    });
+
+    let i = 0;
+    
+    const position = new Coordinates(0, 0);
+
+    const sprite = new SpriteEnergyBallLuigi(canvas, {width: 100}, position);
+
+    function animate(time) {
+        ctx.fillStyle = 'lime';
+        ctx.fillRect(0, 0, 800, 600);
+        // ctx.clearRect(0, 0, canvas.width, canvas.height);
+   
+        // sprite2.draw();
+        // sprite4.draw();
+
+        if (document.timeline.currentTime - lastTime > duration * 1000) {
+            lastTime = document.timeline.currentTime;
+            i = (i + 1) % 8;
+        }
+
+        // ctx.drawImage(
+        //     img,
+        //     sx + swidthInd * i,
+        //     sy,
+        //     swidthInd,
+        //     sheightInd,
+        //     dx,
+        //     dy,
+        //     swidthInd * 2,
+        //     sheightInd * 2
+        // );
+
+        sprite.draw();
+        ctx.strokeRect(0, 0, sprite.width, sprite.height);
+
+        // ctx.strokeRect(dx, dy, swidthInd * 2, sheightInd * 2);
+
+        requestAnimationFrame(animate);
+    }
+
+    animate(document.timeline.currentTime);
+
+</script>
+</html>
