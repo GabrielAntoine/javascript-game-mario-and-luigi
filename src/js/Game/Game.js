@@ -3,6 +3,7 @@ import { UpdatableObjects } from "../Canvas/Containers/UpdatableObjects.js";
 import { Luigi } from "../Canvas/Drawings/Luigi.js";
 import { Mario } from "../Canvas/Drawings/Mario.js";
 import { EnergyBallsGenerator } from "../Canvas/EnergyBallsPatterns/EnergyBallsGenerator.js";
+import { Background } from "../Canvas/Sprites/Background.js";
 import { FPS } from "../Helpers/FPS.js";
 import { settings } from "../settings.js";
 import { GameStatus } from "./GameStatus.js";
@@ -17,7 +18,6 @@ export class Game {
     static start() {
         this.createEventListeners();
         this.createResources();
-        this.drawBackground();
 
         Interface.notifyScoreChanged();
         Interface.notifyLivesChanged();
@@ -49,7 +49,7 @@ export class Game {
     }
 
     static animate() {
-        this.drawBackground();
+        Background.draw();
         DrawableObjects.draw();
 
         if (GameStatus.hasEnded) {

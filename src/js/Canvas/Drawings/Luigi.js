@@ -26,13 +26,8 @@ export class Luigi extends PlayableCharacter {
             }
         );
 
-        this.sprite = new SpriteLuigi(this.canvas, {height: this.height}, this.position);
-        this.spriteWhenInvincible = new SpriteLuigiHit(
-            this.canvas,
-            {height: this.height},
-            this.position,
-            {type: 'centered', width: this.width}
-        );
+        this.sprite = new SpriteLuigi(this.canvas, {height: this.height}, this.position, {type: 'centered', width: this.width});
+        this.spriteWhenInvincible = new SpriteLuigiHit(this.canvas, {height: this.height}, this.position, {type: 'centered', width: this.width});
     }
 
     draw() {

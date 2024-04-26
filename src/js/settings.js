@@ -32,7 +32,7 @@ export const settings = {
             scoreEarned: 5
         },
         radius: 40,
-        globalVelocity: 300,
+        globalVelocity: 400,
         aggressiveVelocity: 1600,
         deadVelocity: 2000,
         get initialY() { return 0 - settings.energyBall.radius - 10; },
@@ -67,10 +67,10 @@ export const settings = {
                 get right() { return settings.canvas.width - 30 - settings.character.luigi.width; }
             },
             color: '#f82808',
-            velocity: 1200,
+            velocity: 1500,
             get x() { return settings.canvas.width / 2 - settings.character.mario.width; },
             get y() { return settings.canvas.height - settings.character.mario.height; },
-            get width() { return settings.character.mario.height / settings.sprites.mario.height * settings.sprites.mario.width; },
+            width: 100,
             height: 180
         },
         luigi: {
@@ -82,7 +82,7 @@ export const settings = {
             get velocity() { return settings.character.mario.velocity; },
             get x() { return settings.character.mario.x + settings.character.mario.width; },
             get y() { return settings.character.mario.y; },
-            get width() { return settings.character.luigi.height / settings.sprites.luigi.height * settings.sprites.luigi.width; },
+            get width() { return settings.character.mario.width; },
             get height() { return settings.character.mario.height; }
         },
         keys: {
@@ -281,16 +281,16 @@ export const settings = {
                 width: 61,
                 height: 34,
                 source: [
-                    {x: 0 + 11, y: 239},
-                    {x: 82 + 11, y: 239},
-                    {x: 164 + 11, y: 239},
-                    {x: 246 + 11, y: 239},
-                    {x: 328 + 11, y: 239},
-                    {x: 410 + 11, y: 239},
-                    {x: 492 + 11, y: 239},
-                    {x: 574 + 11, y: 239},
-                    {x: 656 + 11, y: 239},
-                    {x: 738 + 11, y: 239}
+                    {x: 11, y: 239},
+                    {x: 93, y: 239},
+                    {x: 175, y: 239},
+                    {x: 257, y: 239},
+                    {x: 339, y: 239},
+                    {x: 421, y: 239},
+                    {x: 503, y: 239},
+                    {x: 585, y: 239},
+                    {x: 667, y: 239},
+                    {x: 749, y: 239}
                 ]
             },
 
@@ -300,14 +300,14 @@ export const settings = {
                 width: 31,
                 height: 25,
                 source: [
-                    {x: 388 + 5, y: 3054},
-                    {x: 388 + 48+ 5, y: 3054},
-                    {x: 388 + 48 * 2 + 5, y: 3054},
-                    {x: 388 + 48 * 3+ 5, y: 3054},
-                    {x: 388 + 48 * 4+ 5, y: 3054},
-                    {x: 388 + 48 * 5+ 5, y: 3054},
-                    {x: 388 + 48 * 6+ 5, y: 3054},
-                    {x: 388 + 48 * 7+ 5, y: 3054},
+                    {x: 393, y: 3054},
+                    {x: 441, y: 3054},
+                    {x: 489, y: 3054},
+                    {x: 537, y: 3054},
+                    {x: 585, y: 3054},
+                    {x: 633, y: 3054},
+                    {x: 681, y: 3054},
+                    {x: 729, y: 3054},
                 ]
             },
 
@@ -317,16 +317,59 @@ export const settings = {
                 width: 31,
                 height: 25,
                 source: [
-                    {x: 4 + 5, y: 3054},
-                    {x: 4 + 48+ 5, y: 3054},
-                    {x: 4 + 48 * 2 + 5, y: 3054},
-                    {x: 4 + 48 * 3+ 5, y: 3054},
-                    {x: 4 + 48 * 4+ 5, y: 3054},
-                    {x: 4 + 48 * 5+ 5, y: 3054},
-                    {x: 4 + 48 * 6+ 5, y: 3054},
-                    {x: 4 + 48 * 7+ 5, y: 3054},
+                    {x: 9, y: 3054},
+                    {x: 57, y: 3054},
+                    {x: 105, y: 3054},
+                    {x: 153, y: 3054},
+                    {x: 201, y: 3054},
+                    {x: 249, y: 3054},
+                    {x: 297, y: 3054},
+                    {x: 345, y: 3054},
                 ]
             }
+        },
+
+        projectile: {
+            mario: {
+                img: 'img/sprites-heriss.png',
+                durationInterval: 0.005,
+                width: 36,
+                height: 30,
+                source: [
+                    {x: 30, y: 1746},
+                    {x: 126, y: 1746},
+                    {x: 222, y: 1746},
+                    {x: 318, y: 1746},
+                    {x: 414, y: 1746},
+                    {x: 510, y: 1746},
+                    {x: 606, y: 1746},
+                    {x: 702, y: 1746},
+                ]
+            },
+
+            luigi: {
+                img: 'img/sprites-heriss-vert.png',
+                durationInterval: 0.005,
+                width: 32,
+                height: 29,
+                source: [
+                    {x: 2, y: 405},
+                    {x: 36, y: 405},
+                    {x: 70, y: 405},
+                    {x: 104, y: 405},
+                    {x: 138, y: 405},
+                    {x: 172, y: 405},
+                    {x: 206, y: 405},
+                    {x: 240, y: 405},
+                ]
+            }
+        },
+
+        background: {
+            img: 'img/background.png',
+            width: 800,
+            height: 600,
+            source: {x: 2, y: 255}
         }
     }
 };

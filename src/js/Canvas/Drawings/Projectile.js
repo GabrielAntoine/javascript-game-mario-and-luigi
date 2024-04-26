@@ -1,5 +1,7 @@
 import { GameStatus } from "../../Game/GameStatus.js";
 import { settings } from "../../settings.js";
+import { SpriteProjectileLuigi } from "../Sprites/SpriteProjectileLuigi.js";
+import { SpriteProjectileMario } from "../Sprites/SpriteProjectileMario.js";
 import { EnergyBall } from "./EnergyBall.js";
 import { GamesBall } from "./GamesBall.js";
 import { Impact } from "./Impact.js";
@@ -7,6 +9,14 @@ import { Impact } from "./Impact.js";
 export class Projectile extends GamesBall {
     constructor(canvas, color, position, radius, velocity, type) {
         super(canvas, color, position, radius, velocity, type);
+
+        switch (type) {
+            case settings.projectile.mario.type:
+                this.sprite = new SpriteProjectileMario(canvas, {height: this.diameter}, this.position, {type: 'circle-centered'});
+                break;
+            case settings.projectile.luigi.type:
+                this.sprite = new SpriteProjectileLuigi(canvas, {height: this.diameter}, this.position, {type: 'circle-centered'});
+        }
     }
 
     update() {
@@ -17,6 +27,22 @@ export class Projectile extends GamesBall {
             if (!this.shouldBeDestroyed) {
                 this.position.y -= this.dynamicVelocity;
             }
+        }
+    }
+
+    draw() {
+        if (this.sprite === undefined) {
+            super.draw();
+        } else {
+            this.sprite.draw();
+        }
+
+        if (settings.hitBox.show) {
+            this.ctx.strokeStyle = settings.hitBox.color;
+            this.ctx.beginPath();
+            this.ctx.arc(this.position.onFrameX, this.position.onFrameY, this.radius, 0, 2 * Math.PI);
+            this.ctx.stroke();
+            this.ctx.closePath();
         }
     }
 

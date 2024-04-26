@@ -26,13 +26,8 @@ export class Mario extends PlayableCharacter {
             }
         );
 
-        this.sprite = new SpriteMario(this.canvas, {height: this.height}, this.position);
-        this.spriteWhenInvincible = new SpriteMarioHit(
-            this.canvas,
-            {height: this.height},
-            this.position,
-            {type: 'centered', width: this.width}
-        );
+        this.sprite = new SpriteMario(this.canvas, {height: this.height}, this.position, {type: 'centered', width: this.width});
+        this.spriteWhenInvincible = new SpriteMarioHit(this.canvas, {height: this.height}, this.position, {type: 'centered', width: this.width});
     }
 
     draw() {
