@@ -6,37 +6,125 @@
     <link rel="icon" href="img/favicon-32x32.png" type="image/png">
     <link rel="stylesheet" href="style/style.css">
     <script type="module" src="src/js/main.js"></script>
+    <script type="module" src="src/js/rules.js"></script>
     <script src="https://kit.fontawesome.com/9de1cac2dd.js" crossorigin="anonymous"></script>
     <title>Mario & Luigi : Boats of Revival</title>
 </head>
 <body>
-    <div id="game-container">
-        <div id="game-menu">
-            <div id="game-stats">
-                <div id="score-displayer">
-                    <span>Score :</span>
-                    <span id="score-number"></span>
-                </div>
-                <div id="lifes-left-displayer">
-                    <span>Vies restantes :</span>
-                    <div id="lifes-images">
+    <div id="game-content">
+        <h1 id="game-title">Mario & Luigi : Boats of Revival</h1>
+        <div id="game-container">
+            <div id="game-menu">
+                <div id="game-stats">
+                    <div id="score-displayer">
+                        <span>Score :</span>
+                        <span id="score-number"></span>
+                    </div>
+                    <div id="lifes-left-displayer">
+                        <span>Vies restantes :</span>
+                        <div id="lifes-images">
+                        </div>
                     </div>
                 </div>
+                <a href="#rules">Voir les règles</a>
             </div>
-            <a href="./#rules">Voir les règles</a>
+            <div id="canvas-container">
+                <canvas id="mainCanvas">
+                    Vous devez avoir activé canvas pour pouvoir jouer au jeu 
+                </canvas>
+                <div id="game-over-overlay" class="overlay">
+                    <span id="game-over-message">Game Over</span>
+                    <button id="play-again-button">Rejouer</button>
+                </div>
+                <div id="play-overlay" class="overlay">
+                    <button id="play-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg> 
+                    </button>
+                </div>
+            </div>
         </div>
-        <div id="canvas-container">
-            <canvas id="mainCanvas">
-                Vous devez avoir activé canvas pour pouvoir jouer au jeu 
-            </canvas>
-            <div id="game-over-overlay" class="overlay">
-                <span id="game-over-message">Game Over</span>
-                <button id="play-again-button">Rejouer</button>
-            </div>
-            <div id="play-overlay" class="overlay">
-                <button id="play-button">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80V432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"/></svg> 
-                </button>
+        <div id="rules">
+            <h2 id="rules-title">Règles</h2>
+            <div id="rules-body">
+                <section>
+                    <h3>Présentation</h3>
+                    <p>Oh non, <span class="mario-text">Mario</span> et <span class="luigi-text">Luigi</span> se sont égarés ! En regardant au dessus de leur tête, ils découvrent... une pluie de carapaces ?</p>
+                    <p>L'envie soudaine de ne pas mourir les prend, donc ils décident de ne pas se laisser écraser par les carapaces. <span class="mario-text">Mario</span> tire sur les carapaces rouges et <span class="luigi-text">Luigi</span> sur les vertes, du vrai multitâche !</p>
+                    <p>Cependant, ils devront bien unir leurs forces, car le terrifiant <span class="antasma-text">Antasma</span> rôde...</p>
+                    <img src="img/mario.png" alt="mario">
+                    <img src="img/luigi.png" alt="luigi">
+                </section>
+                <section>
+                    <h3>Objectif</h3>
+                    <p>
+                        Vous incarnez <span class="mario-text">Mario</span> et <span class="luigi-text">Luigi</span> qui se déplacent ensemble de gauche à droite. Des cibles vont tomber et votre objectif est de
+                        tirer dessus avec le bon personnage pour les éliminer. Pour chaque cible éliminée, vous remportez des points. 
+                        Si une cible vous échappe, vous ne gagnez pas de point.
+                    </p>
+                    <p>
+                        Si vous tirez sur une cible avec le mauvais personnage, 
+                        elle foncera en ligne droite sur <span class="mario-text">Mario</span> et <span class="luigi-text">Luigi</span>, 
+                        mais vous pourrez toujours rectifier votre tir avant qu'elle ne vous touche.
+                    </p>
+                    <h4>Détail des cibles</h4>
+                        <table>
+                            <tr>
+                                <th>Cible</th>
+                                <th>Action</th>
+                                <th>Points gagnés</th>
+                            </tr>
+                            <tr>
+                                <td><img src="img/red-shell.png"></td>
+                                <td>Seul <span class="mario-text">Mario</span> peut tirer dessus.</td>
+                                <td id="red-shell-score"></td>
+                            </tr>
+                            <tr>
+                                <td><img src="img/green-shell.png"></td>
+                                <td>Seul <span class="luigi-text">Luigi</span> peut tirer dessus.</td>
+                                <td id="green-shell-score"></td>
+                            </tr>
+                            <tr>
+                                <td><img src="img/antasma.png"></td>
+                                <td><span class="mario-text">Mario</span> et <span class="luigi-text">Luigi</span> peuvent tirer dessus.</td>
+                                <td id="antasma-score"></td>
+                            </tr>
+                        </table>
+                </section>
+                <!-- <img src="img/sprites-mario1.png"> -->
+                <section>
+                    <h3>Fin du jeu</h3>
+                    <p>
+                        Vous disposez de <span id="number-of-lives"></span> vies. Le jeu se termine lorsque vous les avez toutes perdues.
+                    </p>
+                    <p>
+                        Vous perdez une vie seulement lorsqu'une cible touche <span class="mario-text">Mario</span> ou <span class="luigi-text">Luigi</span>. 
+                    </p>
+                </section>
+                <section id="commands-section">
+                    <h3>Commandes</h3>
+                    <table>
+                        <tr>
+                            <th>Touche(s)</th>
+                            <th>Action</th>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-arrow-left"></i>ou<i class="fa-solid fa-j"></i></td>
+                            <td>Déplace <span class="mario-text">Mario</span> et <span class="luigi-text">Luigi</span> vers la gauche</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-arrow-right"></i>ou<i class="fa-solid fa-l"></i></td>
+                            <td>Déplace <span class="mario-text">Mario</span> et <span class="luigi-text">Luigi</span> vers la droite</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-q"></i></td>
+                            <td><span class="mario-text">Mario</span> tire un projectile</td>
+                        </tr>
+                        <tr>
+                            <td><i class="fa-solid fa-d"></i></td>
+                            <td><span class="luigi-text">Luigi</span> tire un projectile</td>
+                        </tr>
+                    </table>
+                </section>
             </div>
         </div>
     </div>

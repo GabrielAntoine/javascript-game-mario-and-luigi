@@ -86,7 +86,7 @@ export const settings = {
             get height() { return settings.character.mario.height; }
         },
         keys: {
-            _left: ['ArrowLeft', 'Numpad4', 'KeyK'],
+            _left: ['ArrowLeft', 'Numpad4', 'KeyJ'],
             _right: ['ArrowRight', 'Numpad6', 'KeyL'],
             get left() { return [...settings.character.keys._left]; },
             get right() { return [...settings.character.keys._right]; }

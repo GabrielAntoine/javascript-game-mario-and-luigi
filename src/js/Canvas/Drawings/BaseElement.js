@@ -1,7 +1,6 @@
 import { Coordinates } from "../../Coordinates/Coordinates.js";
 import { NotImplementedError } from "../../Exceptions/NotImplementedError.js";
 import { InstantiateAbstractClassError } from "../../Exceptions/InstantiateAbstractClassError.js";
-import { MouseState } from "../../Helpers/MouseState.js";
 
 export class BaseElement {
     constructor(canvas) {

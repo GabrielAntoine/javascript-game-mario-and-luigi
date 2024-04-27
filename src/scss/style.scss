@@ -1,11 +1,15 @@
-$canvasBackgroundColor: #481058;
 $canvasHeight: 80vh;
+$canvasMaxHeight: 80vh;
 $canvasWidth: calc($canvasHeight * 4 / 3);
 
 * {
     padding: 0;
     margin: 0;
     font-family: Bahnschrift;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -15,70 +19,123 @@ body {
     align-items: center;
 }
 
-#canvas-container {
-    position: relative;
-    height: $canvasHeight;
+#game-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 80%;
+    margin-block: 20px;
+}
+
+#game-title {
+    text-align: center;
+    font-size: 40px;
+}
+
+#game-container {
+    font-size: $canvasHeight;
     width: $canvasWidth;
-
-    canvas {
-        height: $canvasHeight;
-        width: $canvasWidth;
-    }
-
-    #game-over-overlay {
-        //background-color: #00000089;
-        display: none;
-        flex-direction: column;
-        gap: 30px;
+    display: flex;
+    flex-direction: column;
     
-        #game-over-message {
-            color: white;
-            font-size: 72px;
-            text-transform: uppercase;
-        }
-    
-        #play-again-button {
-            font-size: 24px;
-            padding: 10px 50px;
-            border: solid white 1px;
-            outline: none;
-            color: white;
-            background-color: transparent;
-            cursor: pointer;
-    
-            &:hover {
-                border: solid rgb(144, 141, 141) 1px;
-            }
-    
-            &:active {
-                border: solid rgb(74, 74, 74) 1px;
-            }
-        }
-    }
-    
-    #play-overlay {
+    #game-menu {
+        font-size: 0.023em;
         display: flex;
-
-        
-        #play-button {
-            $play-button-height: 12%;
-            height: $play-button-height;
-            width: $play-button-height;
+        justify-content: space-between;
+        align-items: flex-end;
+        padding: 0.3em;
+    
+        #lifes-left-displayer {
             display: flex;
             align-items: center;
-            background-color: transparent;
-            border: none;
-            outline: none;
-            cursor: pointer;
-            
-            svg {
-                fill: rgb(255, 255, 255);
+            gap: 1em;
+        
+            #lifes-images {
+                display: flex;
+                gap: 0.4em;
+                height: 2em;
+        
+                .life-symbol {
+                    background: url('../../img/heart.png');
+                    background-size: cover;
+                    background-position: center;
+                    height: 100%;
+                    width: 2em;
+                }
+                
             }
+        }
+    }
 
-
-            &:active {
+    #canvas-container {
+        position: relative;
+        height: $canvasHeight;
+        width: 100%;
+        //font-size: $canvasHeight;
+    
+        canvas {
+            height: 100%;
+            width: 100%;
+        }
+    
+        #game-over-overlay {
+            //background-color: #00000089;
+            display: none;
+            flex-direction: column;
+            gap: 0.05em;
+        
+            #game-over-message {
+                color: white;
+                font-size: 0.125em;
+                text-transform: uppercase;
+            }
+        
+            #play-again-button {
+                font-size: 0.042em;
+                padding: 0.3em 2.5em;
+                border: solid white 1px;
+                outline: none;
+                color: white;
+                background-color: transparent;
+                cursor: pointer;
+        
+                &:hover {
+                    border: solid rgb(144, 141, 141) 1px;
+                }
+        
+                &:active {
+                    border: solid rgb(74, 74, 74) 1px;
+                }
+            }
+        }
+        
+        #play-overlay {
+            display: flex;
+    
+            
+            #play-button {
+                $play-button-height: 20%;
+                height: $play-button-height;
+                
+                display: flex;
+                align-items: center;
+                background-color: transparent;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                
                 svg {
-                    fill: rgb(193, 193, 193);
+                    fill: rgb(255, 255, 255);
+                    height: 100%;
+                    width: 100%;
+                }
+    
+    
+                &:active {
+                    svg {
+                        fill: rgb(193, 193, 193);
+                    }
                 }
             }
         }
@@ -94,31 +151,80 @@ body {
     background-color: #00000089;
 }
 
-#game-menu {
+#rules {
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 7px;
+    flex-direction: column;
+    gap: 40px;
 
-    #lifes-left-displayer {
+    .mario-text {
+        color: #f1120c;
+    }
+
+    .luigi-text {
+        color: #0da91c;
+    }
+
+    .antasma-text {
+        color: #7b4ab4;
+    }
+
+    #rules-body {
         display: flex;
-        align-items: center;
-        font-size: 16px;
-        gap: 10px;
+        flex-direction: column;
+        gap: 30px;
+    }
+
     
-        #lifes-images {
-            display: flex;
-            gap: 7px;
-            height: 2em;
-    
-            .life-symbol {
-                background: url('../../img/heart.png');
-                background-size: cover;
-                background-position: center;
-                height: 100%;
-                width: 2em;
-            }
-            
+    table {
+        text-align: center;
+        border-collapse: collapse;
+
+        img {
+            height: 28px;
         }
     }
+
+    th {
+        border-bottom: 1px solid black;
+    }
+
+    td {
+        padding: 5px 18px;
+    }
+
+    p {
+        text-align: justify;
+        margin-bottom: 10px;
+        font-size: 16px;
+    }
+
+    h2 {
+        font-size: 40px;
+        border-bottom: 1px solid;
+        border-image: linear-gradient(to right, black , transparent 15em) 1;
+    }
+
+    h3 {
+        font-size: 25px;
+        margin-bottom: 20px;
+        border-bottom: 1px solid;
+        border-image: linear-gradient(to right, black , transparent 10em) 1;
+    }
+
+    h4 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    ul {
+        padding-left: 50px;
+    }
+    
+    #commands-section {
+        i {
+            margin-inline: 10px;
+            font-size: 24px;
+        }
+    }
+    
 }
