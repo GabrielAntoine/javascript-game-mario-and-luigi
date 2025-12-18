@@ -8,7 +8,7 @@ I made this game as part of the course titled "*UE : DEV. APP. : Programmation w
 
 ## What is it about?
 
-Just run the game, you'll find the rules inside it.
+Just run the game, you'll find the rules inside it. It's in French ? Yeah, just use a translation tool.
 
 The game itself is an arcade game where you must make the biggest score possible before you'll eventually lose.
 
