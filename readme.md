@@ -38,6 +38,8 @@ While this is not the biggest and hardest project I've made, this is still (as o
 
 Since this is a fully static project, just clone the repository and run the [HTML page](index.html) on your beloved browser.
 
+⚠️ If you have CORS errors, open the [HTML page](index.html) on a local static server. I recommend using the [***Live Preview***](https://marketplace.visualstudio.com/items?itemName=ms-vscode.live-server) extension of VSCode.
+
 ## Apologies
 
 There is no documentation nor a lot of comments because this was just a school project which I did not intend to make public back then. Since I'm too lazy to write them now, they'll never make it to existence. Sorry!
