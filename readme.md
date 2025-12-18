@@ -44,9 +44,12 @@ There is no documentation nor a lot of comments because this was just a school p
 
 ## Original Game
 
-This game is fanmade and not for commercial use. I do not own *Mario & Luigi* or *Mario*. These are trademarks of Nintendo and every right belongs to them.
-
-
 [Click here to access the description of the original game](https://www.mariowiki.com/Rump_Command)
 
 [![alt](img/Rumpcommandmlbis.webp)](https://www.mariowiki.com/Rump_Command)
+
+## Intellectual Property
+
+This project is fanmade. All characters, names, and assets from *Mario & Luigi* are
+trademarks of Nintendo and are not owned by me. The MIT License applies only to the
+source code written by the author.
