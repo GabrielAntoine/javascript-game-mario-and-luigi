@@ -1,5 +1,7 @@
 # Mario & Luigi mini-game in JavaScript
 
+🎮 **Play Online:** [Click here to play](https://GabrielAntoine.github.io/javascript-game-mario-and-luigi/)
+
 This repository contains the source code for the recreation of the mini-game *Boats of Revival* from *Mario & Luigi: Bowser's Inside Story* originally released on *Nintendo DS* in 2009. The game was developed using only vanilla js, and plain HTML/CSS. In other words: it does not contain any fancy features like *Node.js*, *TypeScript* or any random library. To develop the game, I was asked to use the HTML5 Canvas API which gives you a full 2D rendering engine inside your browser. 
 
 ## Context
